@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 12, 2018 at 10:39 PM
+-- Generation Time: Aug 17, 2018 at 03:29 PM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -32,13 +32,39 @@ DROP TABLE IF EXISTS `tblbook`;
 CREATE TABLE IF NOT EXISTS `tblbook` (
   `EmployeeID` int(11) NOT NULL,
   `DepartmentID` int(11) NOT NULL,
+  `BookID` int(11) NOT NULL AUTO_INCREMENT,
   `StartTime` time NOT NULL,
-  `FinishTime` time NOT NULL,
-  `Date` date NOT NULL,
-  PRIMARY KEY (`EmployeeID`,`DepartmentID`),
-  KEY `EmployeeID` (`EmployeeID`,`DepartmentID`),
+  `EndTime` time NOT NULL,
+  `BookDate` date NOT NULL,
+  PRIMARY KEY (`BookID`),
+  UNIQUE KEY `EmployeeID` (`EmployeeID`,`DepartmentID`,`BookID`),
   KEY `DepartmentID` (`DepartmentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblbook`
+--
+
+INSERT INTO `tblbook` (`EmployeeID`, `DepartmentID`, `BookID`, `StartTime`, `EndTime`, `BookDate`) VALUES
+(2, 1, 1, '05:45:00', '06:00:00', '2018-08-13'),
+(2, 2, 2, '13:00:00', '18:00:00', '2018-08-14'),
+(2, 1, 3, '07:00:00', '16:00:00', '2018-08-15'),
+(2, 2, 4, '05:45:00', '12:00:00', '2018-08-17'),
+(2, 3, 5, '07:00:00', '14:00:00', '2018-08-16'),
+(3, 3, 6, '18:00:00', '22:00:00', '2018-08-14'),
+(3, 2, 7, '16:00:00', '22:00:00', '2018-08-16'),
+(3, 3, 8, '12:00:00', '18:00:00', '2018-08-19'),
+(4, 3, 9, '07:00:00', '12:00:00', '2018-08-14'),
+(4, 3, 10, '13:00:00', '18:00:00', '2018-08-16'),
+(4, 3, 11, '07:00:00', '12:00:00', '2018-08-17'),
+(4, 2, 12, '08:00:00', '12:00:00', '2018-08-18'),
+(5, 3, 13, '18:00:00', '22:00:00', '2018-08-17'),
+(5, 3, 14, '18:00:00', '22:00:00', '2018-08-18'),
+(5, 2, 15, '06:45:00', '12:00:00', '2018-08-19'),
+(2, 3, 16, '16:00:00', '22:00:00', '2018-08-13'),
+(5, 1, 17, '09:00:00', '17:00:00', '2018-08-19'),
+(6, 2, 18, '00:00:00', '23:00:00', '2018-08-14'),
+(5, 2, 19, '09:00:00', '16:00:00', '2018-08-19');
 
 -- --------------------------------------------------------
 
@@ -60,9 +86,9 @@ CREATE TABLE IF NOT EXISTS `tbldepartment` (
 --
 
 INSERT INTO `tbldepartment` (`DepartmentID`, `DepartmentName`, `DepartmentMinEmployees`) VALUES
-(1, 'office', 1),
-(2, 'checkouts', 1),
-(3, 'shop floor', 1);
+(1, 'Office', 1),
+(2, 'Checkouts', 1),
+(3, 'Shop floor', 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `tblemployee` (
   PRIMARY KEY (`EmployeeID`),
   UNIQUE KEY `EmployeeID` (`EmployeeID`),
   KEY `OrganizationID` (`OrganizationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblemployee`
@@ -90,7 +116,18 @@ CREATE TABLE IF NOT EXISTS `tblemployee` (
 
 INSERT INTO `tblemployee` (`EmployeeID`, `OrganizationID`, `EmployeeName`, `EmployeeType`, `EmployeePayrate`, `EmployeeEmail`, `EmployeePassword`) VALUES
 (1, 1, 'Sam', 'employee', '6.05', 'barnes.samb@gmail.com', 'test'),
-(2, 1, 'lesley', 'admin', '7.83', 'test', 'test');
+(2, 1, 'Lesley', 'admin', '7.83', 'test', 'test'),
+(3, 1, 'Ashleigh', 'employee', '7.83', 'test', 'test'),
+(4, 1, 'Michelle', 'employee', '7.83', 'test', 'test'),
+(5, 1, 'Jennie', 'employee', '7.83', 'test', 'test'),
+(6, 1, 'Peter', 'employee', '7.83', 'test', 'test'),
+(7, 1, 'Shani', 'employee', '7.83', 'test', 'test'),
+(8, 1, 'Laura', 'employee', '7.83', 'test', 'test'),
+(9, 1, 'Amanda', 'employee', '7.83', 'test', 'test'),
+(10, 1, 'Tim', 'employee', '7.83', 'test', 'test'),
+(11, 1, 'Amy', 'employee', '7.83', 'test', 'test'),
+(12, 1, 'Jo', 'employee', '7.83', 'test', 'test'),
+(13, 1, 'Ruth', 'employee', '7.83', 'test', 'test');
 
 -- --------------------------------------------------------
 
@@ -125,8 +162,8 @@ INSERT INTO `tblorganization` (`OrganizationID`, `OrganizationName`, `Organizati
 -- Constraints for table `tblbook`
 --
 ALTER TABLE `tblbook`
-  ADD CONSTRAINT `tblbook_ibfk_1` FOREIGN KEY (`EmployeeID`) REFERENCES `tblemployee` (`EmployeeID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tblbook_ibfk_2` FOREIGN KEY (`DepartmentID`) REFERENCES `tbldepartment` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tblbook_ibfk_1` FOREIGN KEY (`DepartmentID`) REFERENCES `tbldepartment` (`DepartmentID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tblbook_ibfk_2` FOREIGN KEY (`EmployeeID`) REFERENCES `tblemployee` (`EmployeeID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tblemployee`

@@ -146,10 +146,27 @@ header{
     /*background-color: #006295;
     position: fixed;
     top:*/
+    display: inline-block;
 }
 
 .header-contents{
     margin-left: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.header-contents span{
+    font-weight: bold; 
+    font-size: 21px;
+    padding: 10px 18px;  
+}
+
+.header-contents span:nth-child(1):hover, .header-contents span:nth-child(3):hover{
+    cursor: pointer;
+    font-size: 30px;
+    transition: .3s;
 }
 
 
@@ -165,6 +182,7 @@ header{
     overflow: hidden;
     position: fixed;
     top: 0;
+    z-index: 10;
 }
 
 ul.icon-list{
@@ -182,7 +200,7 @@ ul.icon-list{
     transition: .3s;
 }
 
-.icon-list .icon.profile{
+.icon-list .icon:first-child{
     background-color: #006295;
     padding: 0;
 }
@@ -198,11 +216,12 @@ ul.icon-list{
     margin: 30%;
 }
 
-.icon-list .icon.profile img{
+.icon-list .icon:first-child img{
     border-radius: 20px;
 }
 
-.icon-list .icon.button:hover{
+/* Need to target all but the first child */
+.icon-list .icon.button:nth-child(n+2):hover{
     border-left: 3.2px solid #006295;
     transition: .3s;
     background-color: #323d4e;
@@ -220,8 +239,7 @@ ul.icon-list{
     text-align: center;
     vertical-align: middle;
     line-height: 20px;
-    border-radius: 10px;
-    display: none; 
+    border-radius: 30px;
 }
 
 /* #################################################################################
@@ -271,11 +289,21 @@ ul.icon-list{
     font-size: 16px;
     vertical-align: top;
     text-align: left;
+    position: relative;
 }
 
 .table-cell.holiday{
     color: #ff6666;
     font-weight: bold; 
+}
+
+.table-cell .notification-bubble{
+    right: 0;
+    top: -15px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
 }
 
 .table-header{
@@ -300,11 +328,11 @@ ul.icon-list{
     overflow: hidden;
 }
 
-.cell-content .text-contents{
+.text-contents{
     margin-left: 20px;
 }
 
-.cell-content .text-contents span{
+.text-contents span{
     display: block;
     padding: 4px 0;
 }
@@ -325,6 +353,7 @@ ul.icon-list{
     padding-left: 10px;
 }
 
+
 .img-small{
     width: 12.5px;
     height: 12.5px;
@@ -341,10 +370,109 @@ ul.icon-list{
     font-size: 30px;
 }
 
+/* #################################################################################
+              STYLES FOR OUTSIDE OF TYPES (OVERFLOW CONTENT)
+####################################################################################*/
+
+.more-info-tile{
+    background-color: #f2f2f2;
+    position: absolute;
+    z-index: 9;
+    min-width: 180px;
+    top: 0;
+    left: 0;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+    border: 1px solid #ddd;
+    overflow: hidden;
+    cursor: default;
+    display: none;
+    height: 0;
+}
+
+.more-info-tile .text-contents:first-child{
+    padding-top: 15px;
+}
+
+.more-info-tile .text-contents{
+    padding-top: 5px;
+    padding-bottom: 5px;  
+    margin-right: 20px;
+}
+
+.more-info-tile .text-contents.index{
+    color: black;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 2.5px;
+}
+
+span.more-info-tools, span.more-info-return{
+    text-align: center;
+}
+
+span.more-info-tools img{
+    width: 16px;
+    height: 16px;
+    background-color: #ff6666;
+    padding: 8px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+span.more-info-button{
+    display: block;
+    color: white;
+    cursor: pointer;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+span.more-info-button.add{
+    margin-top: 10px;
+    background-color: #30DAB5;
+}
+
+span.more-info-button.return{
+    background-color: #006295;   
+}
+
+span.more-info-button.return:hover{
+    background-color: #004266;
+}
+
+span.more-info-button img{
+    width: 18px;
+    height: auto;
+}
+
+span.more-info-tools img:hover{
+    background-color: #ff3333;
+}
+
+span.more-info-tools img:first-child{
+    background-color: #30DAB5;
+    margin-right: 20px;
+}
+
+span.more-info-tools img:first-child:hover, span.more-info-button.add:hover{
+    background-color: #22c3a0;
+}
+
+
+/* #################################################################################
+                             OVERVIEW MANAGER FOOTER
+####################################################################################*/
+
+.overview-footer{
+    width: 100%;
+    height: 160px;
+}
+
 
 @media (max-width: 1000px){
 
-    .cell-content .text-contents span:nth-child(2), .img-small{
+    .cell-content .text-contents span:nth-child(2), .text-contents.responsive .img-small{
         display: none;
     }
 

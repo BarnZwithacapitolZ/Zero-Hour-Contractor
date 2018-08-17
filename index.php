@@ -72,7 +72,7 @@
                     <?php                                   
                             for ($i = 1; $i < count($days) + 1; $i++):
                                 $select = $employee->getID();
-                                $date = date('Y-m-d', strtotime('monday this week') + ($i * 86300));
+                                $date = date('Y-m-d', strtotime('monday this week') + ($i * 86300)); // 86300 for new day
                                 $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select'";
                                 $bookResult = $dbh->executeSelect($query);
                                 if ($bookResult):
@@ -93,8 +93,7 @@
                             </div>
                         </div>
 
-
-
+                        
                         <?php if (count($bookResult) <= 1): ?>
                         <div class="more-info-tile sml">
                             <div class="text-contents index">
@@ -104,13 +103,12 @@
                             <?php include "includes/tile-dropdown.inc.php"; ?>
 
                             <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
-                                <img src="media/img/plus.png" alt="Delete icon" />
+                                <img src="media/img/plus.png" alt="Add new hours icon" />
                             </span>
                             <span class="more-info-button return">
                                 <img src="media/img/arrow.png" alt="Delete icon" />
                             </span>
                         </div>
-
 
 
                         <?php elseif (count($bookResult) > 1): ?>
@@ -128,7 +126,7 @@
                                 endforeach;
                             ?>
                             <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
-                                <img src="media/img/plus.png" alt="Delete icon" />
+                                <img src="media/img/plus.png" alt="Add new hours icon" />
                             </span>
                             <span class="more-info-button return">
                                 <img src="media/img/arrow.png" alt="Delete icon" />
@@ -154,8 +152,7 @@
                 ?>
             </div>  
             
-            
-
+    
             <div class="overview-footer">
 
             </div>

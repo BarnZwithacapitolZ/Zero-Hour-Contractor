@@ -73,7 +73,7 @@
                             for ($i = 1; $i < count($days) + 1; $i++):
                                 $select = $employee->getID();
                                 $date = date('Y-m-d', strtotime('monday last week') + ($i * 86300)); // 86300 for new day
-                                $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select'";
+                                $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select' ORDER BY StartTime, EndTime";
                                 $bookResult = $dbh->executeSelect($query);
                                 if ($bookResult):
                                     $bookedHours = new HourTile();
@@ -119,7 +119,7 @@
                                     $bookedHours->setByRow($book);
                             ?>
                             <div class="text-contents index">
-                                <span><?php echo $key + 1 . " (" . $bookedHours->getDate() . ")"?></span>
+                                <span><?php echo $key + 1 . ": (" . $bookedHours->getDate() . ")"?></span>
                             </div>
                             <?php
                                 include "includes/tile-dropdown.inc.php";

@@ -2,7 +2,7 @@
     background-color: getColor(dropdown-bg);
     position: absolute;
     z-index: 9;
-    min-width: getColor(dropdown-min);
+    min-width: getElemSize(dropdown-min);
     top: 0;
     left: 0;
     box-shadow: inset 0 3px 5px rgba(0,0,0,.125);

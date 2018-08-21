@@ -1,6 +1,6 @@
-$(document).ready(function(){
+var openElem = [];
 
-    
+$(document).ready(function(){   
     var ancher = $('.first');
 
     ancher.on('mouseover', function(e){
@@ -18,29 +18,29 @@ $(document).ready(function(){
     });
 
 
+
+
     var button = $('.more-lrg');
     button.on('click', function(e){
         var target = $(this).parent().find('.more-info-tile.lrg');   
-        showHours($(this), target);
+        openHourDropdown($(this), target);
     });
 
     $('.more-sml').on('click', function(e){
         var target = $(this).parent().find('.more-info-tile.sml');   
-        showHours($(this), target);
+        openHourDropdown($(this), target);
     });
 
     $('.more-info-button.return').on('click', function(e){
-        $(this).parent().animate({
-            height: '0'
-        }, 420, function(){
-            $(this).css('display', 'none');
-            $(this).parent().find('.notification-bubble').fadeIn();
-        });
-        
+        closeHourDropdown($(this).parent());      
     });
 });
 
-function showHours(self, target){
+function openHourDropdown(self, target){
+    if (openElem.length >= 1){
+        closeHourDropdown(openElem[0]);   
+    }
+
     var elemWidth = self.parent().width();    
     var location = self.parent().position().left;
 
@@ -58,4 +58,15 @@ function showHours(self, target){
     target.animate({
         height: target.get(0).scrollHeight
      }, 420);
+     openElem.push(target); // know that dropdown is open
+}
+
+function closeHourDropdown(target){
+    target.animate({
+        height: '0'
+    }, 420, function(){
+        $(this).css('display', 'none');
+        $(this).parent().find('.notification-bubble').fadeIn();
+    });
+    openElem.pop(); // know that dropdown is closed
 }

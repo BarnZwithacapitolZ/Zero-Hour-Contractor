@@ -1,0 +1,54 @@
+#side-navigation{
+    height: 100%;
+    width: getElemSize(side-nav);
+    float: left;
+    background-color: getColor(side-nav-bg);
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+
+    ul.icon-list{
+        list-style-type: none;
+        position: relative;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .icon-list {
+        .icon{
+        width: getElemSize(side-nav);
+        height: getElemSize(side-nav);
+        padding: 8px 0;
+        position: relative;
+        transition: .3s;
+
+            .last{
+                position: absolute;
+                bottom: 0;
+            }
+
+            img{
+                width: 40%;
+                height: 40%;
+                margin: 30%;
+            }
+        }
+
+        .icon:first-child{
+            background-color: getColor(side-nav-fg);
+            padding: 0;
+
+            img{
+                border-radius: 20px;
+            }
+        }
+
+        .icon.button:nth-child(n+2):hover{
+            border-left: 3.2px solid getColor(side-nav-fg);
+            transition: .3s;
+            background-color: getColor(side-nav-hover);
+        }
+    }
+}

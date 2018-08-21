@@ -1,0 +1,36 @@
+
+$palette: (
+    default-fg: black,
+    header-bg: #fff, 
+    side-nav-bg: #28303d,
+    side-nav-fg: #006295,
+    side-nav-hover: #323d4e,
+    overview-fg: #2a6496,
+    row-header-bg: #f2f2f2,
+    row-names-fg: #006bb2,
+    noti-blue: #006295,
+    hover-blue: #004266,
+    noti-red: #ff6666,
+    noti-green: #30DAB5,
+    hover-green: #22c3a0,
+    hover-red: #ff9999,
+    hover-red-dark: #ff3333,
+    overview-hover-blue: #cce6ff,
+    dropdown-bg: #f2f2f2
+);
+
+$fontSizes: (
+    header-default: 21px,
+    header-enlarged: 30px,
+    overview-default: 16px,
+    overview-header: 15px
+);
+
+$elementSizes: (
+    side-nav: 80px,
+    header: 80px,
+    row-header: 80px,
+    row-cell: 70px,
+    overview-noti-bubble: 30px,
+    dropdown-min: 180px
+)

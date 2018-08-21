@@ -44,7 +44,7 @@
                         <div class="cell-content">
                             <div class="text-contents">
                                 <span><?php echo $days[$i]; ?></span>
-                                <span class="day"><?php echo date('d', strtotime('monday this week')) + $i; ?></span>
+                                <span class="day"><?php echo date('d', strtotime('monday last week')) + $i; ?></span>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                     <?php                                   
                             for ($i = 1; $i < count($days) + 1; $i++):
                                 $select = $employee->getID();
-                                $date = date('Y-m-d', strtotime('monday this week') + ($i * 86300)); // 86300 for new day
+                                $date = date('Y-m-d', strtotime('monday last week') + ($i * 86300)); // 86300 for new day
                                 $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select'";
                                 $bookResult = $dbh->executeSelect($query);
                                 if ($bookResult):

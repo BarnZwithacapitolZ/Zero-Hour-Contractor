@@ -1,0 +1,12 @@
+
+@function getFontSize($var){
+    @return map-get($fontSizes, $var);
+}
+
+@function getElemSize($var){
+    @return map-get($elementSizes, $var);
+}
+
+@function getColor($var){
+    @return map-get($palette, $var);
+}

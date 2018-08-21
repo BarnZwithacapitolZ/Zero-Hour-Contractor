@@ -4,6 +4,8 @@
     require_once "includes/classes.php";
 
     $dbh = new Dbh();
+
+    $week = "last";
 ?>
 
         <header>
@@ -20,7 +22,7 @@
                     foreach ($icons as $icon):
                 ?>  
 
-                <li class="icon button"> 
+                <li class="icon link"> 
                     <img src="media/img/<?php echo $icon; ?>" />
                     <!--<div class="notification-bubble">!</div>-->
                 </li>
@@ -38,13 +40,14 @@
 
                     <?php
                         $days = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
-                        for ($i = 0; $i < count($days); $i++):                           
+                        for ($i = 0; $i < count($days); $i++):        
+                            $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + (($i + 1) * 86300));                   
                     ?>
-                    <div class="table-cell table-header">
+                    <div class="table-cell table-header <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
                         <div class="cell-content">
                             <div class="text-contents">
                                 <span><?php echo $days[$i]; ?></span>
-                                <span class="day"><?php echo date('d', strtotime('monday last week')) + $i; ?></span>
+                                <span class="day"><?php echo date('d', strtotime('monday ' . $week . ' week')) + $i; ?></span>
                             </div>
                         </div>
                     </div>
@@ -72,14 +75,19 @@
                     <?php                                   
                             for ($i = 1; $i < count($days) + 1; $i++):
                                 $select = $employee->getID();
-                                $date = date('Y-m-d', strtotime('monday last week') + ($i * 86300)); // 86300 for new day
+                                $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)); // 86300 for new day
+                                
+                                //if ($date == date('Y-m-d')){
+                                //    print_r("today");
+                                //}
+
                                 $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select' ORDER BY StartTime, EndTime";
                                 $bookResult = $dbh->executeSelect($query);
                                 if ($bookResult):
                                     $bookedHours = new HourTile();
                                     $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
                     ?>
-                    <div class="table-cell button">
+                    <div class="table-cell button <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
                         <div class="cell-content <?php if (count($bookResult) > 1) { echo "more-lrg";} else { echo "more-sml"; }?>">
                             <div class="text-contents responsive"> 
                                 <span>
@@ -137,7 +145,7 @@
                     
                     
                     <?php else: // No results found within employee row (no booked hours) ?>
-                    <div class="table-cell button empty"></div>
+                    <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>"></div>
                     <?php
                                 endif;
                             endfor;

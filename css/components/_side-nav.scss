@@ -8,47 +8,87 @@
     top: 0;
     z-index: 10;
 
-    ul.icon-list{
+    @include step2{
+        width: 100%;
+        height: 55px;
+        float: none;
+        top: 0;
+    }
+
+    @include step4{
+        height: 40px;
+    }
+
+    ul{
         list-style-type: none;
         position: relative;
         height: 100%;
         margin: 0;
         padding: 0;
-    }
-
-    .icon-list {
-        .icon{
-        width: getElemSize(side-nav);
-        height: getElemSize(side-nav);
-        padding: 8px 0;
-        position: relative;
-        transition: .3s;
-
-            .last{
-                position: absolute;
-                bottom: 0;
+    
+        &.icon-list {
+            li{
+                @include step2{
+                    float: left;
+                }
             }
-
-            img{
-                width: 40%;
-                height: 40%;
-                margin: 30%;
-            }
-        }
-
-        .icon:first-child{
-            background-color: getColor(side-nav-fg);
-            padding: 0;
-
-            img{
-                border-radius: 20px;
-            }
-        }
-
-        .icon.button:nth-child(n+2):hover{
-            border-left: 3.2px solid getColor(side-nav-fg);
+            
+            .icon{
+            width: getElemSize(side-nav);
+            height: getElemSize(side-nav);
+            padding: 8px 0;
+            position: relative;
             transition: .3s;
-            background-color: getColor(side-nav-hover);
+
+                @include step2{
+                    padding: 0;
+                    width: 55px;
+                    height: 55px;
+                }
+
+                @include step4{
+                    width: 40px;
+                    height: 40px;
+                }
+
+                /*.last{
+                    position: absolute;
+                    bottom: 0;
+
+                    @include step2{
+                        right: 0;
+                        bottom: auto;
+                    }
+                }*/
+
+                img{
+                    width: 40%;
+                    height: 40%;
+                    margin: 30%;
+                }
+
+                &:first-child{
+                    background-color: getColor(side-nav-fg);
+                    padding: 0;
+
+                    img{
+                        border-radius: 20px;
+                    }
+                }
+
+                &.link{
+                    &:nth-child(n+2):hover{
+                        border-left: 3.2px solid getColor(side-nav-fg);
+                        transition: .3s;
+                        background-color: getColor(side-nav-hover);
+
+                        @include step2{
+                            border-left: none;
+                            border-top: 2px solid getColor(side-nav-fg);
+                        }
+                    }
+                }
+            }
         }
     }
 }

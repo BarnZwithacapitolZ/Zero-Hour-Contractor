@@ -15,6 +15,10 @@ body{
         display: inline-block;
         background-color: getColor(header-bg);
 
+        @include step2{
+            display: none;
+        }
+
         .header-contents{
             margin-left: getElemSize(side-nav);
             display: flex;

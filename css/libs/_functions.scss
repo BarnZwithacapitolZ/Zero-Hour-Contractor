@@ -10,3 +10,34 @@
 @function getColor($var){
     @return map-get($palette, $var);
 }
+
+$step-1: 1000px;
+$step-2: 650px;
+$step-3: 480px;
+$step-4: 280px;
+
+@mixin step1 {
+    @media (max-width: #{$step-1}){
+        @content;
+    }
+}
+
+@mixin step2{
+    @media (max-width: #{$step-2}){
+        @content;
+    }
+}
+
+
+@mixin step3{
+    @media (max-width: #{$step-3}){
+        @content;
+    }
+}
+
+
+@mixin step4 {
+    @media (max-width: #{$step-4}){
+        @content;
+    }
+}

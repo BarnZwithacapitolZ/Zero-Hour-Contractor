@@ -106,7 +106,7 @@
                                 <img src="media/img/plus.png" alt="Add new hours icon" />
                             </span>
                             <span class="more-info-button return">
-                                <img src="media/img/arrow.png" alt="Delete icon" />
+                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
                             </span>
                         </div>
 
@@ -129,7 +129,7 @@
                                 <img src="media/img/plus.png" alt="Add new hours icon" />
                             </span>
                             <span class="more-info-button return">
-                                <img src="media/img/arrow.png" alt="Delete icon" />
+                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
                             </span>
                         </div>
                         <?php endif; ?>

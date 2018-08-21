@@ -44,6 +44,8 @@ function showHours(self, target){
     var elemWidth = self.parent().width();    
     var location = self.parent().position().left;
 
+    target.css('width', elemWidth);
+
     if ((location + target.width()) > $(document).width() - 5){ // 5 as offset for scrollbar
         var difference = (location + target.width()) - ($(document).width() - 5);
         target.css('left', -difference);
@@ -51,7 +53,6 @@ function showHours(self, target){
         target.css('left', '0');
     }
 
-    target.css('width', elemWidth);
     target.css('display', 'block');
     self.parent().find('.notification-bubble').css('display', 'none');
     target.animate({

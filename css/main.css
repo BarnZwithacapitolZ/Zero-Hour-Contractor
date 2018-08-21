@@ -330,6 +330,7 @@ ul.icon-list{
 
 .text-contents{
     margin-left: 20px;
+    /* transition: .5s; */
 }
 
 .text-contents span{

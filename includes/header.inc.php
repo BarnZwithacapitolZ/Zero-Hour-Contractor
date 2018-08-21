@@ -7,7 +7,7 @@
 		<title>Zero Hour Contractor</title>	
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">		
 		<!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-		<link rel="stylesheet" type="text/css" href="css/main.css?version=11">
+		<link rel="stylesheet" type="text/css" href="css/main.css?version=12">
 		<!--<link rel="icon" href="img/logo.png">-->
 	</head>
 	

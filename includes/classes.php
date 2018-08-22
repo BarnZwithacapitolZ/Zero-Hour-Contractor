@@ -5,10 +5,10 @@ require_once "dbh.inc.php";
 class Employee{
     private $employeeID;
     private $employeeName;
-    private $employeeType;
+    private $employeeType; // Delete
     private $employeePayrate;
-    private $employeeEmail;
-    private $employeePassword;
+    private $employeeEmail; // Delete
+    private $employeePassword; // Delete
     private $organizationID;
     private $error;
 

@@ -17,28 +17,20 @@ $(document).ready(function(){
         }
     });
 
-
-
-
-    var button = $('.more-lrg');
+    var button = $('.more-dropdown');
     button.on('click', function(e){
-        var target = $(this).parent().find('.more-info-tile.lrg');   
-        openHourDropdown($(this), target);
-    });
-
-    $('.more-sml').on('click', function(e){
-        var target = $(this).parent().find('.more-info-tile.sml');   
+        var target = $(this).parent().find('.more-info-tile');   
         openHourDropdown($(this), target);
     });
 
     $('.more-info-button.return').on('click', function(e){
-        closeHourDropdown($(this).parent());      
+        closeHourDropdown($(this).parent(), 420);      
     });
 });
 
 function openHourDropdown(self, target){
     if (openElem.length >= 1){
-        closeHourDropdown(openElem[0]);   
+        closeHourDropdown(openElem[0], 250);   
     }
 
     var elemWidth = self.parent().width();    
@@ -61,10 +53,10 @@ function openHourDropdown(self, target){
      openElem.push(target); // know that dropdown is open
 }
 
-function closeHourDropdown(target){
+function closeHourDropdown(target, speed){
     target.animate({
         height: '0'
-    }, 420, function(){
+    }, speed, function(){
         $(this).css('display', 'none');
         $(this).parent().find('.notification-bubble').fadeIn();
     });

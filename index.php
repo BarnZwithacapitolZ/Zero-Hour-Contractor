@@ -1,4 +1,5 @@
 <?php
+    date_default_timezone_set('Europe/London');
     require_once "includes/header.inc.php";
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
@@ -88,7 +89,7 @@
                                     $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
                     ?>
                     <div class="table-cell button <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content <?php if (count($bookResult) > 1) { echo "more-lrg";} else { echo "more-sml"; }?>">
+                        <div class="cell-content more-dropdown">
                             <div class="text-contents responsive"> 
                                 <span>
                                     <img src="media/img/clock.png" alt="Clock time icon" class="img-small" />
@@ -100,55 +101,55 @@
                                 </span>
                             </div>
                         </div>
+                        
+                        <?php if (count($bookResult) > 1): ?>
+                            <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
+                        <?php endif; ?>
+
+                        <div class="more-info-tile">
+                            <div class="text-contents index">
+                                <span>
+                                    <img src="media/img/user.png" clock="Department icon" class="img-small" />
+                                    <?php echo $employee->getName()?>
+                                </span>
+                            </div>
+                            <div class="text-contents index">
+                                <span>
+                                    <img src="media/img/day.png" clock="Department icon" class="img-small" />
+                                    <?php echo $bookedHours->getDate()?>
+                                </span>
+                            </div>
+
+                            <?php 
+                                if (count($bookResult) > 1):
+                                    foreach ($bookResult as $key => $book): // Only loop through if there is more than 1
+                                        $bookedHours->setByRow($book); 
+                            ?>
+                            <div class="text-contents index">
+                                <span><?php echo "Shift " . ($key + 1) . ": "?></span>
+                             </div>
+                            <?php
+                                        include "includes/tile-dropdown.inc.php"; 
+                                    endforeach;
+                                else:
+                                    include "includes/tile-dropdown.inc.php"; 
+                                endif;  
+                            ?>             
+                            <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
+                                <img src="media/img/plus.png" alt="Add new hours icon" />
+                            </span>
+                            <span class="more-info-button return">
+                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
+                            </span>
+                        </div>
+                    </div>
 
                         
-                        <?php if (count($bookResult) <= 1): ?>
-                        <div class="more-info-tile sml">
-                            <div class="text-contents index">
-                                <span><?php echo "(" . $bookedHours->getDate() . ")"?></span>
-                            </div>
-                            
-                            <?php include "includes/tile-dropdown.inc.php"; ?>
-
-                            <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
-                                <img src="media/img/plus.png" alt="Add new hours icon" />
-                            </span>
-                            <span class="more-info-button return">
-                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
-                            </span>
-                        </div>
-
-
-                        <?php elseif (count($bookResult) > 1): ?>
-                        <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
-                        <div class="more-info-tile lrg">
-                            <?php
-                                foreach ($bookResult as $key => $book): // Only loop through if there is more than 1
-                                    $bookedHours->setByRow($book);
-                            ?>
-                            <div class="text-contents index">
-                                <span><?php echo $key + 1 . ": (" . $bookedHours->getDate() . ")"?></span>
-                            </div>
-                            <?php
-                                include "includes/tile-dropdown.inc.php";
-                                endforeach;
-                            ?>
-                            <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
-                                <img src="media/img/plus.png" alt="Add new hours icon" />
-                            </span>
-                            <span class="more-info-button return">
-                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
-                            </span>
-                        </div>
-                        <?php endif; ?>
-                    </div>   
-                    
-                    
                     <?php else: // No results found within employee row (no booked hours) ?>
                     <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>"></div>
                     <?php
-                                endif;
-                            endfor;
+                            endif;
+                        endfor;
                     ?>
                 </div>
 

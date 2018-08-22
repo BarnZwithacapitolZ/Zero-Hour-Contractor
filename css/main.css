@@ -221,6 +221,12 @@ body header .header-contents span:nth-child(1):hover, body header .header-conten
   }
 }
 
+@media (max-width: 280px) {
+  .table-cell {
+    font-size: 11px;
+  }
+}
+
 .table-cell.today:before {
   -webkit-box-shadow: -15px 0 15px -15px #bbb inset;
           box-shadow: -15px 0 15px -15px #bbb inset;

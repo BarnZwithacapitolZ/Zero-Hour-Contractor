@@ -1,4 +1,6 @@
 <?php
+    $title = "Overview Manager";
+
     date_default_timezone_set('Europe/London');
     require_once "includes/header.inc.php";
     require_once "includes/dbh.inc.php";
@@ -7,6 +9,7 @@
     $dbh = new Dbh();
 
     $week = "last";
+    $days = 7;
 ?>
 
         <header>
@@ -15,51 +18,36 @@
             </div>
         </header>
 
-        <div id="side-navigation">
-            <!-- Main content panel for whole application -->
-            <ul class="icon-list">
-                <?php 
-                    $icons = array("profile.jpg", "weekly.png", "daily.png", "bell.png", "pound.png");
-                    foreach ($icons as $icon):
-                ?>  
-
-                <li class="icon link"> 
-                    <img src="media/img/<?php echo $icon; ?>" />
-                    <!--<div class="notification-bubble">!</div>-->
-                </li>
-
-                <?php endforeach; ?>
-            </ul>
-        </div>
+        <?php require_once "includes/side-nav.inc.php" ?>
 
         <div id="overview-manager">
             <div class="table-overview">
+                <!-- Table header for column nams -->
                 <div class="table-row row-header">
                     <div class="table-cell table-header">
                         <div class="cell-content"><div class="text-contents"><span>Name</span></div></div>
                     </div>
 
                     <?php
-                        $days = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
-                        for ($i = 0; $i < count($days); $i++):        
-                            $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + (($i + 1) * 86300));                   
+                        for ($i = 0; $i < $days; $i++) {        
+                            $date = new DateTime(date('Y-m-d', strtotime('monday ' . $week . ' week') + (($i + 1) * 86300)));              
                     ?>
-                    <div class="table-cell table-header <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
+                    <div class="table-cell table-header <?php if ($date->format('Y-m-d') == date('Y-m-d')) { echo "today"; }?>">
                         <div class="cell-content">
                             <div class="text-contents">
-                                <span><?php echo $days[$i]; ?></span>
-                                <span class="day"><?php echo date('d', strtotime('monday ' . $week . ' week')) + $i; ?></span>
+                                <span><?php echo  $date->format('D'); ?></span>
+                                <span class="day"><?php echo $date->format('d'); ?></span>
                             </div>
                         </div>
                     </div>
-                    <?php endfor; ?>
+                        <?php } ?>
                 </div>     
 
                 <?php
                     $query = "SELECT * FROM tblemployee";
                     $empResult = $dbh->executeSelect($query);
-                    if ($empResult):
-                        foreach ($empResult as $emp):
+                    if ($empResult) {
+                        foreach ($empResult as $emp) {
                             $employee = new Employee();
                             $employee->setByRow($emp);
                 ?>
@@ -74,17 +62,13 @@
                     </div>
 
                     <?php                                   
-                            for ($i = 1; $i < count($days) + 1; $i++):
+                            for ($i = 1; $i < $days + 1; $i++) {
                                 $select = $employee->getID();
                                 $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)); // 86300 for new day
                                 
-                                //if ($date == date('Y-m-d')){
-                                //    print_r("today");
-                                //}
-
                                 $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select' ORDER BY StartTime, EndTime";
                                 $bookResult = $dbh->executeSelect($query);
-                                if ($bookResult):
+                                if ($bookResult) {
                                     $bookedHours = new HourTile();
                                     $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
                     ?>
@@ -102,9 +86,9 @@
                             </div>
                         </div>
                         
-                        <?php if (count($bookResult) > 1): ?>
+                        <?php if (count($bookResult) > 1) { ?>
                             <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
-                        <?php endif; ?>
+                        <?php } ?>
 
                         <div class="more-info-tile">
                             <div class="text-contents index">
@@ -121,8 +105,8 @@
                             </div>
 
                             <?php 
-                                if (count($bookResult) > 1):
-                                    foreach ($bookResult as $key => $book): // Only loop through if there is more than 1
+                                if (count($bookResult) > 1) {
+                                    foreach ($bookResult as $key => $book) { // Only loop through if there is more than 1
                                         $bookedHours->setByRow($book); 
                             ?>
                             <div class="text-contents index">
@@ -130,10 +114,10 @@
                              </div>
                             <?php
                                         include "includes/tile-dropdown.inc.php"; 
-                                    endforeach;
-                                else:
+                                    }
+                                } else{
                                     include "includes/tile-dropdown.inc.php"; 
-                                endif;  
+                                }  
                             ?>             
                             <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
                                 <img src="media/img/plus.png" alt="Add new hours icon" />
@@ -145,19 +129,19 @@
                     </div>
 
                         
-                    <?php else: // No results found within employee row (no booked hours) ?>
+                    <?php } else { // No results found within employee row (no booked hours) ?>
                     <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>"></div>
                     <?php
-                            endif;
-                        endfor;
+                            }
+                        }
                     ?>
                 </div>
 
                 <?php
-                        endforeach;
-                    else: // No results found for employees (no employees)
+                        }
+                    } else { // No results found for employees (no employees)
                         echo "there is nothing to display here!";
-                    endif;
+                    }
                 ?>
             </div>  
             

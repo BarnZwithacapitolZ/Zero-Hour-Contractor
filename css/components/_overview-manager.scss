@@ -55,6 +55,10 @@
         font-size: getFontSize(overview-default) - 2.5px;
     }
 
+    @include step4{
+        font-size: getFontSize(overview-default) - 5px;
+    }
+
     &.today{     
         &:before{
             box-shadow: -15px 0 15px -15px #bbb inset;

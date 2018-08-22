@@ -1,35 +1,41 @@
 var openElem = [];
 
-$(document).ready(function(){   
+$(document).ready(function() {   
     var ancher = $('.first');
 
-    ancher.on('mouseover', function(e){
-        $(this).parent().parent().css('background-color', '#cce6ff');    
-        if (!$(this).parent().parent().hasClass('user')){
-            $(this).parent().parent().css('box-shadow', 'inset 0 3px 5px rgba(0,0,0,.125)');
-        }   
+    ancher.on('mouseover', function(e) {
+        var target = $(this).parent().parent();
+        rowHover(target, '#cce6ff', 'inset 0 3px 5px rgba(0,0,0,.125)'); 
     });
 
-    ancher.on('mouseout', function(e){
-        $(this).parent().parent().css('background-color', 'transparent');
-        if (!$(this).parent().parent().hasClass('user')){
-            $(this).parent().parent().css('box-shadow', 'inherit');
-        }
+    ancher.on('mouseout', function(e) {
+        var target = $(this).parent().parent();
+        rowHover(target, 'transparent', 'inherit');
     });
 
     var button = $('.more-dropdown');
-    button.on('click', function(e){
+    button.on('click', function(e) {
         var target = $(this).parent().find('.more-info-tile');   
         openHourDropdown($(this), target);
     });
 
-    $('.more-info-button.return').on('click', function(e){
+    $('.more-info-button.return').on('click', function(e) {
         closeHourDropdown($(this).parent(), 420);      
     });
 });
 
-function openHourDropdown(self, target){
-    if (openElem.length >= 1){
+
+
+
+function rowHover(target, bg, shadow) {
+    target.css('background-color', bg);
+    if (!target.hasClass('user')) {
+        target.css('box-shadow', shadow);
+    }
+}
+
+function openHourDropdown(self, target) {
+    if (openElem.length >= 1) {
         closeHourDropdown(openElem[0], 250);   
     }
 
@@ -38,10 +44,10 @@ function openHourDropdown(self, target){
 
     target.css('width', elemWidth);
 
-    if ((location + target.width()) > $(document).width() - 5){ // 5 as offset for scrollbar
+    if ((location + target.width()) > $(document).width() - 5) { // 5 as offset for scrollbar
         var difference = (location + target.width()) - ($(document).width() - 5);
         target.css('left', -difference);
-    } else{
+    } else {
         target.css('left', '0');
     }
 
@@ -53,10 +59,10 @@ function openHourDropdown(self, target){
      openElem.push(target); // know that dropdown is open
 }
 
-function closeHourDropdown(target, speed){
+function closeHourDropdown(target, speed) {
     target.animate({
         height: '0'
-    }, speed, function(){
+    }, speed, function() {
         $(this).css('display', 'none');
         $(this).parent().find('.notification-bubble').fadeIn();
     });

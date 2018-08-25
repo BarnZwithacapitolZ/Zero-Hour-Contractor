@@ -1,4 +1,8 @@
 /* Definitions */
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 @import "libs/vars";
 @import "libs/functions";
 
@@ -9,6 +13,7 @@
 @import "components/side-nav";
 @import "components/overview-manager";
 @import "components/tile-dropdown";
+@import "components/main-banner";
 
 
 
@@ -52,3 +57,30 @@
     height: 160px;
 }
 
+.scrollToTop{
+	background-color: getColor(side-nav-bg);
+	width: 37.5px;
+	height: 37.5px;
+	position: fixed;
+	bottom: 0%;
+	right: 40px;
+	z-index: 2;
+	cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+	display: none;
+}
+.scrollToTop:hover{
+	background-color: getColor(side-nav-hover);
+}
+
+.scrollToTop span{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	letter-spacing: 1.25px;
+	font-size: 12.5px;
+}

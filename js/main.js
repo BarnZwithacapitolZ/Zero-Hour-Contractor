@@ -22,6 +22,31 @@ $(document).ready(function() {
     $('.more-info-button.return').on('click', function(e) {
         closeHourDropdown($(this).parent(), 420);      
     });
+
+
+    // For button
+    var button = $('.scrollToTop');
+    button.on('click', function(e){
+		$('html, body').animate({scrollTop: 0}, 500);
+		e.preventDefault();
+    });
+    
+    $(window).on('scroll', function(){
+		var self = $(this),
+			height = 250,
+			top = self.scrollTop();
+		displayTop = top;	
+			
+		if (displayTop > height){		
+			if (!button.is(':visible')){
+				button.css('bottom', '0%');
+				button.show();
+				button.animate({bottom: '5%'}, 300);
+			}			
+		} else{		
+			button.fadeOut();
+		}	
+	});	
 });
 
 

@@ -1,0 +1,121 @@
+#main-banner{
+    width: 100%;
+    text-align: center;
+    color: #333333;
+    margin-top: 100px;
+    margin-bottom: 250px;
+
+    .banner-contents{       
+        width: 45%;
+        margin: auto;
+
+        @include step1{
+            width: 70%;
+        }
+        
+        h1{
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        p{
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+    }
+
+    .company-register{
+        margin-top: 20px;
+        display: block;
+
+        input{
+            border: 2px solid getColor(row-names-fg);
+            border-radius: 6px;
+            padding: 12px 20px;
+            color: getColor(default-fg);
+            width: 170px;
+            margin: 0;
+            font-size: 16px;
+            margin: 7.5px;
+        }
+
+        button{
+            border: 2px solid getColor(row-names-fg);
+            background-color: getColor(row-names-fg);
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            margin: 7.5px;
+        }
+    }
+}
+
+#about-display{
+    background-color: getColor(side-nav-fg);
+    width: 100%;
+    text-align: center;
+    overflow: auto;
+    color: white;
+
+    .about-flex{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+        .about-contents{
+            /*width: 60%; */
+            max-width: 1000px;
+            margin: 60px 100px;
+            text-align: center;
+
+            .about{
+                width: 32%;
+                display: inline-block;
+                text-align: center;
+                margin: 30px 0;
+                cursor: pointer;
+                border-radius: 6px;
+                position: relative;
+                transition: all .4s ease 0s;
+                top: 0;
+
+                &:hover{
+                    /*background-color: getColor(hover-blue);*/
+                    top: -10px;
+               
+                    
+                }
+
+                @include step1{
+                    width: 40%;
+                }
+
+                img{
+                    width: 28%;
+                    height: auto;
+                    padding: 20px;
+                }
+
+                h2{
+                    font-size: 20px;
+                    padding-bottom: 10px;
+                    opacity: 0.95;
+                }
+
+                p{
+                    opacity: 0.8;
+                    padding: 0 10px 20px 10px;
+                }
+            }
+        }
+    }
+}
+
+.test-section{
+    width: 100%;
+    height: 500px;
+}

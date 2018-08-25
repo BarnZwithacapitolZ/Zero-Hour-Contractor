@@ -1,158 +1,83 @@
 <?php
-    $title = "Overview Manager";
+    $title = "Zero Hour Contractor";
 
     date_default_timezone_set('Europe/London');
     require_once "includes/header.inc.php";
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
-
-    $dbh = new Dbh();
-
-    $week = "last";
-    $days = 7;
 ?>
 
-        <header>
+        <header class="landing-header">
             <div class="header-contents">
-                <span><</span><span>This Week</span><span>></span>
-            </div>
+                <ul>    
+                    <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
+                    <li><a href="overview">How it works</a></li>
+                    <li><a href="overview">Register</a></li>
+                    <li><a href="overview">Login</a></li>
+                </ul>
+            </div>   
         </header>
 
-        <?php require_once "includes/side-nav.inc.php" ?>
 
-        <div id="overview-manager">
-            <div class="table-overview">
-                <!-- Table header for column nams -->
-                <div class="table-row row-header">
-                    <div class="table-cell table-header">
-                        <div class="cell-content"><div class="text-contents"><span>Name</span></div></div>
-                    </div>
+        <div id="main-banner">
+            <div class="banner-contents">
+                <h1>Manage hours, accounts and employees all in one place.</h1>
+                <p>Register your business for free and start managing your contracts today.</p>
 
-                    <?php
-                        for ($i = 0; $i < $days; $i++) {        
-                            $date = new DateTime(date('Y-m-d', strtotime('monday ' . $week . ' week') + (($i + 1) * 86300)));              
-                    ?>
-                    <div class="table-cell table-header <?php if ($date->format('Y-m-d') == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content">
-                            <div class="text-contents">
-                                <span><?php echo  $date->format('D'); ?></span>
-                                <span class="day"><?php echo $date->format('d'); ?></span>
-                            </div>
-                        </div>
-                    </div>
-                        <?php } ?>
-                </div>     
-
-                <?php
-                    $query = "SELECT * FROM tblemployee";
-                    $empResult = $dbh->executeSelect($query);
-                    if ($empResult) {
-                        foreach ($empResult as $emp) {
-                            $employee = new Employee();
-                            $employee->setByRow($emp);
-                ?>
-                <div class="table-row">
-                    <div class="table-cell">
-                        <div class="cell-content first">
-                            <div class="text-contents">
-                                <img src="media/img/profile.jpg" class="user-pic" />
-                                <span><?php echo $employee->getName(); ?></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <?php                                   
-                            for ($i = 1; $i < $days + 1; $i++) {
-                                $select = $employee->getID();
-                                $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)); // 86300 for new day
-                                
-                                $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select' ORDER BY StartTime, EndTime";
-                                $bookResult = $dbh->executeSelect($query);
-                                if ($bookResult) {
-                                    $bookedHours = new HourTile();
-                                    $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
-                    ?>
-                    <div class="table-cell button <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content more-dropdown">
-                            <div class="text-contents responsive"> 
-                                <span>
-                                    <img src="media/img/clock.png" alt="Clock time icon" class="img-small" />
-                                    <?php echo $bookedHours->getStart(); ?> - <?php echo $bookedHours->getEnd(); ?>
-                                </span>
-                                <span>
-                                    <img src="media/img/department.png" clock="Department icon" class="img-small" />
-                                    <?php echo $bookedHours->getDepartment(); ?>
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <?php if (count($bookResult) > 1) { ?>
-                            <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
-                        <?php } ?>
-
-                        <div class="more-info-tile">
-                            <div class="text-contents index">
-                                <span>
-                                    <img src="media/img/user.png" clock="Department icon" class="img-small" />
-                                    <?php echo $employee->getName()?>
-                                </span>
-                            </div>
-                            <div class="text-contents index">
-                                <span>
-                                    <img src="media/img/day.png" clock="Department icon" class="img-small" />
-                                    <?php echo $bookedHours->getDate()?>
-                                </span>
-                            </div>
-
-                            <?php 
-                                if (count($bookResult) > 1) {
-                                    foreach ($bookResult as $key => $book) { // Only loop through if there is more than 1
-                                        $bookedHours->setByRow($book); 
-                            ?>
-                            <div class="text-contents index">
-                                <span><?php echo "Shift " . ($key + 1) . ": "?></span>
-                             </div>
-                            <?php
-                                        include "includes/tile-dropdown.inc.php"; 
-                                    }
-                                } else{
-                                    include "includes/tile-dropdown.inc.php"; 
-                                }  
-                            ?>             
-                            <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
-                                <img src="media/img/plus.png" alt="Add new hours icon" />
-                            </span>
-                            <span class="more-info-button return">
-                                <img src="media/img/arrow.png" alt="Close dropdown icon" />
-                            </span>
-                        </div>
-                    </div>
-
-                        
-                    <?php } else { // No results found within employee row (no booked hours) ?>
-                    <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>"></div>
-                    <?php
-                            }
-                        }
-                    ?>
-                </div>
-
-                <?php
-                        }
-                    } else { // No results found for employees (no employees)
-                        echo "there is nothing to display here!";
-                    }
-                ?>
-            </div>  
-            
-    
-            <div class="overview-footer">
-
+                <form action="overview" class="company-register">
+                    <input type="text" name="company-name"  placeholder="Business name" />
+                    <button>Start</button>
+                </form>
             </div>
         </div>
+
+        <div id="about-display">    
+            <div class="about-flex">              
+                <div class="about-contents">
+                    <div class="about">
+                        <img src="media/img/icons/weekly.png" />
+                        <h2>Overview Manager</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+
+                    <div class="about">
+                        <img src="media/img/icons/sigma-white.png" />
+                        <h2>Total</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+
+                    <div class="about">
+                        <img src="media/img/icons/contract.png" />
+                        <h2>Contracts</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+
+                    <div class="about">
+                        <img src="media/img/icons/pound.png" />
+                        <h2>Accounts</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+
+                    <div class="about">
+                        <img src="media/img/icons/wifi.png" />
+                        <h2>Header</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+
+                    <div class="about">
+                        <img src="media/img/icons/bell.png" />
+                        <h2>Management</h2>
+                        <p>this is some text to test the thing inside of the thing so I know if it works or not</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+
+        </div>
+
 
 <?php 
     require_once "includes/footer.inc.php";
 ?>
-
-        

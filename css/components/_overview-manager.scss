@@ -166,7 +166,7 @@
 
     &.button{
         &:nth-child(even){
-            outline: 1px solid getColor(overview-border);
+            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border);
         }
         
         &:hover{

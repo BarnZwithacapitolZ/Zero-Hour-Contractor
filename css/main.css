@@ -417,7 +417,8 @@ body header.overview-header .header-contents span:nth-child(1):hover, body heade
 }
 
 .table-cell.button:nth-child(even) {
-  outline: 1px solid #ddd;
+  -webkit-box-shadow: -1px 0 0 #ddd, 1px 0 0 #ddd;
+          box-shadow: -1px 0 0 #ddd, 1px 0 0 #ddd;
 }
 
 .table-cell.button:hover {

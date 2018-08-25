@@ -7,7 +7,7 @@
         ?>  
 
         <li class="icon link"> 
-            <img src="media/img/<?php echo $icon; ?>" />
+            <img src="media/img/icons/<?php echo $icon; ?>" />
             <!--<div class="notification-bubble">!</div>-->
         </li>
 

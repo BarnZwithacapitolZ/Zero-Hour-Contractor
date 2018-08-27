@@ -166,6 +166,7 @@
 
     &.button{
         &:nth-child(even){
+            /* Side border so that content doesn't overlap display width */
             box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border);
         }
         

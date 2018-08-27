@@ -60,7 +60,7 @@
     }
 
     &.today{     
-        &:before{
+        &::before{
             box-shadow: -15px 0 15px -15px #bbb inset;
             content: " ";
             height: 100%;
@@ -70,7 +70,7 @@
             width: 15px;
         }
         
-        &:after{
+        &::after{
             box-shadow: 15px 0 15px -15px #bbb inset;
             content: " ";
             height: 100%;

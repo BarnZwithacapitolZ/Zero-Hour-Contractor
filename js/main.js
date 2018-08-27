@@ -46,7 +46,35 @@ $(document).ready(function() {
 		} else{		
 			button.fadeOut();
 		}	
-	});	
+    });	
+    
+
+
+
+
+
+    var open = false;
+    $('.nav__toggle').on('click', function(e) {
+        open = !open;
+        $(this).toggleClass('nav__open');
+
+        if (open) {
+            $('.nav-dropdown').css('display', 'flex');
+            $('.nav-dropdown').animate({
+                height: '100%'
+            }, 350);
+        } else {      
+            $('.nav-dropdown').animate({
+                height: '0'
+            }, 350, function(){
+                $('.nav-dropdown').css('display', 'none');
+            });
+        }
+
+        
+    });
+
+
 });
 
 

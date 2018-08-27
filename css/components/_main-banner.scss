@@ -22,6 +22,10 @@
             font-weight: 600;
             line-height: 1.2;
             margin-bottom: 30px;
+
+            @include step3{
+                font-size: 32px;
+            }
         }
 
         p{
@@ -43,6 +47,14 @@
             margin: 0;
             font-size: 16px;
             margin: 7.5px;
+
+            @include step3{
+                width: 70%;
+
+                &::placeholder{
+                    text-align: center;
+                }
+            }
         }
 
         button{
@@ -74,6 +86,10 @@
         max-width: 1000px;
         margin: 60px 100px;
         text-align: center;
+
+        @include step3{
+            margin: 60px 40px;
+        }
 
         .about{
             width: 32%;
@@ -187,6 +203,10 @@
                 margin: 0;
             }
 
+            @include step3{
+                width: 180px;
+            }
+
             img{
                 width: 100%;
          
@@ -231,11 +251,24 @@ footer.end{
     font-size: 18px;
     padding: 70px 0;
 
+    @include step2{
+        display: block;
+        text-align: center;
+    }
+
     .col{
         width: 30%;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        @include step1{
+            width: 40%;
+        }
+
+        @include step2{
+            width: 100%;
+        }
   
         ul{         
             list-style-type: none;

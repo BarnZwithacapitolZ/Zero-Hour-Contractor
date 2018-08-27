@@ -8,15 +8,28 @@
 ?>
 
         <header class="landing-header">
-            <div class="header-contents">
+            <nav>
                 <ul>    
                     <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
                     <li><a href="overview">How it works</a></li>
                     <li><a href="overview">Register</a></li>
-                    <li><a href="overview">Login</a></li>
-                </ul>
-            </div>   
+                    <li><a class="nav__login" href="overview">Login</a></li>
+                    <li class="nav__toggle"><span></span></li>
+                </ul>              
+            </nav>           
         </header>
+
+        <div class="nav-dropdown">
+            <nav>
+                <ul>
+                    <li>Menu</li>                
+                    <li><a href="overview">How it works</a></li>
+                    <li><a href="overview">Register</a></li>
+                    <li><a class="nav__login" href="overview">Login</a></li>
+                    <li class="nav__toggle"><span></span></li>
+                </ul>
+            </nav>
+        </div>
 
 
         <div id="main-banner">

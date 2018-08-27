@@ -8,7 +8,7 @@
 
     $dbh = new Dbh();
 
-    $week = "last";
+    $week = "this";
     $days = 7;
 ?>
 

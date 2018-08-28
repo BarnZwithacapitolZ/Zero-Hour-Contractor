@@ -13,7 +13,7 @@
         width: 45%;
         margin: auto;
 
-        @include step1{
+        @include step1(max){
             width: 70%;
         }
         
@@ -106,7 +106,7 @@
                 top: -10px;            
             }
 
-            @include step1{
+            @include step1(max){
                 width: 40%;
             }
 
@@ -144,7 +144,7 @@
 	background-size:cover;
     background-repeat:no-repeat;*/
     
-    @include step1{
+    @include step1(max){
         display: block;
     }
 
@@ -155,7 +155,7 @@
         justify-content: flex-end;
         padding: 40px 0;
 
-        @include step1{
+        @include step1(max){
             width: 100%;
             justify-content: center;
         }
@@ -163,7 +163,7 @@
         &:last-child{
             justify-content: flex-start;
 
-            @include step1{
+            @include step1(max){
                 justify-content: center;
             }
         }
@@ -173,7 +173,7 @@
             line-height: 1.2;
             margin-left: 15%;
 
-            @include step1{
+            @include step1(max){
                 margin: 0;
                 text-align: center;
                 width: 60%;
@@ -199,7 +199,7 @@
             opacity: .9;
             margin-right: 15%;
 
-            @include step1{
+            @include step1(max){
                 margin: 0;
             }
 
@@ -262,7 +262,7 @@ footer.end{
         align-items: center;
         justify-content: center;
 
-        @include step1{
+        @include step1(max){
             width: 40%;
         }
 

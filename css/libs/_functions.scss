@@ -16,10 +16,17 @@ $step-2: 650px;
 $step-3: 480px;
 $step-4: 280px;
 
-@mixin step1 {
-    @media (max-width: #{$step-1}){
-        @content;
+@mixin step1($operator) {
+    @if $operator == max {
+        @media (max-width: #{$step-1}){
+            @content;
+        }
+    } @else {
+        @media (min-width: #{$step-1}){
+            @content;
+        }
     }
+    
 }
 
 @mixin step2{

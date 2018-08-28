@@ -49,35 +49,53 @@ $(document).ready(function() {
     });	
     
 
-
-
-
-
     var open = false;
+    var height = 0;
+
     $('.nav__toggle').on('click', function(e) {
         open = !open;
         $(this).toggleClass('nav__open');
 
         if (open) {
-            $('.nav-dropdown').css('display', 'flex');
-            $('.nav-dropdown').animate({
-                height: '100%'
-            }, 350);
+            height = openNavDropdown($('.nav-dropdown'));
+            
         } else {      
-            $('.nav-dropdown').animate({
-                height: '0'
-            }, 350, function(){
-                $('.nav-dropdown').css('display', 'none');
-            });
-        }
-
-        
+            closeNavDropdown($('.nav-dropdown'), height);
+        }  
     });
-
-
 });
 
 
+function openNavDropdown(target) {
+    target.css('display', 'block'); // Show the element
+    var dropdownHeight = target.get(0).scrollHeight; // get its height
+
+    target.find('nav ul').css('top', -(dropdownHeight / 4));
+
+    target.animate({
+        height: dropdownHeight
+    }, 350, function() {
+        target.css('height', 'auto'); // Reset height back to auto for responsive layout
+    });
+
+    target.find('nav ul').animate({
+        top: '0'
+    }, 400);
+
+    return dropdownHeight;
+}
+
+function closeNavDropdown(target, dropdownHeight) {
+    target.animate({
+        height: '0'
+    }, 350, function() {
+        target.css('display', 'none');
+    });
+
+    target.find('nav ul').animate({
+        top: -(dropdownHeight / 4)
+    }, 300);
+}
 
 
 function rowHover(target, bg, shadow) {

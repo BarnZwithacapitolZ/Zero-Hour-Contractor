@@ -88,19 +88,19 @@
         align-items: center;   
         overflow: hidden;
 
-        @include step1{
+        @include step1(max){
             justify-content: center;
             text-align: center;
         }
         
         .text-contents{
-            @include step1{
+            @include step1(max){
                 margin: 0;
             }
 
             span{
                 &:nth-child(2){
-                    @include step1{
+                    @include step1(max){
                         display: none;
                     }
                 }
@@ -108,7 +108,7 @@
                 &.day{
                     font-size: 30px;
 
-                    @include step1{
+                    @include step1(max){
                         display: block;
                     }
 
@@ -189,7 +189,7 @@
 
     &.responsive{
         .img-small{
-            @include step1{
+            @include step1(max){
                 display: none;
             }
         }

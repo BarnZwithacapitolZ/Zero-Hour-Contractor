@@ -21,12 +21,10 @@
 
         <div class="nav-dropdown">
             <nav>
-                <ul>
-                    <li>Menu</li>                
+                <ul>           
                     <li><a href="overview">How it works</a></li>
                     <li><a href="overview">Register</a></li>
                     <li><a class="nav__login" href="overview">Login</a></li>
-                    <li class="nav__toggle"><span></span></li>
                 </ul>
             </nav>
         </div>

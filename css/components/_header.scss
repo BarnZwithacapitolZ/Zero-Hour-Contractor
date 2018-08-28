@@ -11,41 +11,54 @@ body{
 }
 
 .nav-dropdown{
-    width: 100%;
     height: 0;
-    position: fixed;
-    top: 0;
     background-color: white;
     z-index: 3;
-
     align-items: center;
     justify-content: center;
     display: none;  
+    box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
+
+    @include step1(min){
+        display: none !important;
+    }
 
     nav{
-        width: 40%;
+        width: 60%;
         margin: auto;
 
         ul{
             list-style-type: none;
+            text-align: center;
+            padding: 20px 0;
+            position: relative;
+            top: -50px;
+            transition: top .5s;
 
             li{
                 padding: 20px 0;
+                display: inline-block;
+                margin: 0 10px;
 
-                &:first-child{
-                    text-align: center;
-                    margin-bottom: 40px;
+                @include step3{
+                    display: block;
                 }
 
                 a{
                     text-decoration: none;
                     color: inherit;
-                    font-size: 22px;
                 }
             }
         }
   
     }
+}
+
+.nav__login{                    
+    border: 2px solid getColor(row-names-fg);
+    border-radius: 6px;
+    padding: 12px 30px; 
+    box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
 }
 
 header{
@@ -74,15 +87,10 @@ header{
 
                 li{
                     z-index: 4;
-                    .nav__login{                    
-                        border: 2px solid getColor(row-names-fg);
-                        border-radius: 6px;
-                        padding: 12px 30px; 
-                        box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
-                    }
+                    
                                                                       
                     &:first-child{
-                        z-index: 1;
+                 
                         float: left; 
 
                         @include step2{
@@ -120,7 +128,7 @@ header{
                             display: block;  
                         }
 
-                        @include step1{
+                        @include step1(max){
                             display: none;
                         }
                     }    
@@ -177,7 +185,7 @@ header{
                             transition: .3s;                    
                         }
 
-                        @include step1{
+                        @include step1(max){
                             display: block;               
                         }
                     }  

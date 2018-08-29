@@ -47,8 +47,6 @@ body {
   padding: 20px 0;
   position: relative;
   top: -50px;
-  -webkit-transition: top .5s;
-  transition: top .5s;
 }
 
 .nav-dropdown nav ul li {

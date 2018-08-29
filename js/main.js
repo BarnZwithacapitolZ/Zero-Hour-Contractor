@@ -58,6 +58,7 @@ $(document).ready(function() {
 
         if (open) {
             height = openNavDropdown($('.nav-dropdown'));
+            e.preventDefault(); // Stop selecting elements
             
         } else {      
             closeNavDropdown($('.nav-dropdown'), height);
@@ -69,6 +70,7 @@ $(document).ready(function() {
 function openNavDropdown(target) {
     target.css('display', 'block'); // Show the element
     var dropdownHeight = target.get(0).scrollHeight; // get its height
+
 
     target.find('nav ul').css('top', -(dropdownHeight / 4));
 

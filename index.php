@@ -7,8 +7,8 @@
     require_once "includes/classes.php";
 ?>
 
-        <header class="landing-header">
-            <nav>
+        <header class="header__landing-header">
+            <nav class="header__nav">
                 <ul>    
                     <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
                     <li><a href="overview">How it works</a></li>
@@ -16,84 +16,82 @@
                     <li><a class="nav__login" href="overview">Login</a></li>
                     <li class="nav__toggle"><span></span></li>
                 </ul>              
-            </nav>           
-        </header>
-
-        <div class="nav-dropdown">
-            <nav>
+            </nav>  
+            
+            <nav class="header__nav-dropdown">
                 <ul>           
                     <li><a href="overview">How it works</a></li>
                     <li><a href="overview">Register</a></li>
                     <li><a class="nav__login" href="overview">Login</a></li>
                 </ul>
             </nav>
-        </div>
+        </header>
 
 
-        <div id="main-banner">
-            <div class="banner-contents">
-                <h1>Manage hours, accounts and employees all in one place.</h1>
-                <p>Register your business for free and start managing your contracts today.</p>
+        <div id="hl-banner" class="hl-banner__container">
+            <div class="hl-banner__header">
+                <h1 class="hl-banner__headline">Manage hours, accounts and employees all in one place.</h1>
+                <p class="hl-banner__subheading">Register your business for free and start managing your contracts today.</p>
 
-                <form action="overview" class="company-register">
+                <form action="overview" class="hl-banner__company-register">
                     <input type="text" name="company-name"  placeholder="Business name" />
                     <button>Start</button>
                 </form>
             </div>
         </div>
 
-        <div id="about-display">    
-            <div class="about-contents">
-                <div class="about">
+        <div id="hl-about" class="hl-about__container">    
+            <div class="hl-about__row">
+                <div class="hl-about__col">
                     <img src="media/img/icons/weekly.png" />
-                    <h2>Overview Manager</h2>
-                    <p>Create a virtual timetable to see when, where and who you are working with.</p>
+                    <h2 class="hl-about__headline">Overview Manager</h2>
+                    <p class="hl-about__desc">Create a virtual timetable to see when, where and who you are working with.</p>
                 </div>
 
-                <div class="about">
+                <div class="hl-about__col">
                     <img src="media/img/icons/sigma-white.png" />
-                    <h2>Total</h2>
-                    <p>Manage the hourly totals of each employee; daily, weekly or monthly.</p>
+                    <h2 class="hl-about__headline">Total</h2>
+                    <p class="hl-about__desc">Manage the hourly totals of each employee; daily, weekly or monthly.</p>
                 </div>
 
-                <div class="about">
+                <div class="hl-about__col">
                     <img src="media/img/icons/contract.png" />
-                    <h2>Contracts</h2>
-                    <p>Set automatic timestamps to be set each week, month or year; know what hours are avaialble each day, when and where.</p>
+                    <h2 class="hl-about__headline">Contracts</h2>
+                    <p class="hl-about__desc">Set automatic timestamps to be set each week, month or year; know what hours are avaialble each day, when and where.</p>
                 </div>
 
-                <div class="about">
+                <div class="hl-about__col">
                     <img src="media/img/icons/pound.png" />
-                    <h2>Accounts</h2>
-                    <p>Automatically calculate the payrole for each employee: monthly, weekly or yearly; set start and cut-off points for each month.</p>
+                    <h2 class="hl-about__headline">Accounts</h2>
+                    <p class="hl-about__desc">Automatically calculate the payrole for each employee: monthly, weekly or yearly; set start and cut-off points for each month.</p>
                 </div>
 
-                <div class="about">
+                <div class="hl-about__col">
                     <img src="media/img/icons/wifi.png" />
-                    <h2>Connect</h2>
-                    <p>View your hours from anywhere at anytime; simply log into your account connected to an organisation.</p>
+                    <h2 class="hl-about__headline">Connect</h2>
+                    <p class="hl-about__desc">View your hours from anywhere at anytime; simply log into your account connected to an organisation.</p>
                 </div>
 
-                <div class="about">
+                <div class="hl-about__col">
                     <img src="media/img/icons/bell.png" />
-                    <h2>Management</h2>
-                    <p>Simplify the tracking of employee's data; let us do it for you, we won't let you down!</p>
+                    <h2 class="hl-about__headline">Management</h2>
+                    <p class="hl-about__desc">Simplify the tracking of employee's data; let us do it for you, we won't let you down!</p>
                 </div>
             </div>              
         </div>
 
-        <div class="target-display">
-            <div class="split-info">
-                <div class="dep-img">
+        <div id="hl-target" class="hl-target__container">
+            <div class="hl-target__col">
+                <div class="hl-target__small-business-icon">
                     <img src="media/img/icons/small-buisiness.png" />
                 </div>
             </div>
 
-            <div class="split-info">
-                <div class="target">
-                    <h1>Simplify</h1>
-                    <p>We designed Zero Hour Contractor for small businesses looking for a solution to the hassle of managing zero-hour-contracts.</p>
-                    <p>
+            <div class="hl-target__col">
+                <div class="hl-target__header">
+                    <h1 class="hl-target__headline">Simplify</h1>
+                    <p class="hl-target__desc">We designed Zero Hour Contractor for small businesses looking for a solution to the hassle of managing zero-hour-contracts.</p>
+                    <p class="hl-target__desc"> 
                         Be it employees not knowing when they are working, or managers not knowing who is covering;
                         our solution makes it easy to always keep track of contracts, as well as providing the useful analytics 
                         to make the next bookings easier.
@@ -102,26 +100,30 @@
             </div>
         </div>
 
-        <div class="learn-more">
-            <p>Eager to learn more huh?</p>
-            <a href="#">How it works</a>
+        <div id="hl-more" class="hl-more__container">
+            <p class="hl-more__desc">Eager to learn more huh?</p>
+            <a class="hl-more__link" href="#">How it works</a>
         </div>
 
-        <footer class="end">
-            <div class="col">
-                <ul>
-                    <li><a href="overview">Register</a></li>
-                    <li><a href="overview">Login</a></li>
-                    <li><a href="index">Home</a></li>
-                    <li><a href="#">How it works</a></li>
-                </ul>
+        <footer class="footer__landing-footer">
+            <div class="footer__col">
+                <nav class="footer__nav">
+                    <ul>
+                        <li><a href="overview">Register</a></li>
+                        <li><a href="overview">Login</a></li>
+                        <li><a href="index">Home</a></li>
+                        <li><a href="#">How it works</a></li>
+                    </ul>
+                </nav>
             </div>
-            <div class="col">
-                <ul>
-                    <li>Zero Hour Contractor</li>
-                    <li>Copyright &copy; 2018</li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
+            <div class="footer__col">
+                <nav class="footer__nav">
+                    <ul>
+                        <li>Zero Hour Contractor</li>
+                        <li>Copyright &copy; 2018</li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </nav>
             </div>
         </footer>
 

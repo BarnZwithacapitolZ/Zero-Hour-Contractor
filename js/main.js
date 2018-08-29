@@ -54,14 +54,14 @@ $(document).ready(function() {
 
     $('.nav__toggle').on('click', function(e) {
         open = !open;
-        $(this).toggleClass('nav__open');
+        $(this).toggleClass('nav__toggle--open');
 
         if (open) {
-            height = openNavDropdown($('.nav-dropdown'));
+            height = openNavDropdown($('.header__nav-dropdown'));
             e.preventDefault(); // Stop selecting elements
             
         } else {      
-            closeNavDropdown($('.nav-dropdown'), height);
+            closeNavDropdown($('.header__nav-dropdown'), height);
         }  
     });
 });
@@ -71,8 +71,7 @@ function openNavDropdown(target) {
     target.css('display', 'block'); // Show the element
     var dropdownHeight = target.get(0).scrollHeight; // get its height
 
-
-    target.find('nav ul').css('top', -(dropdownHeight / 4));
+    target.find('ul li').css('top', -(dropdownHeight / 4));
 
     target.animate({
         height: dropdownHeight
@@ -80,7 +79,7 @@ function openNavDropdown(target) {
         target.css('height', 'auto'); // Reset height back to auto for responsive layout
     });
 
-    target.find('nav ul').animate({
+    target.find('ul li').animate({
         top: '0'
     }, 400);
 
@@ -94,7 +93,7 @@ function closeNavDropdown(target, dropdownHeight) {
         target.css('display', 'none');
     });
 
-    target.find('nav ul').animate({
+    target.find('ul li').animate({
         top: -(dropdownHeight / 4)
     }, 300);
 }

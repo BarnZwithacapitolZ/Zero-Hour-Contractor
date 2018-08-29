@@ -1,4 +1,4 @@
-#main-banner{
+#hl-banner.hl-banner__container{
     width: 100%;
     text-align: center;
     color: #333333;
@@ -9,7 +9,7 @@
 	background-size:cover;
 	background-repeat:no-repeat;
 
-    .banner-contents{       
+    .hl-banner__header{       
         width: 45%;
         margin: auto;
 
@@ -17,7 +17,7 @@
             width: 70%;
         }
         
-        h1{
+        h1.hl-banner__headline{
             font-size: 48px;
             font-weight: 600;
             line-height: 1.2;
@@ -28,13 +28,13 @@
             }
         }
 
-        p{
+        p.hl-banner__subheading{
             margin-bottom: 50px;
             font-size: 18px;
         }
     }
 
-    .company-register{
+    .hl-banner__company-register{
         margin-top: 20px;
         display: block;
 
@@ -70,7 +70,7 @@
     }
 }
 
-#about-display{
+#hl-about.hl-about__container{
     background-color: getColor(side-nav-fg);
     width: 100%;
     text-align: center;
@@ -81,7 +81,7 @@
     align-items: center;
     justify-content: center;
 
-    .about-contents{
+    .hl-about__row{
         /*width: 60%; */
         max-width: 1000px;
         margin: 60px 100px;
@@ -91,7 +91,7 @@
             margin: 60px 40px;
         }
 
-        .about{
+        .hl-about__col{
             width: 32%;
             display: inline-block;
             vertical-align: top;
@@ -120,13 +120,13 @@
                 padding: 20px;
             }
 
-            h2{
+            h2.hl-about__headline{
                 font-size: 20px;
                 padding-bottom: 10px;
                 opacity: 0.95;
             }
 
-            p{
+            p.hl-about__desc{
                 opacity: 0.8;
                 padding: 0 10px 20px 10px;
                 line-height: 1.2;
@@ -135,7 +135,7 @@
     }
 }
 
-.target-display{
+#hl-target.hl-target__container{
     width: 100%;
     padding: 70px 0;
     display: flex;
@@ -148,7 +148,7 @@
         display: block;
     }
 
-    .split-info{
+    .hl-target__col{
         width: 50%;
         display: flex;
         align-items: center;
@@ -168,7 +168,7 @@
             }
         }
 
-        .target{
+        .hl-target__header{
             width: 330px;
             line-height: 1.2;
             margin-left: 15%;
@@ -179,13 +179,13 @@
                 width: 60%;
             }
 
-            h1{
+            h1.hl-target__headline{
                 font-size: 48px;
                 padding-bottom: 30px;
                 opacity: 0.95;
             }
 
-            p{
+            p.hl-target__desc{
                 font-size: 18px;
                 line-height: 1.95;
                 padding-bottom: 15px;
@@ -194,7 +194,7 @@
             
         }
 
-        .dep-img{ 
+        .hl-target__small-business-icon{ 
             width: 220px;
             opacity: .9;
             margin-right: 15%;
@@ -216,7 +216,7 @@
 }
 
 
-.learn-more{
+#hl-more.hl-more__container{
     width: 100%;
     background-color: getColor(row-header-bg);
     text-align: center;
@@ -225,11 +225,11 @@
     display: block;
     overflow: auto;
 
-    p{  
+    p.hl-more__desc{  
         margin-bottom: 25px;
     }
 
-    a{
+    a.hl-more__link{
         text-decoration: none;
         border: 2px solid getColor(row-names-fg);
         background-color: getColor(row-names-fg);
@@ -242,21 +242,21 @@
 }
 
 
-footer.end{
+footer.footer__landing-footer{
     width: 100%;
     background-color: getColor(noti-blue);
     display: flex;  
     justify-content: center;
     color: white;
-    font-size: 18px;
     padding: 70px 0;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 
     @include step2{
         display: block;
         text-align: center;
     }
 
-    .col{
+    .footer__col{
         width: 30%;
         display: flex;
         align-items: center;
@@ -269,17 +269,23 @@ footer.end{
         @include step2{
             width: 100%;
         }
-  
-        ul{         
-            list-style-type: none;
-            li{
-                padding: 10px 0;
 
-                a{
-                    text-decoration: none;
-                    color: inherit;
+        .footer__nav{
+            font-size: 18px;
+            
+            ul{         
+                list-style-type: none;
+                li{
+                    padding: 10px 0;
+    
+                    a{
+                        text-decoration: none;
+                        color: inherit;
+                    }
                 }
             }
         }
+  
+        
     }
 }

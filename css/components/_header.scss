@@ -10,55 +10,6 @@ body{
     color: getColor(default-fg); 
 }
 
-.nav-dropdown{
-    height: 0;
-    background-color: white;
-    z-index: 3;
-    align-items: center;
-    justify-content: center;
-    display: none;  
-    box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
-
-    @include step1(min){
-        display: none !important;
-    }
-
-    nav{
-        width: 60%;
-        margin: auto;
-
-        ul{
-            list-style-type: none;
-            text-align: center;
-            padding: 20px 0;
-            position: relative;
-            top: -50px;
-
-            li{
-                padding: 20px 0;
-                display: inline-block;
-                margin: 0 10px;
-
-                @include step3{
-                    display: block;
-                }
-
-                a{
-                    text-decoration: none;
-                    color: inherit;
-                }
-            }
-        }
-  
-    }
-}
-
-.nav__login{                    
-    border: 2px solid getColor(row-names-fg);
-    border-radius: 6px;
-    padding: 12px 30px; 
-    box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
-}
 
 header{
         width: 100%;
@@ -66,130 +17,174 @@ header{
         display: inline-block;
         position: relative;
 
-        &.landing-header{
+        &.header__landing-header{
             background-color: #f2f2f2;
             height: auto;
-            box-shadow: 0px 0px 8px 2px rgba(0,0,0,.2);
 
-            nav{    
-                padding: 10px 0;
-                width: 95%;
-                margin: auto;
+            .nav__login{                    
+                border: 2px solid getColor(row-names-fg);
+                border-radius: 6px;
+                padding: 12px 30px; 
+                box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
             }
-   
-            ul{
+            
+            nav.header__nav{    
+                padding: 10px 0;
                 width: 100%;
-                height: 100%;
-                list-style-type: none;
-                display: flex;
-                align-items: center;
+                margin: auto;
+                box-shadow: 0px 0px 8px 2px rgba(0,0,0,.2);
+                position: relative;
+                z-index: 3;
 
-                li{
-                    z-index: 4;
-                    
-                                                                      
-                    &:first-child{
-                 
-                        float: left; 
-
-                        @include step2{
-                            margin-left: 10px;
+                ul{
+                    width: 95%;
+                    height: 100%;
+                    margin: auto;
+                    list-style-type: none;
+                    display: flex;
+                    align-items: center;
+    
+                    li{                                                
+                        &:first-child{
+                     
+                            float: left; 
+    
+                            @include step2{
+                                margin-left: 10px;
+                            }
+        
+                            img{
+                                height: 60px;
+                                width: auto;
+    
+                                @include step3{
+                                    height: 40px;
+                                }
+    
+                                @include step4{
+                                    height: 30px;
+                                }
+                            }
+    
+                            a{
+                                display: block;
+                            }
+                        }
+        
+                        &:nth-child(2){             
+                            margin-left: auto;                
                         }
     
-                        img{
-                            height: 60px;
-                            width: auto;
-
-                            @include step3{
-                                height: 40px;
+                        &:nth-child(n+2){                     
+                            margin-right: 20px;
+    
+                            a{
+                                text-decoration: none;
+                                color: getColor(default-fg);
+                                display: block;  
+                            }
+    
+                            @include step1(max){
+                                display: none;
+                            }
+                        }    
+    
+                        &.nav__toggle{
+                            display: none;
+                            margin-left: auto;
+                            width: 26px;
+                            padding: 7px 0;
+                            position: relative;
+                            cursor: pointer;
+                     
+                             span{
+                                 display: block;
+                                 height: 2px;
+                                 background-color: black;
+                             }
+    
+                            &.nav__toggle--open{
+                                span{
+                                    display: none;         
+                                }
+                            
+                                &::before{  
+                                    transform: rotate(-45deg);          
+                                    top: 5.8px;              
+                                }
+    
+                                &::after{
+                                    transform: rotate(45deg);
+                                    bottom: 5.8px;
+                                }
                             }
 
-                            @include step4{
-                                height: 30px;
+                            &::before, &::after{
+                                content: '';
+                                background-color: black;
+                                width: inherit;
+                                height: 2px;
+                                display: block;
+                                position: absolute;
+                                transition: .3s;  
                             }
-                        }
-
-                        a{
+    
+                            &::before{                     
+                                top: 0;                                            
+                            }
+    
+                            &::after{
+                                bottom: 0;         
+                            }
+    
+                            @include step1(max){
+                                display: block;               
+                            }
+                        }  
+                    }          
+                }  
+            } 
+            
+            nav.header__nav-dropdown{
+                display: none;  
+                height: 0;
+                background-color: white;
+                align-items: center;
+                justify-content: center;   
+                box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
+                z-index: 2;
+                position: relative;
+                user-select: none; /* Find a better solution */
+            
+                @include step1(min){
+                    display: none !important; /*Override Javascript */
+                }
+            
+                ul{
+                    width: 60%;
+                    margin: auto;
+                    list-style-type: none;
+                    text-align: center;
+                    padding: 20px 0;      
+            
+                    li{
+                        position: relative;
+                        top: -50px;
+                        padding: 20px 0;
+                        display: inline-block;
+                        margin: 0 10px;
+            
+                        @include step3{
                             display: block;
                         }
-                    }
-    
-                    &:nth-child(2){             
-                        margin-left: auto;                
-                    }
-
-                    &:nth-child(n+2){                     
-                        margin-right: 20px;
-
+            
                         a{
                             text-decoration: none;
-                            color: getColor(default-fg);
-                            display: block;  
+                            color: inherit;
                         }
-
-                        @include step1(max){
-                            display: none;
-                        }
-                    }    
-
-                    &.nav__toggle{
-                        display: none;
-                        margin-left: auto;
-                        width: 26px;
-                        padding: 7px 0;
-                        position: relative;
-                        cursor: pointer;
-                 
-                         span{
-                             display: block;
-                             height: 2px;
-                             background-color: black;
-                         }
-
-                        &.nav__open{
-                            span{
-                                display: none;         
-                            }
-                        
-                            &::before{  
-                                transform: rotate(-45deg);          
-                                top: 5.8px;              
-                            }
-
-                            &::after{
-                                transform: rotate(45deg);
-                                bottom: 5.8px;
-                            }
-                        }
-
-                        &::before{
-                            content: '';
-                            background-color: black;
-                            width: inherit;
-                            height: 2px;
-                            display: block;
-                            position: absolute;
-                            top: 0;     
-                            transition: .3s;           
-                        }
-
-                        &::after{
-                            content: '';
-                            background-color: black;
-                            width: inherit;
-                            height: 2px;
-                            display: block;
-                            position: absolute;
-                            bottom: 0;
-                            transition: .3s;                    
-                        }
-
-                        @include step1(max){
-                            display: block;               
-                        }
-                    }  
-                }          
-            }           
+                    }
+                }
+            } 
         }
    
         &.overview-header{

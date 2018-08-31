@@ -12,7 +12,7 @@
     $days = 7;
 ?>
 
-        <header class="overview-header">
+        <header id="header__overview-header">
             <div class="header-contents">
                 <span><</span><span>This Week</span><span>></span>
             </div>

@@ -48,3 +48,74 @@ $step-4: 280px;
         @content;
     }
 }
+
+
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+
+@mixin animation($params) {
+    -webkit-animation: #{$params};
+    -moz-animation: #{$params};
+    -ms-animation: #{$params};
+    -o-animation: #{$params};
+    animation: #{$params};      
+  }
+
+@keyframes shake {
+    10%, 90% {
+      transform: translate(-2px, 0);
+    }
+    
+    20%, 80% {
+      transform: translate(3px, 0);
+    }
+  
+    30%, 50%, 70% {
+      transform: translate(-5px, 0);
+    }
+  
+    40%, 60% {
+      transform: translate(5px, 0);
+    }
+}
+
+
+@include keyframes(fade-in-up) {
+    from {
+        transform: translate(0, 150px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-up-slow {
+    
+    0% {
+        transform: translate(0, 200px);
+        opacity: 0;
+    }
+
+    90% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}

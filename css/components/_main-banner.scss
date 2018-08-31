@@ -1,4 +1,202 @@
-#hl-banner.hl-banner__container{
+
+header#header__landing-header {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    background-color: #f2f2f2;
+    height: auto;
+
+    .nav__login {                    
+        color: getColor(default-fg);
+        border: 2px solid getColor(row-names-fg);
+        border-radius: 6px;
+        padding: 12px 30px; 
+        box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);   
+        background-color: transparent;  
+        transition: 0.3s;
+
+        /*position: relative;
+        background-image: linear-gradient(getColor(row-names-fg), getColor(row-names-fg));
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: 0% 100%;
+        transition: background-size .4s, color .4s;*/    
+
+        &:hover {
+            background-color: getColor(row-names-fg);
+            color: #fff;
+        }
+    }
+
+    .nav__link {
+        color: getColor(default-fg);
+        border-bottom: 1px solid rgba(0, 0, 0, 0);
+        transition: border 300ms ease 0s;   
+
+        &:hover {                 
+            border-bottom: 1px solid rgba(0, 0, 0, .6);
+        }
+                        
+    }
+    
+    nav.header__nav {           
+        width: 100%;
+        margin: auto;
+        box-shadow: 0px 0px 8px 2px rgba(0,0,0,.2);
+        position: relative;
+        z-index: 3;
+
+        ul {
+            padding: 15px 0;
+            width: 95%;
+            height: 100%;
+            margin: auto;
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+
+            li {                                                
+                &:first-child {     
+                    float: left; 
+
+                    @include step2 {
+                        margin-left: 10px;
+                    }
+
+                    img[alt] {
+                        height: 60px;
+                        width: auto;
+
+                        @include step3 {
+                            height: 40px;
+                        }
+
+                        @include step4 {
+                            height: 30px;
+                        }
+                    }
+
+                    a {
+                        display: block;
+                    }
+                }
+
+                &:nth-child(2) {             
+                    margin-left: auto;                
+                }
+
+                &:nth-child(n+2) {                     
+                    margin-right: 20px;
+
+                    a {
+                        text-decoration: none;                                                  
+                    }
+
+                    @include step1(max) {
+                        display: none;
+                    }
+                }    
+
+                &.nav__toggle {
+                    display: none;
+                    margin-left: auto;
+                    width: 26px;
+                    padding: 7px 0;
+                    position: relative;
+                    cursor: pointer;
+             
+                     span {
+                         display: block;
+                         height: 2px;
+                         background-color: black;
+                     }
+
+                    &.nav__toggle--open {
+                        span {
+                            display: none;         
+                        }
+                    
+                        &::before {  
+                            transform: rotate(-45deg);          
+                            top: 5.8px;              
+                        }
+
+                        &::after {
+                            transform: rotate(45deg);
+                            bottom: 5.8px;
+                        }
+                    }
+
+                    &::before, &::after {
+                        content: '';
+                        background-color: black;
+                        width: inherit;
+                        height: 2px;
+                        display: block;
+                        position: absolute;
+                        transition: .3s;  
+                    }
+
+                    &::before {                     
+                        top: 0;                                            
+                    }
+
+                    &::after {
+                        bottom: 0;         
+                    }
+
+                    @include step1(max) {
+                        display: block;               
+                    }
+                }  
+            }          
+        }  
+    } 
+    
+    nav.header__nav-dropdown {
+        display: none;  
+        height: 0;
+        background-color: white;
+        align-items: center;
+        justify-content: center;   
+        box-shadow: 0px 8px 6px -6px rgba(0,0,0,.125);
+        z-index: 2;
+        position: relative;
+        user-select: none; /* Find a better solution */
+    
+        @include step1(min) {
+            display: none !important; /*Override Javascript */
+        }
+    
+        ul {
+            width: 60%;
+            margin: auto;
+            list-style-type: none;
+            text-align: center;
+            padding: 20px 0;      
+    
+            li {
+                position: relative;
+                top: -50px;
+                padding: 20px 0;
+                display: inline-block;
+                margin: 0 10px;
+    
+                @include step3 {
+                    display: block;
+                }
+    
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                }
+            }
+        }
+    } 
+}
+
+
+#hl-banner.hl-banner__container {
     width: 100%;
     text-align: center;
     color: #333333;
@@ -9,36 +207,88 @@
 	background-size:cover;
 	background-repeat:no-repeat;
 
-    .hl-banner__header{       
+    .hl-banner__header {       
         width: 45%;
         margin: auto;
 
-        @include step1(max){
+        @include step1(max) {
             width: 70%;
         }
         
-        h1.hl-banner__headline{
+        h1.hl-banner__headline {
             font-size: 48px;
             font-weight: 600;
             line-height: 1.2;
             margin-bottom: 30px;
+            position: relative;
+            animation: fade-in-up-slow 1.8s;
 
             @include step3{
                 font-size: 32px;
             }
         }
 
-        p.hl-banner__subheading{
+        p.hl-banner__subheading {
             margin-bottom: 50px;
             font-size: 18px;
+            position: relative;
+            @include animation('fade-in-up 2s');
         }
     }
 
-    .hl-banner__company-register{
+    .hl-banner__company-register {
         margin-top: 20px;
         display: block;
 
-        input{
+        span.company-register__input--error-text[error-output] {
+            position: relative;
+            z-index: 1;
+
+            &::before { /* Container */
+                content: attr(error-output);
+                display: block;
+                position: absolute;
+                background-color: black;
+                padding: 10px;
+                bottom: 0;
+                left: -20px;
+                color: white;
+                transform: scale(0);
+                transition: transform ease-out 115ms,
+                            bottom ease-out 115ms;
+                font-size: 12px;
+                width: 100px;   
+                z-index: 2;
+            }
+
+            &:hover::before {
+                transform: scale(1);
+                bottom: 38px;
+            }
+
+            &::after { /* Arrow */
+                content: " ";
+                display: block;
+                position: absolute;
+                bottom: 22px; 
+                left: 32px;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 20px 0px 0 40px;
+                border-color: #000000 transparent transparent transparent;
+                line-height: 0px;
+                transition: transform ease-out 115ms;
+                transform: scale(0);   
+                  
+            }
+
+            &:hover::after{
+                transform: scale(1);        
+            }
+        }
+
+        input.company-register__input {
             border: 2px solid getColor(row-names-fg);
             border-radius: 6px;
             padding: 12px 20px;
@@ -47,17 +297,28 @@
             margin: 0;
             font-size: 16px;
             margin: 7.5px;
+            position: relative;
+            @include animation('fade-in-up 2s');
 
-            @include step3{
+            &.company-register__input--error {
+                border-color: getColor(hover-red);
+                animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+                transform: translate(0, 0, 0);
+                backface-visibility: hidden;
+                perspective: 1000px;       
+            }
+   
+            @include step3 {
                 width: 70%;
+                text-align: center;
 
-                &::placeholder{
+                &::placeholder {
                     text-align: center;
                 }
             }
         }
 
-        button{
+        button.company-register__submit {
             border: 2px solid getColor(row-names-fg);
             background-color: getColor(row-names-fg);
             border-radius: 6px;
@@ -65,12 +326,20 @@
             font-size: 16px;
             color: white;
             cursor: pointer;
-            margin: 7.5px;
+            margin: 7.5px;  
+            transition: all .4s ease 0s;    
+            position: relative;
+            @include animation('fade-in-up 2s');
+            
+            &:hover {
+                background-color: lighten(getColor(noti-blue), 13%);
+                border-color: lighten(getColor(noti-blue), 13%);
+            }
         }
     }
 }
 
-#hl-about.hl-about__container{
+#hl-about.hl-about__container {
     background-color: getColor(side-nav-fg);
     width: 100%;
     text-align: center;
@@ -81,17 +350,17 @@
     align-items: center;
     justify-content: center;
 
-    .hl-about__row{
+    .hl-about__row {
         /*width: 60%; */
         max-width: 1000px;
         margin: 60px 100px;
         text-align: center;
 
-        @include step3{
+        @include step3 {
             margin: 60px 40px;
         }
 
-        .hl-about__col{
+        .hl-about__col {
             width: 32%;
             display: inline-block;
             vertical-align: top;
@@ -102,31 +371,31 @@
             transition: all .4s ease 0s;
             top: 0;
 
-            &:hover{
+            &:hover {
                 top: -10px;            
             }
 
-            @include step1(max){
+            @include step1(max) {
                 width: 40%;
             }
 
-            @include step2{
+            @include step2 {
                 width: 100%;
             }
 
-            img{
+            img[alt] {
                 width: 28%;
                 height: auto;
                 padding: 20px;
             }
 
-            h2.hl-about__headline{
+            h2.hl-about__headline {
                 font-size: 20px;
                 padding-bottom: 10px;
                 opacity: 0.95;
             }
 
-            p.hl-about__desc{
+            p.hl-about__desc {
                 opacity: 0.8;
                 padding: 0 10px 20px 10px;
                 line-height: 1.2;
@@ -135,57 +404,53 @@
     }
 }
 
-#hl-target.hl-target__container{
+#hl-target.hl-target__container {
     width: 100%;
     padding: 70px 0;
     display: flex;
-    /*background-image: url("../media/img/photo/test.png");
-	background-position:center;
-	background-size:cover;
-    background-repeat:no-repeat;*/
     
-    @include step1(max){
+    @include step1(max) {
         display: block;
     }
 
-    .hl-target__col{
+    .hl-target__col {
         width: 50%;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         padding: 40px 0;
 
-        @include step1(max){
+        @include step1(max) {
             width: 100%;
             justify-content: center;
         }
 
-        &:last-child{
+        &:last-child {
             justify-content: flex-start;
 
-            @include step1(max){
+            @include step1(max) {
                 justify-content: center;
             }
         }
 
-        .hl-target__header{
+        .hl-target__header {
             width: 330px;
             line-height: 1.2;
             margin-left: 15%;
 
-            @include step1(max){
+            @include step1(max) {
                 margin: 0;
                 text-align: center;
                 width: 60%;
             }
 
-            h1.hl-target__headline{
+            h1.hl-target__headline {
                 font-size: 48px;
                 padding-bottom: 30px;
                 opacity: 0.95;
             }
 
-            p.hl-target__desc{
+            p.hl-target__desc {
                 font-size: 18px;
                 line-height: 1.95;
                 padding-bottom: 15px;
@@ -194,20 +459,20 @@
             
         }
 
-        .hl-target__small-business-icon{ 
+        .hl-target__small-business-icon { 
             width: 220px;
             opacity: .9;
             margin-right: 15%;
 
-            @include step1(max){
+            @include step1(max) {
                 margin: 0;
             }
 
-            @include step3{
+            @include step3 {
                 width: 180px;
             }
 
-            img{
+            img[alt] {
                 width: 100%;
          
             }
@@ -216,7 +481,7 @@
 }
 
 
-#hl-more.hl-more__container{
+#hl-more.hl-more__container {
     width: 100%;
     background-color: getColor(row-header-bg);
     text-align: center;
@@ -225,11 +490,11 @@
     display: block;
     overflow: auto;
 
-    p.hl-more__desc{  
+    p.hl-more__desc {  
         margin-bottom: 25px;
     }
 
-    a.hl-more__link{
+    a.hl-more__link {
         text-decoration: none;
         border: 2px solid getColor(row-names-fg);
         background-color: getColor(row-names-fg);
@@ -238,11 +503,17 @@
         color: white;
         cursor: pointer;
         display: inline-block;
+        transition: all .4s ease 0s;    
+            
+        &:hover {
+            background-color: lighten(getColor(noti-blue), 13%);
+            border-color: lighten(getColor(noti-blue), 13%);
+        }
     }
 }
 
 
-footer.footer__landing-footer{
+footer.footer__landing-footer {
     width: 100%;
     background-color: getColor(noti-blue);
     display: flex;  
@@ -251,41 +522,45 @@ footer.footer__landing-footer{
     padding: 70px 0;
     box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
 
-    @include step2{
+    @include step2 {
         display: block;
         text-align: center;
     }
 
-    .footer__col{
+    .footer__col {
         width: 30%;
         display: flex;
         align-items: center;
         justify-content: center;
 
-        @include step1(max){
+        @include step1(max) {
             width: 40%;
         }
 
-        @include step2{
+        @include step2 {
             width: 100%;
         }
 
-        .footer__nav{
+        .footer__nav {
             font-size: 18px;
             
-            ul{         
+            ul {         
                 list-style-type: none;
-                li{
+                li {
                     padding: 10px 0;
     
-                    a{
+                    a {
                         text-decoration: none;
                         color: inherit;
+                        border-bottom: 1px solid rgba(255, 255, 255, 0);
+                        transition: border 300ms ease 0s;   
+
+                        &:hover {                 
+                            border-bottom: 1px solid rgba(255, 255, 255, 1);
+                        }
                     }
                 }
             }
-        }
-  
-        
+        }  
     }
 }

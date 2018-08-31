@@ -51,7 +51,6 @@ $(document).ready(function() {
 
     var open = false;
     var height = 0;
-
     $('.nav__toggle').on('click', function(e) {
         open = !open;
         $(this).toggleClass('nav__toggle--open');
@@ -63,6 +62,30 @@ $(document).ready(function() {
         } else {      
             closeNavDropdown($('.header__nav-dropdown'), height);
         }  
+    });
+
+    $('.company-register__input').on(
+        "webkitAnimationEnd oanimationend msAnimationEnd animationend",
+        function() {
+            $(this).removeClass("company-register__input--error");
+        }
+    );
+
+
+    $('.company-register__input').on('input', function() {
+        $(this).parent().removeClass('company-register__input--error-text');
+    });
+
+
+    $('.company-register__submit').on('click', function() {
+        var inputVal = $('.company-register__input').val();
+        if (inputVal.trim() === "") {
+            $('.company-register__input').addClass('company-register__input--error');
+            $('.company-register__input').parent().addClass('company-register__input--error-text');
+            return false;
+        } 
+
+        return true;
     });
 });
 

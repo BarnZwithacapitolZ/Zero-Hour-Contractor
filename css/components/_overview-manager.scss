@@ -59,6 +59,8 @@
         font-size: getFontSize(overview-default) - 5px;
     }
 
+    
+
     &.today{     
         &::before{
             box-shadow: -15px 0 15px -15px #bbb inset;
@@ -69,16 +71,20 @@
             position: absolute;
             width: 15px;
         }
-        
-        &::after{
-            box-shadow: 15px 0 15px -15px #bbb inset;
-            content: " ";
-            height: 100%;
-            position: absolute;
-            top: 0;
-            right: -15px;
-            width: 15px;
-        }
+    }
+
+    &:nth-last-child(n+2) {     
+        &.today {
+            &::after{
+                box-shadow: 15px 0 15px -15px #bbb inset;
+                content: " ";
+                height: 100%;
+                position: absolute;
+                top: 0;
+                right: -15px;
+                width: 15px;
+            }
+        }    
     }
 
     .cell-content{
@@ -166,8 +172,9 @@
 
     &.button{
         &:nth-child(even){
-            /* Side border so that content doesn't overlap display width */
-            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border);
+            /* Side border so that content doesn't overlap display width 
+            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border); */
+            outline: 1px solid getColor(overview-border);
         }
         
         &:hover{

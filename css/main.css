@@ -314,7 +314,7 @@ header#header__overview-header .header-contents span:nth-child(1):hover, header#
   width: 15px;
 }
 
-.table-cell.today::after {
+.table-cell:nth-last-child(n+2).today::after {
   -webkit-box-shadow: 15px 0 15px -15px #bbb inset;
           box-shadow: 15px 0 15px -15px #bbb inset;
   content: " ";
@@ -425,9 +425,9 @@ header#header__overview-header .header-contents span:nth-child(1):hover, header#
 }
 
 .table-cell.button:nth-child(even) {
-  /* Side border so that content doesn't overlap display width */
-  -webkit-box-shadow: -1px 0 0 #ddd, 1px 0 0 #ddd;
-          box-shadow: -1px 0 0 #ddd, 1px 0 0 #ddd;
+  /* Side border so that content doesn't overlap display width 
+            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border); */
+  outline: 1px solid #ddd;
 }
 
 .table-cell.button:hover {
@@ -473,7 +473,6 @@ header#header__overview-header .header-contents span:nth-child(1):hover, header#
   left: 0;
   -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
           box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  border: 1px solid #ddd;
   overflow: hidden;
   cursor: default;
   display: none;

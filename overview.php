@@ -8,7 +8,7 @@
 
     $dbh = new Dbh();
 
-    $week = "this";
+    $week = "-3";
     $days = 7;
 ?>
 
@@ -130,7 +130,9 @@
 
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
-                    <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>"></div>
+                    <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
+                        <div class="cell-content"></div>
+                    </div>
                     <?php
                             }
                         }

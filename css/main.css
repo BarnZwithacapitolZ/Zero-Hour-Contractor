@@ -388,7 +388,7 @@ header#header__overview-header .header-contents span:nth-child(1):hover, header#
 }
 
 .table-cell .cell-content.first {
-  /*border-right: 1px solid getColor(overview-border);*/
+  border-right: 1px solid #ddd;
   color: #006bb2;
   overflow-wrap: break-word;
 }
@@ -424,10 +424,8 @@ header#header__overview-header .header-contents span:nth-child(1):hover, header#
   font-weight: bold;
 }
 
-.table-cell.button:nth-child(even) {
-  /* Side border so that content doesn't overlap display width 
-            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border); */
-  outline: 1px solid #ddd;
+.table-cell.button:nth-last-child(n+2) .cell-content {
+  border-right: 1px solid #ddd;
 }
 
 .table-cell.button:hover {

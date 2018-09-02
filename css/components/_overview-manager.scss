@@ -59,8 +59,6 @@
         font-size: getFontSize(overview-default) - 5px;
     }
 
-    
-
     &.today{     
         &::before{
             box-shadow: -15px 0 15px -15px #bbb inset;
@@ -137,7 +135,7 @@
         }
 
         &.first{
-            /*border-right: 1px solid getColor(overview-border);*/
+            border-right: 1px solid getColor(overview-border);
             color: getColor(row-names-fg);
             overflow-wrap: break-word;
 
@@ -170,12 +168,12 @@
         font-weight: bold;
     }
 
-    &.button{
-        &:nth-child(even){
-            /* Side border so that content doesn't overlap display width 
-            box-shadow: -1px 0 0 getColor(overview-border), 1px 0 0 getColor(overview-border); */
-            outline: 1px solid getColor(overview-border);
-        }
+    &.button{     
+        &:nth-last-child(n+2) {
+            .cell-content {
+                border-right: 1px solid getColor(overview-border); 
+            }
+        }  
         
         &:hover{
             box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
@@ -186,8 +184,7 @@
 
         &.empty:hover{
             background-color: getColor(hover-red);
-        }
-        
+        }        
     }
 }
 

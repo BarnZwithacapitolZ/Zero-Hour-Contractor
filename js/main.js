@@ -1,6 +1,9 @@
 var openElem = [];
+var docLoaded = false;
 
-$(document).ready(function() {   
+$(document).ready(function() {  
+    docLoaded = true;
+    
     var ancher = $('.first');
 
     // Make the animation for banner only appear after load (to prevent unloaded content)
@@ -16,10 +19,9 @@ $(document).ready(function() {
         rowHover(target, 'transparent', 'inherit');
     });
 
-    var button = $('.more-dropdown');
-    button.on('click', function(e) {
+    $('.more-dropdown').on('click', function(e) {
         var target = $(this).parent().find('.more-info-tile');   
-        openHourDropdown($(this), target);
+        openHourDropdown(target);
     });
 
     $('.more-info-button.return').on('click', function(e) {
@@ -43,8 +45,7 @@ $(document).ready(function() {
 
         if (open) {
             height = openNavDropdown($('.header__nav-dropdown'));
-            e.preventDefault(); // Stop selecting elements
-            
+            e.preventDefault(); // Stop selecting elements          
         } else {      
             closeNavDropdown($('.header__nav-dropdown'), height);
         }  
@@ -61,7 +62,6 @@ $(document).ready(function() {
         $(this).parent().removeClass('company-register__input--error-text');
     });
 
-
     $('.company-register__submit').on('click', function() {
         var inputVal = $('.company-register__input').val();
         if (inputVal.trim() === "") {
@@ -69,7 +69,6 @@ $(document).ready(function() {
             $('.company-register__input').parent().addClass('company-register__input--error-text');
             return false;
         } 
-
         return true;
     });
 });
@@ -114,15 +113,15 @@ function rowHover(target, bg, shadow) {
     }
 }
 
-function openHourDropdown(self, target) {
+function openHourDropdown(target) {
     if (openElem.length >= 1) {
         closeHourDropdown(openElem[0], 250);   
     }
+    
+    var tileWidth = target.parent().width(); // Set it to the width of the tile
+    var location = target.parent().position().left;
 
-    var elemWidth = self.parent().width();    
-    var location = self.parent().position().left;
-
-    target.css('width', elemWidth);
+    target.css('width', tileWidth); // Set width of elem to width of tile, if greater then min width
 
     if ((location + target.width()) > $(document).width() - 5) { // 5 as offset for scrollbar
         var difference = (location + target.width()) - ($(document).width() - 5);
@@ -132,10 +131,12 @@ function openHourDropdown(self, target) {
     }
 
     target.css('display', 'block');
-    self.parent().find('.notification-bubble').css('display', 'none');
+    target.parent().find('.notification-bubble').css('display', 'none');
     target.animate({
         height: target.get(0).scrollHeight
-     }, 420);
+     }, 420, function() {
+        target.css('height', 'auto');
+     });
      openElem.push(target); // know that dropdown is open
 }
 
@@ -184,8 +185,11 @@ function checkAnimation(elem, elemToAnim) {
 
 // Capture scroll events
 $(window).scroll(function(){
-    checkAnimation('.hl-about__col', 'hl-about__col--animation');
-    checkAnimation('.hl-target__col', 'hl-target__col--animation');
-    checkAnimation('.hl-more__container', 'hl-more__container--animation');
+    if (docLoaded) { // Only load the elements when the document is loaded
+        checkAnimation('.hl-about__col', 'hl-about__col--animation');
+        checkAnimation('.hl-target__col', 'hl-target__col--animation');
+        checkAnimation('.hl-more__container', 'hl-more__container--animation'); 
+    }
+    
     showScrollToggle();
 });

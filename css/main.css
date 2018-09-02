@@ -582,12 +582,6 @@ header#header__landing-header .nav__login {
   background-color: transparent;
   -webkit-transition: 0.3s;
   transition: 0.3s;
-  /*position: relative;
-        background-image: linear-gradient(getColor(row-names-fg), getColor(row-names-fg));
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: 0% 100%;
-        transition: background-size .4s, color .4s;*/
 }
 
 header#header__landing-header .nav__login:hover {
@@ -1078,7 +1072,6 @@ header#header__landing-header nav.header__nav-dropdown ul li a {
 }
 
 #hl-about.hl-about__container .hl-about__row {
-  /*width: 60%; */
   max-width: 1000px;
   margin: 60px 100px;
   text-align: center;
@@ -1105,6 +1098,7 @@ header#header__landing-header nav.header__nav-dropdown ul li a {
 }
 
 #hl-about.hl-about__container .hl-about__row .hl-about__col.hl-about__col--animation {
+  /* Animate each of the tiles */
   opacity: 1;
 }
 

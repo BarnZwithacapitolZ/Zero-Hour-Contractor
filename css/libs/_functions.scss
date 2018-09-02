@@ -1,13 +1,12 @@
-
-@function getFontSize($var){
+@function getFontSize($var) {
     @return map-get($fontSizes, $var);
 }
 
-@function getElemSize($var){
+@function getElemSize($var) {
     @return map-get($elementSizes, $var);
 }
 
-@function getColor($var){
+@function getColor($var) {
     @return map-get($palette, $var);
 }
 
@@ -26,7 +25,6 @@ $step-4: 280px;
             @content;
         }
     }
-    
 }
 
 @mixin step2{
@@ -35,20 +33,17 @@ $step-4: 280px;
     }
 }
 
-
 @mixin step3{
     @media (max-width: #{$step-3}){
         @content;
     }
 }
 
-
 @mixin step4 {
     @media (max-width: #{$step-4}){
         @content;
     }
 }
-
 
 @mixin keyframes($animation-name) {
     @-webkit-keyframes #{$animation-name} {
@@ -74,9 +69,39 @@ $step-4: 280px;
     -ms-animation: #{$params};
     -o-animation: #{$params};
     animation: #{$params};      
-  }
+}
 
-@keyframes shake {
+@mixin fadeY__loader($name, $y, $duration) {
+    @include keyframes(#{$name}) {
+        0% {
+            transform: translateY(#{$y});
+            opacity: 0;
+        }
+    
+        90% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    @include animation('#{$name} #{$duration}');
+}
+
+@mixin fadeX__loader($name, $x, $duration) {
+    @include keyframes(#{$name}) {
+        0% {
+            transform: translateX(#{$x});
+            opacity: 0;
+        }
+    
+        90% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    @include animation('#{$name} #{$duration}');
+}
+
+@include keyframes(shake) {
     10%, 90% {
       transform: translate(-2px, 0);
     }
@@ -95,27 +120,14 @@ $step-4: 280px;
 }
 
 
-@include keyframes(fade-in-up) {
-    from {
-        transform: translate(0, 150px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translate(0, 0);
-        opacity: 1;
-    }
-}
-
-@keyframes fade-in-up-slow {
-    
+@include keyframes(fade-in) {
     0% {
-        transform: translate(0, 200px);
+        transform: translateY(25px);
         opacity: 0;
     }
 
     90% {
-        transform: translate(0, 0);
+        transform: translateY(0);
         opacity: 1;
     }
 }

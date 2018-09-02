@@ -3,6 +3,9 @@ var openElem = [];
 $(document).ready(function() {   
     var ancher = $('.first');
 
+    // Make the animation for banner only appear after load (to prevent unloaded content)
+    $('.hl-banner__container').addClass('hl-banner__container--animation');
+
     ancher.on('mouseover', function(e) {
         var target = $(this).parent().parent();
         rowHover(target, '#cce6ff', 'inset 0 3px 5px rgba(0,0,0,.125)'); 
@@ -25,29 +28,12 @@ $(document).ready(function() {
 
 
     // For button
-    var button = $('.scrollToTop');
+    var button = $('.scroll-to-top');
     button.on('click', function(e){
 		$('html, body').animate({scrollTop: 0}, 500);
 		e.preventDefault();
     });
-    
-    $(window).on('scroll', function(){
-		var self = $(this),
-			height = 250,
-			top = self.scrollTop();
-		displayTop = top;	
-			
-		if (displayTop > height){		
-			if (!button.is(':visible')){
-				button.css('bottom', '0%');
-				button.show();
-				button.animate({bottom: '5%'}, 300);
-			}			
-		} else{		
-			button.fadeOut();
-		}	
-    });	
-    
+     
 
     var open = false;
     var height = 0;
@@ -70,7 +56,6 @@ $(document).ready(function() {
             $(this).removeClass("company-register__input--error");
         }
     );
-
 
     $('.company-register__input').on('input', function() {
         $(this).parent().removeClass('company-register__input--error-text');
@@ -163,3 +148,44 @@ function closeHourDropdown(target, speed) {
     });
     openElem.pop(); // know that dropdown is closed
 }
+
+
+function showScrollToggle() {
+    var self = $(this),
+		height = 250,
+        top = self.scrollTop(),
+        button = $('.scroll-to-top');
+    displayTop = top;	
+			
+	if (displayTop > height){		
+		if (!button.is(':visible')){
+			button.css('bottom', '0%');
+			button.show();
+			button.animate({bottom: '5%'}, 300);
+		}			
+	} else{		
+		button.fadeOut();
+	}	
+}
+
+
+function checkAnimation(elem, elemToAnim) {
+    var elem = $(elem);
+
+    elem.each(function() {
+        var elemBottom = $(this).offset().top + ($(this).outerHeight() / 2);
+        var bottomWindow = $(window).scrollTop() + $(window).height();
+
+        if (bottomWindow > elemBottom) {
+            $(this).addClass(elemToAnim);
+        }
+    });
+}
+
+// Capture scroll events
+$(window).scroll(function(){
+    checkAnimation('.hl-about__col', 'hl-about__col--animation');
+    checkAnimation('.hl-target__col', 'hl-target__col--animation');
+    checkAnimation('.hl-more__container', 'hl-more__container--animation');
+    showScrollToggle();
+});

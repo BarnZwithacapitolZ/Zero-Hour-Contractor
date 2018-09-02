@@ -202,10 +202,29 @@ header#header__landing-header {
     color: #333333;
     padding-top: 100px;
     padding-bottom: 250px;
+    position: relative;
+    z-index: 1;
     background-image: url("../media/img/photo/test.png");
-	background-position:center;
-	background-size:cover;
-	background-repeat:no-repeat;
+    background-position:center;
+    background-size:cover;
+    background-repeat:no-repeat;
+    opacity: 0;
+    
+    &.hl-banner__container--animation {  
+        @include fadeY__loader(banner-animation__first, 125px, $fadeUpSpeed);
+
+        h1.hl-banner__headline {
+            @include animation('banner-animation__first #{$fadeUpSpeed}');
+        }
+        p.hl-banner__subheading {
+            @include fadeY__loader(banner-animation__second, 115px, $fadeUpSpeed);
+        }
+        .hl-banner__company-register {
+            @include fadeY__loader(banner-animation__third, 100px, $fadeUpSpeed);
+        }
+
+        opacity: 1;
+    }
 
     .hl-banner__header {       
         width: 45%;
@@ -220,9 +239,7 @@ header#header__landing-header {
             font-weight: 600;
             line-height: 1.2;
             margin-bottom: 30px;
-            position: relative;
-            animation: fade-in-up-slow 1.8s;
-
+            
             @include step3{
                 font-size: 32px;
             }
@@ -231,8 +248,6 @@ header#header__landing-header {
         p.hl-banner__subheading {
             margin-bottom: 50px;
             font-size: 18px;
-            position: relative;
-            @include animation('fade-in-up 2s');
         }
     }
 
@@ -298,11 +313,10 @@ header#header__landing-header {
             font-size: 16px;
             margin: 7.5px;
             position: relative;
-            @include animation('fade-in-up 2s');
-
+        
             &.company-register__input--error {
                 border-color: getColor(hover-red);
-                animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+                @include animation('shake 0.82s cubic-bezier(.36,.07,.19,.97) both');
                 transform: translate(0, 0, 0);
                 backface-visibility: hidden;
                 perspective: 1000px;       
@@ -328,8 +342,6 @@ header#header__landing-header {
             cursor: pointer;
             margin: 7.5px;  
             transition: all .4s ease 0s;    
-            position: relative;
-            @include animation('fade-in-up 2s');
             
             &:hover {
                 background-color: lighten(getColor(noti-blue), 13%);
@@ -349,6 +361,8 @@ header#header__landing-header {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    z-index: 2;
 
     .hl-about__row {
         /*width: 60%; */
@@ -370,6 +384,30 @@ header#header__landing-header {
             position: relative;
             transition: all .4s ease 0s;
             top: 0;
+            opacity: 0;
+
+            &.hl-about__col--animation {
+                &:nth-child(1) {
+                    @include fadeX__loader(about-animation__first, 200px, $fadeUpSpeed);
+                }
+                &:nth-child(2) {
+                    @include fadeX__loader(about-animation__second, 150px, $fadeUpSpeed);
+                }
+                &:nth-child(3) {
+                    @include fadeX__loader(about-animation__third, 100px, $fadeUpSpeed);
+                }
+                &:nth-child(4) {
+                    @include fadeX__loader(about-animation__fourth, -100px, $fadeUpSpeed);
+                }
+                &:nth-child(5) {
+                    @include fadeX__loader(about-animation__thifth, -150px, $fadeUpSpeed);
+                }
+                &:nth-child(6) {
+                    @include fadeX__loader(about-animation__sixth, -200px, $fadeUpSpeed);
+                }
+                                          
+                opacity: 1;
+            }
 
             &:hover {
                 top: -10px;            
@@ -419,6 +457,27 @@ header#header__landing-header {
         align-items: center;
         justify-content: flex-end;
         padding: 40px 0;
+        opacity: 0;
+
+        &.hl-target__col--animation {
+            &:first-child {
+                @include fadeX__loader(target-animation__left, -200px, $fadeUpSpeed); 
+            }
+
+            h1.hl-target__headline {
+                @include fadeY__loader(target-animation__first, 150px, $fadeUpSpeed);
+            }
+
+            p.hl-target__desc {
+                @include fadeY__loader(target-animation__second, 125px, $fadeUpSpeed); 
+
+                &:last-child {
+                    @include fadeY__loader(target-animation__third, 100px, $fadeUpSpeed);
+                }
+            }
+            
+            opacity: 1;
+        }
 
         @include step1(max) {
             width: 100%;
@@ -455,8 +514,7 @@ header#header__landing-header {
                 line-height: 1.95;
                 padding-bottom: 15px;
                 opacity: 0.85;
-            }
-            
+            }       
         }
 
         .hl-target__small-business-icon { 
@@ -489,6 +547,18 @@ header#header__landing-header {
     font-size: 18px;
     display: block;
     overflow: auto;
+    opacity: 0;
+
+    &.hl-more__container--animation {
+        p.hl-more__desc {
+            @include animation('fade-in 1.2s');
+        }
+
+        a.hl-more__link {
+            @include animation('fade-in 2s');
+        }
+        opacity: 1;
+    }
 
     p.hl-more__desc {  
         margin-bottom: 25px;

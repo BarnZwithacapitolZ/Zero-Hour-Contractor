@@ -78,7 +78,7 @@ button:focus {
     height: 160px;
 }
 
-.scrollToTop{
+.scroll-to-top{
 	background-color: getColor(side-nav-bg);
 	width: 37.5px;
 	height: 37.5px;
@@ -91,11 +91,11 @@ button:focus {
     border-radius: 4px;
 	display: none;
 }
-.scrollToTop:hover{
+.scroll-to-top:hover{
 	background-color: getColor(side-nav-hover);
 }
 
-.scrollToTop span{
+.scroll-to-top span{
 	width: 100%;
 	height: 100%;
 	display: flex;

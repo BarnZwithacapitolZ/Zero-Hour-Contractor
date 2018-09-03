@@ -6,19 +6,12 @@
 @import "libs/vars";
 @import "libs/functions";
 
-
 /* Components */
-
 @import "components/reset";
-@import "components/header";
-@import "components/side-nav";
-@import "components/overview-manager";
-@import "components/tile-dropdown";
+@import "components/main-banner";
 @import "components/scroll-to-top";
 
 
-
-/* width */
 ::-webkit-scrollbar {
     width: 5px;
 }
@@ -35,17 +28,3 @@
 }
 
 
-
-.notification-bubble {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #ff6666;
-    color: white;
-    top: 5px;
-    right: 7px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 20px;
-    border-radius: 30px;
-}

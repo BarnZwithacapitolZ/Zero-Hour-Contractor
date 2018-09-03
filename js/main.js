@@ -3,12 +3,11 @@ var docLoaded = false;
 
 $(document).ready(function() {  
     docLoaded = true;
-    
-    var ancher = $('.first');
 
     // Make the animation for banner only appear after load (to prevent unloaded content)
     $('.hl-banner__container').addClass('hl-banner__container--animation');
-
+    
+    var ancher = $('.first');
     ancher.on('mouseover', function(e) {
         var target = $(this).parent().parent();
         rowHover(target, '#cce6ff', 'inset 0 3px 5px rgba(0,0,0,.125)'); 
@@ -29,9 +28,8 @@ $(document).ready(function() {
     });
 
 
-    // For button
-    var button = $('.scroll-to-top');
-    button.on('click', function(e){
+    // For Scroll up
+    $('.scroll-to-top').on('click', function(e){
 		$('html, body').animate({scrollTop: 0}, 500);
 		e.preventDefault();
     });
@@ -123,8 +121,8 @@ function openHourDropdown(target) {
 
     target.css('width', tileWidth); // Set width of elem to width of tile, if greater then min width
 
-    if ((location + target.width()) > $(document).width() - 5) { // 5 as offset for scrollbar
-        var difference = (location + target.width()) - ($(document).width() - 5);
+    if ((location + target.width()) > $(document).width() - 1) { // 5 as offset for scrollbar
+        var difference = (location + target.width()) - ($(document).width() - 1);
         target.css('left', -difference);
     } else {
         target.css('left', '0');

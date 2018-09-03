@@ -1,0 +1,28 @@
+.scroll-to-top {
+	background-color: getColor(side-nav-bg);
+	width: 37.5px;
+	height: 37.5px;
+	position: fixed;
+	bottom: 0%;
+	right: 40px;
+	z-index: 2;
+	cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+    display: none;
+    
+    &:hover {
+        background-color: getColor(side-nav-hover);
+    }
+
+    span {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        letter-spacing: 1.25px;
+        font-size: 12.5px;
+    }
+}

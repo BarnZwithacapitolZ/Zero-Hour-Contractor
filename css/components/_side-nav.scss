@@ -3,7 +3,7 @@
     width: getElemSize(side-nav);
     float: left;
     background-color: getColor(side-nav-bg);
-    overflow: hidden;
+    
     position: fixed;
     top: 0;
     z-index: 10;
@@ -33,12 +33,12 @@
                 }
             }
             
-            .icon{
-            width: getElemSize(side-nav);
-            height: getElemSize(side-nav);
-            padding: 8px 0;
-            position: relative;
-            transition: .3s;
+            .icon {
+                width: getElemSize(side-nav);
+                height: getElemSize(side-nav);
+                padding: 8px 0;
+                position: relative;
+                transition: .3s;
 
                 @include step2{
                     padding: 0;
@@ -49,9 +49,9 @@
                 @include step4{
                     width: 40px;
                     height: 40px;
-                }
+                }          
 
-                /*.last{
+                &.last{
                     position: absolute;
                     bottom: 0;
 
@@ -59,7 +59,7 @@
                         right: 0;
                         bottom: auto;
                     }
-                }*/
+                }
 
                 img{
                     width: 40%;
@@ -86,6 +86,72 @@
                             border-left: none;
                             border-top: 2px solid getColor(side-nav-fg);
                         }
+                    }
+                }
+            }
+
+            .icon[data-tool-tip] {
+                display: flex;
+                align-items: center;
+                &::before {
+                    content: attr(data-tool-tip);
+                    display: block;
+                    position: absolute;
+                    left: 0;
+                    background-color: getColor(side-nav-bg);
+                    color: white;
+                    transform: scale(0);
+                    padding: 7px;
+                    white-space: nowrap;
+                    font-size: 13px;
+                    transition: transform ease-out 115ms,
+                            left ease-out 115ms;
+
+                    @include step2 {
+                        top: 70px;
+                    }
+                }
+
+                &:hover::before {
+                    transform: scale(1);
+                    left: 100px;
+
+                    @include step2 {
+                        left: 0;
+                    }
+                }
+
+                &::after {
+                    content: " ";
+                    display: block;
+                    position: absolute;
+                    width: 0;
+                    height: 0;
+                    left: 0;
+                    border-style: solid;
+                    border-width: 8px 10px 8px;
+                    border-color: transparent getColor(side-nav-bg) transparent transparent;
+                    transform: scale(0);
+                    transition: transform ease-out 115ms,
+                            left ease-out 115ms;
+
+                    @include step2 {
+                        border-width: 0 8px 10px 8px;
+                        border-color: transparent transparent getColor(side-nav-bg) transparent;
+                        top: 60px;
+                    }
+                }
+
+                &:hover::after {
+                    transform: scale(1);
+                    left: 81px;
+
+                    @include step2 {
+                        left: 20px;
+                    }
+
+                    @include step4 {
+                        left: 10px;
                     }
                 }
             }

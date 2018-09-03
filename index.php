@@ -1,5 +1,6 @@
 <?php
     $title = "Zhc | Gain Contract Control";
+    $stylesheet = "landing";
 
     date_default_timezone_set('Europe/London');
     require_once "includes/header.inc.php";

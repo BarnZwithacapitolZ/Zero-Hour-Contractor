@@ -226,7 +226,7 @@ header#header__landing-header .nav__link:hover {
   border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }
 
-header#header__landing-header nav.header__nav {
+header#header__landing-header nav.landing-header__nav {
   width: 100%;
   margin: auto;
   -webkit-box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.2);
@@ -235,7 +235,7 @@ header#header__landing-header nav.header__nav {
   z-index: 3;
 }
 
-header#header__landing-header nav.header__nav ul {
+header#header__landing-header nav.landing-header__nav ul {
   padding: 15px 0;
   width: 95%;
   height: 100%;
@@ -249,56 +249,56 @@ header#header__landing-header nav.header__nav ul {
           align-items: center;
 }
 
-header#header__landing-header nav.header__nav ul li:first-child {
+header#header__landing-header nav.landing-header__nav ul li:first-child {
   float: left;
 }
 
 @media (max-width: 650px) {
-  header#header__landing-header nav.header__nav ul li:first-child {
+  header#header__landing-header nav.landing-header__nav ul li:first-child {
     margin-left: 10px;
   }
 }
 
-header#header__landing-header nav.header__nav ul li:first-child img[alt] {
+header#header__landing-header nav.landing-header__nav ul li:first-child img[alt] {
   height: 60px;
   width: auto;
 }
 
 @media (max-width: 480px) {
-  header#header__landing-header nav.header__nav ul li:first-child img[alt] {
+  header#header__landing-header nav.landing-header__nav ul li:first-child img[alt] {
     height: 40px;
   }
 }
 
 @media (max-width: 280px) {
-  header#header__landing-header nav.header__nav ul li:first-child img[alt] {
+  header#header__landing-header nav.landing-header__nav ul li:first-child img[alt] {
     height: 30px;
   }
 }
 
-header#header__landing-header nav.header__nav ul li:first-child a {
+header#header__landing-header nav.landing-header__nav ul li:first-child a {
   display: block;
 }
 
-header#header__landing-header nav.header__nav ul li:nth-child(2) {
+header#header__landing-header nav.landing-header__nav ul li:nth-child(2) {
   margin-left: auto;
 }
 
-header#header__landing-header nav.header__nav ul li:nth-child(n+2) {
+header#header__landing-header nav.landing-header__nav ul li:nth-child(n+2) {
   margin-right: 20px;
 }
 
-header#header__landing-header nav.header__nav ul li:nth-child(n+2) a {
+header#header__landing-header nav.landing-header__nav ul li:nth-child(n+2) a {
   text-decoration: none;
 }
 
 @media (max-width: 1040px) {
-  header#header__landing-header nav.header__nav ul li:nth-child(n+2) {
+  header#header__landing-header nav.landing-header__nav ul li:nth-child(n+2) {
     display: none;
   }
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle {
   display: none;
   margin-left: auto;
   width: 26px;
@@ -307,29 +307,29 @@ header#header__landing-header nav.header__nav ul li.nav__toggle {
   cursor: pointer;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle span {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle span {
   display: block;
   height: 2px;
   background-color: black;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle.nav__toggle--open span {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle.nav__toggle--open span {
   display: none;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle.nav__toggle--open::before {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle.nav__toggle--open::before {
   -webkit-transform: rotate(-45deg);
           transform: rotate(-45deg);
   top: 5.8px;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle.nav__toggle--open::after {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle.nav__toggle--open::after {
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
   bottom: 5.8px;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle::before, header#header__landing-header nav.header__nav ul li.nav__toggle::after {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle::before, header#header__landing-header nav.landing-header__nav ul li.nav__toggle::after {
   content: '';
   background-color: black;
   width: inherit;
@@ -340,21 +340,21 @@ header#header__landing-header nav.header__nav ul li.nav__toggle::before, header#
   transition: .3s;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle::before {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle::before {
   top: 0;
 }
 
-header#header__landing-header nav.header__nav ul li.nav__toggle::after {
+header#header__landing-header nav.landing-header__nav ul li.nav__toggle::after {
   bottom: 0;
 }
 
 @media (max-width: 1040px) {
-  header#header__landing-header nav.header__nav ul li.nav__toggle {
+  header#header__landing-header nav.landing-header__nav ul li.nav__toggle {
     display: block;
   }
 }
 
-header#header__landing-header nav.header__nav-dropdown {
+header#header__landing-header nav.landing-header__nav-dropdown {
   display: none;
   height: 0;
   background-color: white;
@@ -376,13 +376,13 @@ header#header__landing-header nav.header__nav-dropdown {
 }
 
 @media (min-width: 1040px) {
-  header#header__landing-header nav.header__nav-dropdown {
+  header#header__landing-header nav.landing-header__nav-dropdown {
     display: none !important;
     /*Override Javascript */
   }
 }
 
-header#header__landing-header nav.header__nav-dropdown ul {
+header#header__landing-header nav.landing-header__nav-dropdown ul {
   width: 60%;
   margin: auto;
   list-style-type: none;
@@ -390,7 +390,7 @@ header#header__landing-header nav.header__nav-dropdown ul {
   padding: 20px 0;
 }
 
-header#header__landing-header nav.header__nav-dropdown ul li {
+header#header__landing-header nav.landing-header__nav-dropdown ul li {
   position: relative;
   top: -50px;
   padding: 20px 0;
@@ -399,12 +399,12 @@ header#header__landing-header nav.header__nav-dropdown ul li {
 }
 
 @media (max-width: 480px) {
-  header#header__landing-header nav.header__nav-dropdown ul li {
+  header#header__landing-header nav.landing-header__nav-dropdown ul li {
     display: block;
   }
 }
 
-header#header__landing-header nav.header__nav-dropdown ul li a {
+header#header__landing-header nav.landing-header__nav-dropdown ul li a {
   text-decoration: none;
   color: inherit;
 }

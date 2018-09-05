@@ -1,9 +1,8 @@
-#side-navigation{
+#side-nav.side-nav__container{
     height: 100%;
     width: getElemSize(side-nav);
     float: left;
-    background-color: getColor(side-nav-bg);
-    
+    background-color: getColor(side-nav-bg); 
     position: fixed;
     top: 0;
     z-index: 10;
@@ -19,21 +18,21 @@
         height: 40px;
     }
 
-    ul{
+    nav.side-nav__nav {
         list-style-type: none;
         position: relative;
         height: 100%;
         margin: 0;
         padding: 0;
     
-        &.icon-list {
+        ul{
             li{
                 @include step2{
                     float: left;
                 }
             }
             
-            .icon {
+            .nav__icon {
                 width: getElemSize(side-nav);
                 height: getElemSize(side-nav);
                 padding: 8px 0;
@@ -51,7 +50,7 @@
                     height: 40px;
                 }          
 
-                &.last{
+                &.nav__icon--last{
                     position: absolute;
                     bottom: 0;
 
@@ -76,7 +75,7 @@
                     }
                 }
 
-                &.link{
+                &.nav__icon--link{
                     &:nth-child(n+2):hover{
                         border-left: 3.2px solid getColor(side-nav-fg);
                         transition: .3s;
@@ -90,7 +89,7 @@
                 }
             }
 
-            .icon[data-tool-tip] {
+            .nav__icon[data-tool-tip] {
                 display: flex;
                 align-items: center;
                 &::before {

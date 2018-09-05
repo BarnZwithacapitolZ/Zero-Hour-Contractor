@@ -7,7 +7,7 @@ $(document).ready(function() {
     // Make the animation for banner only appear after load (to prevent unloaded content)
     $('.hl-banner__container').addClass('hl-banner__container--animation');
     
-    var ancher = $('.first');
+    var ancher = $('.cell__content--first');
     ancher.on('mouseover', function(e) {
         var target = $(this).parent().parent();
         rowHover(target, '#cce6ff', 'inset 0 3px 5px rgba(0,0,0,.125)'); 
@@ -18,18 +18,18 @@ $(document).ready(function() {
         rowHover(target, 'transparent', 'inherit');
     });
 
-    $('.more-dropdown').on('click', function(e) {
-        var target = $(this).parent().find('.more-info-tile');   
+    $('.cell__content--dropdown').on('click', function(e) {
+        var target = $(this).parent().find('.cell__dropdown');   
         openHourDropdown(target);
     });
 
-    $('.more-info-button.return').on('click', function(e) {
+    $('.dropdown__button.dropdown__button--return').on('click', function(e) {
         closeHourDropdown($(this).parent(), 420);      
     });
 
 
     // For Scroll up
-    $('.scroll-to-top').on('click', function(e){
+    $('.scroll-to-top').on('click', function(e) {
 		$('html, body').animate({scrollTop: 0}, 500);
 		e.preventDefault();
     });
@@ -42,10 +42,10 @@ $(document).ready(function() {
         $(this).toggleClass('nav__toggle--open');
 
         if (open) {
-            height = openNavDropdown($('.header__nav-dropdown'));
+            height = openNavDropdown($('.landing-header__nav-dropdown'));
             e.preventDefault(); // Stop selecting elements          
         } else {      
-            closeNavDropdown($('.header__nav-dropdown'), height);
+            closeNavDropdown($('.landing-header__nav-dropdown'), height);
         }  
     });
 

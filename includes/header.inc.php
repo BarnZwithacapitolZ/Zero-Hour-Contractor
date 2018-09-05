@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width = device-width, initial-scale = 1">
 		<title><?php echo $title; ?></title>			
 		<!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-		<link rel="stylesheet" type="text/css" href="css/<?php echo $stylesheet; ?>.css?version=58">
+		<link rel="stylesheet" type="text/css" href="css/<?php echo $stylesheet; ?>.css?version=61">
 		<link rel="icon" href="media/img/icons/icon.png">
 	</head>
 	

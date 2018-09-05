@@ -1,5 +1,5 @@
 
-header#header__overview-header{
+header#header__overview-header {
     width: 100%;
     height: getElemSize(header);
     display: inline-block;
@@ -8,7 +8,7 @@ header#header__overview-header{
         display: none;
     }
 
-    .header-contents{
+    nav.overview-header__nav {
         margin-left: getElemSize(side-nav);
         display: flex;
         align-items: center;
@@ -16,12 +16,12 @@ header#header__overview-header{
         height: 100%;
         background-color: getColor(header-bg);
 
-        span{
+        span {
             font-weight: bold;
             font-size: getFontSize(header-default);
             padding: 10px 18px;      
 
-            &:nth-child(1):hover, &:nth-child(3):hover{
+            &:nth-child(1):hover, &:nth-child(3):hover {
                 cursor: pointer;
                 font-size: getFontSize(header-enlarged);
                 transition: .3s;

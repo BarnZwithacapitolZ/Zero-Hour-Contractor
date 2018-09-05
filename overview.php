@@ -9,33 +9,33 @@
 
     $dbh = new Dbh();
 
-    $week = "-3";
+    $week = "-4";
     $days = 7;
 ?>
 
         <header id="header__overview-header">
-            <div class="header-contents">
+            <nav class="overview-header__nav">
                 <span><</span><span>This Week</span><span>></span>
-            </div>
+            </nav>
         </header>
 
         <?php require_once "includes/side-nav.inc.php" ?>
 
-        <div id="overview-manager">
-            <div class="table-overview">
+        <div id="overview-manager" class="overview-manager__container">
+            <div class="overview-manager__table">
                 <!-- Table header for column nams -->
-                <div class="table-row row-header">
-                    <div class="table-cell table-header">
-                        <div class="cell-content"><div class="text-contents"><span>Name</span></div></div>
+                <div class="overview-manager__row overview-manager__row--header">
+                    <div class="overview-manager__cell overview-manager__cell--header">
+                        <div class="cell__content"><div class="cell__text-content"><span>Name</span></div></div>
                     </div>
 
                     <?php
                         for ($i = 0; $i < $days; $i++) {        
                             $date = new DateTime(date('Y-m-d', strtotime('monday ' . $week . ' week') + (($i + 1) * 86300)));              
                     ?>
-                    <div class="table-cell table-header <?php if ($date->format('Y-m-d') == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content">
-                            <div class="text-contents">
+                    <div class="overview-manager__cell overview-manager__cell--header <?php if ($date->format('Y-m-d') == date('Y-m-d')) { echo "overview-manager__cell--today"; }?>">
+                        <div class="cell__content">
+                            <div class="cell__text-content">
                                 <span><?php echo  $date->format('D'); ?></span>
                                 <span class="day"><?php echo $date->format('d'); ?></span>
                             </div>
@@ -52,10 +52,10 @@
                             $employee = new Employee();
                             $employee->setByRow($emp);
                 ?>
-                <div class="table-row">
-                    <div class="table-cell">
-                        <div class="cell-content first">
-                            <div class="text-contents">
+                <div class="overview-manager__row">
+                    <div class="overview-manager__cell">
+                        <div class="cell__content cell__content--first">
+                            <div class="cell__text-content">
                                 <img src="media/img/icons/profile.jpg" class="user-pic" />
                                 <span><?php echo $employee->getName(); ?></span>
                             </div>
@@ -73,9 +73,9 @@
                                     $bookedHours = new HourTile();
                                     $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
                     ?>
-                    <div class="table-cell button <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content more-dropdown">
-                            <div class="text-contents responsive"> 
+                    <div class="overview-manager__cell overview-manager__cell--button <?php if ($date == date('Y-m-d')) { echo "overview-manager__cell--today"; }?>">
+                        <div class="cell__content cell__content--dropdown">
+                            <div class="cell__text-content cell__text-content--responsive"> 
                                 <span>
                                     <img src="media/img/icons/clock.png" alt="Clock time icon" class="img-small" />
                                     <?php echo $bookedHours->getStart(); ?> - <?php echo $bookedHours->getEnd(); ?>
@@ -91,14 +91,14 @@
                             <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
                         <?php } ?>
 
-                        <div class="more-info-tile">
-                            <div class="text-contents index">
+                        <div class="cell__dropdown">
+                            <div class="cell__text-content cell__text-content--index">
                                 <span>
                                     <img src="media/img/icons/user.png" clock="Department icon" class="img-small" />
                                     <?php echo $employee->getName()?>
                                 </span>
                             </div>
-                            <div class="text-contents index">
+                            <div class="cell__text-content cell__text-content--index">
                                 <span>
                                     <img src="media/img/icons/day.png" clock="Department icon" class="img-small" />
                                     <?php echo $bookedHours->getDate()?>
@@ -110,7 +110,7 @@
                                     foreach ($bookResult as $key => $book) { // Only loop through if there is more than 1
                                         $bookedHours->setByRow($book); 
                             ?>
-                            <div class="text-contents index">
+                            <div class="cell__text-content cell__text-content--index">
                                 <span><?php echo "Shift " . ($key + 1) . ": "?></span>
                              </div>
                             <?php
@@ -120,10 +120,10 @@
                                     include "includes/tile-dropdown.inc.php"; 
                                 }  
                             ?>             
-                            <span class="more-info-button add"> <!-- Book more hours onto tile (anchor point) -->
+                            <span class="dropdown__button dropdown__button--add"> <!-- Book more hours onto tile (anchor point) -->
                                 <img src="media/img/icons/plus.png" alt="Add new hours icon" />
                             </span>
-                            <span class="more-info-button return">
+                            <span class="dropdown__button dropdown__button--return">
                                 <img src="media/img/icons/arrow.png" alt="Close dropdown icon" />
                             </span>
                         </div>
@@ -131,8 +131,8 @@
 
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
-                    <div class="table-cell button empty <?php if ($date == date('Y-m-d')) { echo "today"; }?>">
-                        <div class="cell-content"></div>
+                    <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php if ($date == date('Y-m-d')) { echo "overview-manager__cell--today"; }?>">
+                        <div class="cell__content"></div>
                     </div>
                     <?php
                             }
@@ -149,7 +149,7 @@
             </div>  
             
     
-            <div class="overview-footer">
+            <div id="footer__overview-footer">
 
             </div>
         </div>

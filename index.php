@@ -9,7 +9,7 @@
 ?>
 
         <header id="header__landing-header">
-            <nav class="header__nav">
+            <nav class="landing-header__nav">
                 <ul>    
                     <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
                     <li><a class="nav__link" href="overview">How it works</a></li>
@@ -19,7 +19,7 @@
                 </ul>              
             </nav>  
             
-            <nav class="header__nav-dropdown">
+            <nav class="landing-header__nav-dropdown">
                 <ul>           
                     <li><a class="nav__link" href="overview">How it works</a></li>
                     <li><a class="nav__link" href="overview">Register</a></li>

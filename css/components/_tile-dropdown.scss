@@ -1,4 +1,4 @@
-.more-info-tile{
+.cell__dropdown{
     background-color: getColor(dropdown-bg);
     position: absolute;
     z-index: 9;
@@ -12,7 +12,7 @@
     height: 0;
 
 
-    .text-contents{
+    .cell__text-content{
         padding-top: 5px;
         padding-bottom: 5px;  
         margin-right: 20px;
@@ -21,7 +21,7 @@
             padding-top: 15px;
         }
 
-        &.index{
+        &.cell__text-content--index{
             color: black;
             border-bottom: 1px solid #ddd;
             padding-bottom: 2.5px;
@@ -30,11 +30,7 @@
 }
 
 span{
-    &.more-info-return{
-        text-align: center;
-    }
-
-    &.more-info-tools{
+    &.text-content__tools{
         text-align: center;
 
         img{
@@ -60,7 +56,7 @@ span{
         }
     }
 
-    &.more-info-button{
+    &.dropdown__button{
         display: block;
         color: white;
         cursor: pointer;
@@ -74,7 +70,7 @@ span{
             height: auto;
         }
 
-        &.add{
+        &.dropdown__button--add{
             margin-top: 10px;
             background-color: getColor(noti-green);
 
@@ -83,7 +79,7 @@ span{
             }
         }
 
-        &.return{
+        &.dropdown__button--return{
             background-color: getColor(noti-blue);
 
             &:hover{

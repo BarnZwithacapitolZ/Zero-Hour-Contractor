@@ -1,31 +1,31 @@
-#overview-manager{
+#overview-manager.overview-manager__container {
     margin-left: getElemSize(side-nav);
 
-    @include step2{
+    @include step2 {
         margin-left: 0;
         margin-top: 55px;
     }
 
-    @include step4{
+    @include step4 {
         margin-top: 40px;
     }
 
-    .table-overview{
+    .overview-manager__table {
         width: 100%;
         font-size: 0;
         color: getColor(overview-fg);
 
-        .table-row{
+        .overview-manager__row {
             width: 100%;
             border-bottom: 1px solid #ddd;
             cursor: pointer;
             transition: .3s;
 
-            &.user{
+            &.user {
                 box-shadow: 0px 3px 5px rgba(0,0,0,.125), 0px -3px 5px rgba(0,0,0,.125);   
             }
 
-            .table-header{
+            .overview-manager__cell--header {
                 font-weight: bold;
                 font-size: getFontSize(overview-header);
                 color: getColor(default-fg);
@@ -34,7 +34,7 @@
             }
         }
 
-        .row-header{
+        .overview-manager__row--header {
             background-color: getColor(row-header-bg);
             border-radius: 2px 2px 0 0;
             box-shadow: inset 0 3px 5px rgba(0,0,0,.125); 
@@ -42,7 +42,7 @@
     }
 }
 
-.table-cell{
+.overview-manager__cell {
     width: 12.5%;
     height: getElemSize(row-cell);
     display: inline-block;
@@ -51,16 +51,16 @@
     text-align: left;
     position: relative;
 
-    @include step3{
+    @include step3 {
         font-size: getFontSize(overview-default) - 2.5px;
     }
 
-    @include step4{
+    @include step4 {
         font-size: getFontSize(overview-default) - 5px;
     }
 
-    &.today{     
-        &::before{
+    &.overview-manager__cell--today {     
+        &::before {
             box-shadow: -15px 0 15px -15px #bbb inset;
             content: " ";
             height: 100%;
@@ -72,8 +72,8 @@
     }
 
     &:nth-last-child(n+2) {     
-        &.today {
-            &::after{
+        &.overview-manager__cell--today {
+            &::after {
                 box-shadow: 15px 0 15px -15px #bbb inset;
                 content: " ";
                 height: 100%;
@@ -85,81 +85,81 @@
         }    
     }
 
-    .cell-content{
+    .cell__content {
         width: 100%;
         height: 100%; 
         display: flex;
         align-items: center;   
         overflow: hidden;
 
-        @include step1(max){
+        @include step1(max) {
             justify-content: center;
             text-align: center;
         }
         
-        .text-contents{
-            @include step1(max){
+        .cell__text-content {
+            @include step1(max) {
                 margin: 0;
             }
 
-            span{
-                &:nth-child(2){
-                    @include step1(max){
+            span {
+                &:nth-child(2) {
+                    @include step1(max) {
                         display: none;
                     }
                 }
 
-                &.day{
+                &.day {
                     font-size: 30px;
 
-                    @include step1(max){
+                    @include step1(max) {
                         display: block;
                     }
 
-                    @include step3{
+                    @include step3 {
                         font-size: 22px;
                     }
                 }
             }
 
-            .user-pic{
+            .user-pic {
                 width: 30px;
                 height: 30px;
                 border-radius: 20px;
 
-                @include step4{
+                @include step4 {
                     width: 22px;
                     height: 22px;
                 }
             }
         }
 
-        &.first{
+        &.cell__content--first {
             border-right: 1px solid getColor(overview-border);
             color: getColor(row-names-fg);
             overflow-wrap: break-word;
 
-            &:hover{
+            &:hover {
                 text-decoration: underline;
             }
 
-            span{
+            span {
                 padding-left: 10px;
             }
 
-            .text-contents{
+            .cell__text-content {
                 display: flex;
                 align-items: center;             
             }
         }  
     }
 
-    &.holiday{
+    &.holiday {
         color: getColor(noti-red);
         font-weight: bold;
     }
 
-    .notification-bubble{
+    .notification-bubble {
         right: 0;
         top: -15px;
         width: getElemSize(overview-noti-bubble);
@@ -168,50 +168,50 @@
         font-weight: bold;
     }
 
-    &.button{     
+    &.overview-manager__cell--button {     
         &:nth-last-child(n+2) {
-            .cell-content {
+            .cell__content {
                 border-right: 1px solid getColor(overview-border); 
             }
         }  
         
-        &:hover{
+        &:hover {
             box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
             background-color: getColor(overview-hover-blue);
             transition: .4s;
             text-decoration: underline;
         }
 
-        &.empty:hover{
+        &.overview-manager__cell--empty:hover {
             background-color: getColor(hover-red);
         }        
     }
 }
 
-.text-contents{
+.cell__text-content {
     margin-left: 20px;
 
-    &.responsive{
-        .img-small{
+    &.cell__text-content--responsive {
+        .img-small {
             @include step1(max){
                 display: none;
             }
         }
     }
 
-    span{
+    span {
         display: block;
         padding: 4px 0;
     }
 
-    .img-small{
+    .img-small {
         width: 12.5px;
         height: 12.5px;
         padding-right: 4px;
     } 
 }
 
-.overview-footer{
+#footer__overview-footer {
     width: 100%;
     height: 160px;
 }

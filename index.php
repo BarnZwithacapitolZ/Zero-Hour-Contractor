@@ -14,7 +14,7 @@
                     <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
                     <li><a class="nav__link" href="overview">How it works</a></li>
                     <li><a class="nav__link" href="overview">Register</a></li>
-                    <li><a class="nav__login" href="overview">Login</a></li>
+                    <li><a class="nav__login" href="login">Login</a></li>
                     <li class="nav__toggle"><span></span></li>
                 </ul>              
             </nav>  
@@ -23,7 +23,7 @@
                 <ul>           
                     <li><a class="nav__link" href="overview">How it works</a></li>
                     <li><a class="nav__link" href="overview">Register</a></li>
-                    <li><a class="nav__login" href="overview">Login</a></li>
+                    <li><a class="nav__login" href="login">Login</a></li>
                 </ul>
             </nav>
         </header>

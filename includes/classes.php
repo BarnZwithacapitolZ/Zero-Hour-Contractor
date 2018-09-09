@@ -4,38 +4,43 @@ require_once "dbh.inc.php";
 
 class Employee{
     private $employeeID;
-    private $employeeName;
+    private $employeeFirst;
+    private $employeeLast;
     private $employeeType; // Delete
     private $employeePayrate;
     private $employeeEmail; // Delete
-    private $employeePassword; // Delete
+    //private $employeePassword; // Delete
     private $organizationID;
     private $error;
 
-    public function setByParams($id, $name, $type, $payrate, $email, $password, $orgID){
+    public function setByParams($id, $first, $last, $type, $payrate, $email, $orgID){
         $this->employeeID = $id;
-        $this->employeeName = $name;
+        $this->employeeFirst = $first;
+        $this->employeeLast = $last;
         $this->employeeType = $type;
         $this->employeePayrate = $payrate;
         $this->employeeEmail = $email;
-        $this->employeePassword = $password;
         $this->organizationID = $orgID;
     }
 
     public function setByRow($row){
         $this->setByParams(
             $row['EmployeeID'],
-            $row['EmployeeName'],
+            $row['EmployeeFirst'],
+            $row['EmployeeLast'],
             $row['EmployeeType'],
             $row['EmployeePayrate'],
             $row['EmployeeEmail'],
-            $row['EmployeePassword'],
             $row['OrganizationID']
         );
     }
 
-    public function getName(){
-        return $this->employeeName;
+    public function getName($length = "first"){
+        if ($length == "full") {
+            return $this->employeeFirst . " " . $this->employeeLast;
+        } else {
+            return $this->employeeFirst;
+        }
     }
 
     public function getID(){

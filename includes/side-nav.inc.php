@@ -4,7 +4,7 @@
         <ul>
             <?php 
                 // Make sure to echo employee name once login is set up (as a session variable)
-                $icons = array(array("profile.jpg", "Sam Barnes"), array("weekly.png", "Weekly Overview"), 
+                $icons = array(array("profile.jpg", $user->getName("full")), array("weekly.png", "Weekly Overview"), 
                     array("daily.png", "Daily Overview"), array("bell.png", "Notifications"), array("pound.png", "Accounts"));
                 foreach ($icons as $icon) {
             ?>  
@@ -16,7 +16,7 @@
             <li class="nav__icon nav__icon--link nav__icon--last" data-tool-tip="Settings"> 
                 <img src="media/img/icons/settings.png" />
                 <!--<div class="notification-bubble">!</div>-->
-            </li>
+            </li> 
         </ul>
     </nav>
 </div>

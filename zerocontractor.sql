@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Aug 17, 2018 at 03:29 PM
+-- Generation Time: Sep 09, 2018 at 10:04 PM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.35
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `tblbook` (
   PRIMARY KEY (`BookID`),
   UNIQUE KEY `EmployeeID` (`EmployeeID`,`DepartmentID`,`BookID`),
   KEY `DepartmentID` (`DepartmentID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tblbook`
@@ -64,7 +64,10 @@ INSERT INTO `tblbook` (`EmployeeID`, `DepartmentID`, `BookID`, `StartTime`, `End
 (2, 3, 16, '16:00:00', '22:00:00', '2018-08-13'),
 (5, 1, 17, '09:00:00', '17:00:00', '2018-08-19'),
 (6, 2, 18, '00:00:00', '23:00:00', '2018-08-14'),
-(5, 2, 19, '09:00:00', '16:00:00', '2018-08-19');
+(5, 2, 19, '09:00:00', '16:00:00', '2018-08-19'),
+(1, 2, 20, '05:00:00', '23:00:00', '2018-08-22'),
+(1, 1, 21, '04:00:00', '11:00:00', '2018-09-02'),
+(1, 1, 22, '18:00:00', '23:00:00', '2018-09-02');
 
 -- --------------------------------------------------------
 
@@ -100,7 +103,8 @@ DROP TABLE IF EXISTS `tblemployee`;
 CREATE TABLE IF NOT EXISTS `tblemployee` (
   `EmployeeID` int(11) NOT NULL AUTO_INCREMENT,
   `OrganizationID` int(11) NOT NULL,
-  `EmployeeName` varchar(256) NOT NULL,
+  `EmployeeFirst` varchar(256) NOT NULL,
+  `EmployeeLast` varchar(256) NOT NULL,
   `EmployeeType` varchar(256) NOT NULL,
   `EmployeePayrate` decimal(11,2) NOT NULL,
   `EmployeeEmail` varchar(256) NOT NULL,
@@ -114,20 +118,20 @@ CREATE TABLE IF NOT EXISTS `tblemployee` (
 -- Dumping data for table `tblemployee`
 --
 
-INSERT INTO `tblemployee` (`EmployeeID`, `OrganizationID`, `EmployeeName`, `EmployeeType`, `EmployeePayrate`, `EmployeeEmail`, `EmployeePassword`) VALUES
-(1, 1, 'Sam', 'employee', '6.05', 'barnes.samb@gmail.com', 'test'),
-(2, 1, 'Lesley', 'admin', '7.83', 'test', 'test'),
-(3, 1, 'Ashleigh', 'employee', '7.83', 'test', 'test'),
-(4, 1, 'Michelle', 'employee', '7.83', 'test', 'test'),
-(5, 1, 'Jennie', 'employee', '7.83', 'test', 'test'),
-(6, 1, 'Peter', 'employee', '7.83', 'test', 'test'),
-(7, 1, 'Shani', 'employee', '7.83', 'test', 'test'),
-(8, 1, 'Laura', 'employee', '7.83', 'test', 'test'),
-(9, 1, 'Amanda', 'employee', '7.83', 'test', 'test'),
-(10, 1, 'Tim', 'employee', '7.83', 'test', 'test'),
-(11, 1, 'Amy', 'employee', '7.83', 'test', 'test'),
-(12, 1, 'Jo', 'employee', '7.83', 'test', 'test'),
-(13, 1, 'Ruth', 'employee', '7.83', 'test', 'test');
+INSERT INTO `tblemployee` (`EmployeeID`, `OrganizationID`, `EmployeeFirst`, `EmployeeLast`, `EmployeeType`, `EmployeePayrate`, `EmployeeEmail`, `EmployeePassword`) VALUES
+(1, 1, 'Sam', 'Barnes', 'employee', '6.05', 'barnes.samb@gmail.com', 'test'),
+(2, 1, 'Lesley', '', 'admin', '7.83', 'test', 'test'),
+(3, 1, 'Ashleigh', '', 'employee', '7.83', 'test', 'test'),
+(4, 1, 'Michelle', '', 'employee', '7.83', 'test', 'test'),
+(5, 1, 'Jennie', '', 'employee', '7.83', 'test', 'test'),
+(6, 1, 'Peter', '', 'employee', '7.83', 'test', 'test'),
+(7, 1, 'Shani', '', 'employee', '7.83', 'test', 'test'),
+(8, 1, 'Laura', '', 'employee', '7.83', 'test', 'test'),
+(9, 1, 'Amanda', 'BigAss', 'employee', '7.83', 'test1', 'test'),
+(10, 1, 'Tim', '', 'employee', '7.83', 'test', 'test'),
+(11, 1, 'Amy', '', 'employee', '7.83', 'test', 'test'),
+(12, 1, 'Jo', '', 'employee', '7.83', 'test', 'test'),
+(13, 1, 'Ruth', '', 'employee', '7.83', 'test', 'test');
 
 -- --------------------------------------------------------
 

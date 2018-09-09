@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $title = "Weekly Overview";
     $stylesheet = "main";
 
@@ -8,14 +9,21 @@
     require_once "includes/classes.php";
 
     $dbh = new Dbh();
-
     $week = "-4";
-    $days = 7;
+    $today = "";
+    $days = 7; // For changing when the company is open (might only be 5 days a week etc.)
+
+    if (isset($_SESSION)) {
+        $user = new Employee();
+        $user->setByParams($_SESSION['u_id'], $_SESSION['u_first'], $_SESSION['u_last'], $_SESSION['u_type'], 
+            $_SESSION['u_payrate'], $_SESSION['u_email'], $_SESSION['u_cuid']);
+    }
 ?>
 
         <header id="header__overview-header">
             <nav class="overview-header__nav">
                 <span><</span><span>This Week</span><span>></span>
+                <?php echo $user->getName(); ?>
             </nav>
         </header>
 
@@ -52,7 +60,7 @@
                             $employee = new Employee();
                             $employee->setByRow($emp);
                 ?>
-                <div class="overview-manager__row">
+                <div class="overview-manager__row <?php if ($employee->getID() == $user->getID()) { echo "user"; } ?>">
                     <div class="overview-manager__cell">
                         <div class="cell__content cell__content--first">
                             <div class="cell__text-content">

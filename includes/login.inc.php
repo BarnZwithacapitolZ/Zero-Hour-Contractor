@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
             $hashedPwdCheck = password_verify($employeePwd, $row['EmployeePassword']);
 
             if ($employeePwd != $row['EmployeePassword']) {
-                header("Location: ../login?login=pwdIncorrect");
+                header("Location: ../login?login=pwdincorrect");
                 exit();
             } else {
                 $_SESSION['u_id'] = $row['EmployeeID'];

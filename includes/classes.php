@@ -2,7 +2,7 @@
 
 require_once "dbh.inc.php";
 
-class Employee{
+class Employee {
     private $employeeID;
     private $employeeFirst;
     private $employeeLast;
@@ -13,7 +13,7 @@ class Employee{
     private $organizationID;
     private $error;
 
-    public function setByParams($id, $first, $last, $type, $payrate, $email, $orgID){
+    public function setByParams($id, $first, $last, $type, $payrate, $email, $orgID) {
         $this->employeeID = $id;
         $this->employeeFirst = $first;
         $this->employeeLast = $last;
@@ -23,7 +23,7 @@ class Employee{
         $this->organizationID = $orgID;
     }
 
-    public function setByRow($row){
+    public function setByRow($row) {
         $this->setByParams(
             $row['EmployeeID'],
             $row['EmployeeFirst'],
@@ -35,7 +35,7 @@ class Employee{
         );
     }
 
-    public function getName($length = "first"){
+    public function getName($length = "first") {
         if ($length == "full") {
             return $this->employeeFirst . " " . $this->employeeLast;
         } else {
@@ -43,12 +43,16 @@ class Employee{
         }
     }
 
-    public function getID(){
+    public function getID() {
         return $this->employeeID;
+    }
+
+    public function getType() {
+        return $this->employeeType;
     }
 }
 
-class HourTile{
+class HourTile {
     private $bookID;
     private $employeeID;
     private $departmentID;
@@ -57,7 +61,7 @@ class HourTile{
     private $bookDate;
     private $error;
 
-    public function setByParams($id, $empId, $depID, $start, $end, $date){
+    public function setByParams($id, $empId, $depID, $start, $end, $date) {
         $this->bookID = $id;
         $this->employeeID = $id;
         $this->departmentID = $depID;
@@ -66,7 +70,7 @@ class HourTile{
         $this->bookDate = $date;
     }
 
-    public function setByRow($row){
+    public function setByRow($row) {
         $this->setByParams(
             $row['BookID'],
             $row['EmployeeID'],
@@ -77,19 +81,19 @@ class HourTile{
         );
     }
 
-    public function getStart(){
+    public function getStart() {
         return substr($this->startTime, 0, 5);
     }
 
-    public function getEnd(){
+    public function getEnd() {
         return substr($this->endTime, 0, 5);
     }
 
-    public function getDate(){
+    public function getDate() {
         return $this->bookDate;
     }
 
-    public function getHours(){
+    public function getHours() {
         $time1 = new DateTime($this->startTime);
         $time2 = new DateTime($this->endTime);
         $interval = $time1->diff($time2);
@@ -104,7 +108,7 @@ class HourTile{
         return $elapsed;
     }
 
-    public function getDepartment(){
+    public function getDepartment() {
         //make a connection with the department class to return the department name
         $dep = $this->departmentID;
 
@@ -117,18 +121,18 @@ class HourTile{
 }
 
 
-class Department{
+class Department {
     private $departmentID;
     private $departmentName;
     private $departmentMinEmployees;
 
-    public function setByParams($id, $name, $minEmp){
+    public function setByParams($id, $name, $minEmp) {
         $this->departmentID = $id;
         $this->departmentName = $name;
         $this->departmentMinEmployees = $minEmp;
     }
 
-    public function setByRow($row){
+    public function setByRow($row) {
         $this->setByParams(
             $row['DepartmentID'],
             $row['DepartmentName'],

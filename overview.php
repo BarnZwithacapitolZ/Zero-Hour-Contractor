@@ -9,14 +9,17 @@
     require_once "includes/classes.php";
 
     $dbh = new Dbh();
-    $week = "-4";
+    $week = "this";
     $today = "";
     $days = 7; // For changing when the company is open (might only be 5 days a week etc.)
 
-    if (isset($_SESSION)) {
+    if (isset($_SESSION['u_id'])) {
         $user = new Employee();
         $user->setByParams($_SESSION['u_id'], $_SESSION['u_first'], $_SESSION['u_last'], $_SESSION['u_type'], 
             $_SESSION['u_payrate'], $_SESSION['u_email'], $_SESSION['u_cuid']);
+    } else {
+        header("Location: index?login=nologin");
+        exit();
     }
 ?>
 
@@ -53,7 +56,7 @@
                 </div>     
 
                 <?php
-                    $query = "SELECT * FROM tblemployee";
+                    $query = "SELECT EmployeeID, OrganizationID, EmployeeFirst, EmployeeLast, EmployeeType, EmployeePayrate, EmployeeEmail FROM tblemployee";
                     $empResult = $dbh->executeSelect($query);
                     if ($empResult) {
                         foreach ($empResult as $emp) {

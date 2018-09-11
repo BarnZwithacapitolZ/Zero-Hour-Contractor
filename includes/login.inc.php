@@ -29,10 +29,10 @@ if (isset($_POST['submit'])) {
             $row = $result[0];
             $hashedPwdCheck = password_verify($employeePwd, $row['EmployeePassword']);
 
-            if ($employeePwd != $row['EmployeePassword']) {
+            if ($hashedPwdCheck == false) {
                 header("Location: ../login?login=pwdincorrect");
                 exit();
-            } else {
+            } elseif ($hashedPwdCheck) {
                 $_SESSION['u_id'] = $row['EmployeeID'];
                 $_SESSION['u_cuid'] = $row['OrganizationID'];
                 $_SESSION['u_first'] = $row['EmployeeFirst'];
@@ -44,7 +44,7 @@ if (isset($_POST['submit'])) {
                 exit(); 
             }
 
-            //if ($hashedPwdCheck == false) {
+            //if () {
                 //header("Location: ../login?login=error");
                 //exit();
             //} elseif ($hashedPwd) {

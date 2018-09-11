@@ -13,7 +13,7 @@
                 <ul>    
                     <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
                     <li><a class="nav__link" href="overview">How it works</a></li>
-                    <li><a class="nav__link" href="overview">Register</a></li>
+                    <li><a class="nav__link" href="register">Register</a></li>
                     <li><a class="nav__login" href="login">Login</a></li>
                     <li class="nav__toggle"><span></span></li>
                 </ul>              
@@ -22,7 +22,7 @@
             <nav class="landing-header__nav-dropdown">
                 <ul>           
                     <li><a class="nav__link" href="overview">How it works</a></li>
-                    <li><a class="nav__link" href="overview">Register</a></li>
+                    <li><a class="nav__link" href="register">Register</a></li>
                     <li><a class="nav__login" href="login">Login</a></li>
                 </ul>
             </nav>
@@ -34,11 +34,11 @@
                 <h1 class="hl-banner__headline">Manage hours, accounts and employees all in one place.</h1>
                 <p class="hl-banner__subheading">Register your business for free and start managing your contracts today.</p>
 
-                <form action="overview" class="hl-banner__company-register" autocomplete="off">
+                <form action="register" class="hl-banner__company-register" method="GET" autocomplete="off">
                     <span error-output="You must enter a name!">
                         <input class="company-register__input" type="text" name="company-name"  placeholder="Business name" />
                     </span>
-                    <button class="company-register__submit">Start</button>
+                    <button class="company-register__submit" name="submit">Start</button>
                 </form>
             </div>
         </div>

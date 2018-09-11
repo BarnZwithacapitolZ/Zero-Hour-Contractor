@@ -56,7 +56,9 @@
                 </div>     
 
                 <?php
-                    $query = "SELECT EmployeeID, OrganizationID, EmployeeFirst, EmployeeLast, EmployeeType, EmployeePayrate, EmployeeEmail FROM tblemployee";
+                    $orgID = $user->getOrgID();
+                    $query = "SELECT EmployeeID, OrganizationID, EmployeeFirst, EmployeeLast, EmployeeType, 
+                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE OrganizationID='$orgID'";
                     $empResult = $dbh->executeSelect($query);
                     if ($empResult) {
                         foreach ($empResult as $emp) {

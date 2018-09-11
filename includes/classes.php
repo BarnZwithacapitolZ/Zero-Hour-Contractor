@@ -9,7 +9,6 @@ class Employee {
     private $employeeType; // Delete
     private $employeePayrate;
     private $employeeEmail; // Delete
-    //private $employeePassword; // Delete
     private $organizationID;
     private $error;
 
@@ -45,6 +44,10 @@ class Employee {
 
     public function getID() {
         return $this->employeeID;
+    }
+
+    public function getOrgID() {
+        return $this->organizationID;
     }
 
     public function getType() {

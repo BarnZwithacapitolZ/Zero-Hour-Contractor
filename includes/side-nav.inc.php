@@ -17,7 +17,7 @@
 
                 if ($user->getType() == "admin") {
             ?>
-            <li class="nav__icon nav__icon--link" data-tool-tip="Add Employee"> 
+            <li class="nav__icon nav__icon--link nav__icon--last" data-tool-tip="Add New..."> 
                 <img src="media/img/icons/plus.png" />
                 <!--<div class="notification-bubble">!</div>-->
             </li>

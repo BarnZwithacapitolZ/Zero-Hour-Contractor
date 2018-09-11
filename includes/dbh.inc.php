@@ -15,6 +15,19 @@ class Dbh{
         $this->dbUsername, $this->dbPassword);
     }
 
+    public function invalidCheck($array) {
+        foreach ($array as $key => $var) {
+            if (!$var) {
+                return $key;
+            }
+        }
+        return null;
+    }
+
+    public function lastID() {
+        return $this->dbh->lastInsertId();
+    }
+
     public function executeQuery($query) {
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

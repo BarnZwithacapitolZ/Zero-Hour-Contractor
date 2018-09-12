@@ -16,7 +16,10 @@
 
     <form action="includes/register.inc.php" method="POST" autocomplete="off">
         <input type="text" name="name"  placeholder="Company Name" value="<?php echo $c_name; ?>" />
+        <input type="time" value="08:00" name="start" />
+        <input type="time" value="22:00" name="stop" />
         <input type="text" name="hours"  placeholder="Max Hours" />
+        <input type="text" name="days"  placeholder="Days Open" />    
 
         <select name="payout"  placeholder="Payout">
             <option value="daily">Daily</option>
@@ -25,9 +28,7 @@
             <option value="yearly">Yearly</option>
         </select>
 
-
-        <!-- Make this a dropdown -->
-        <input type="text" name="color"  placeholder="Color" />
+        <!-- maybe add a color or something here ????? -->
 
         <br /> <br />
 

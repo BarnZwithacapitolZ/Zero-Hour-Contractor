@@ -475,6 +475,30 @@ header#header__overview-header nav.overview-header__nav span:nth-child(1):hover,
           box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
 }
 
+.overview-manager__cell.day1 {
+  width: 50%;
+}
+
+.overview-manager__cell.day2 {
+  width: 33.3333333333333%;
+}
+
+.overview-manager__cell.day3 {
+  width: 25%;
+}
+
+.overview-manager__cell.day4 {
+  width: 20%;
+}
+
+.overview-manager__cell.day5 {
+  width: 16.66666666666667%;
+}
+
+.overview-manager__cell.day6 {
+  width: 14.28571428571429%;
+}
+
 .overview-manager__cell {
   width: 12.5%;
   height: 70px;

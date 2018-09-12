@@ -12,6 +12,17 @@ class Employee {
     private $organizationID;
     private $error;
 
+    public function setByArray($array){
+        extract($array);
+        $this->employeeID = $u_id;
+        $this->employeeFirst = $u_first;
+        $this->employeeLast = $u_last;
+        $this->employeeType = $u_type;
+        $this->employeePayrate = $u_payrate;
+        $this->employeeEmail = $u_email;
+        $this->organizationID = $u_cuid;
+    }
+
     public function setByParams($id, $first, $last, $type, $payrate, $email, $orgID) {
         $this->employeeID = $id;
         $this->employeeFirst = $first;
@@ -122,6 +133,18 @@ class HourTile {
         return $name[0]['DepartmentName'];
     }
 }
+
+
+class Company {
+    private $companyID;
+    private $companyName;
+    private $companyStart;
+    private $companyStop;
+    private $companyMaxHours;
+    // Days will need to be calculated from a start and end date (eg tue - fri)
+    private $companyPayout;
+}
+
 
 
 class Department {

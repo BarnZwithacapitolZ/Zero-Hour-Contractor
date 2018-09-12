@@ -6,50 +6,65 @@ if (isset($_POST['submit'])) {
     require_once "dbh.inc.php";
     $dbh = new Dbh();
 
-    // Using PDO we don't need mysqli_real_escape_string
-    $employeeEmail = $_POST['email'];
-    $employeePwd = $_POST['pwd'];
-    $companyID = $_POST['cuid'];
+    $user = array(
+        'u_email' => filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
+        'u_pwd' => filter_input(INPUT_POST, 'pwd'),
+        'u_cuid' => filter_input(INPUT_POST, 'cuid')
+    );
 
-    //Pseudo
-
-    // Complete error handlers: empty, no results, incorrect results etc.
-    // Use header to direct the player to the overview manager
-
-    if (empty($employeeEmail) || empty($employeePwd) || empty($companyID)) {
-        header("Location: ../login?login=empty");
+    if ($result = $dbh->invalidCheck($user)) {
+        header("Location: ../login?login=$result");
         exit();
     } else {
-        $query = "SELECT * FROM tblemployee WHERE EmployeeEmail='$employeeEmail' AND OrganizationID='$companyID'";
+        $query = strtr("SELECT * FROM tblemployee WHERE EmployeeEmail=':email' AND OrganizationID=':cuid'",
+            [
+                ":email" => $user['u_email'],
+                ":cuid" => $user['u_cuid']
+            ]
+        );
         $result = $dbh->executeSelect($query);
-        if (!$result) {
+
+        if (!$result) { // Check for user to exist
             header("Location: ../login?login=nouser");
             exit();
-        } else {
+        } else { // If they do exists, check their password is correct
             $row = $result[0];
-            $hashedPwdCheck = password_verify($employeePwd, $row['EmployeePassword']);
-
+            $hashedPwdCheck = password_verify($user['u_pwd'], $row['EmployeePassword']);
             if ($hashedPwdCheck == false) {
                 header("Location: ../login?login=pwdincorrect");
                 exit();
             } elseif ($hashedPwdCheck) {
-                $_SESSION['u_id'] = $row['EmployeeID'];
-                $_SESSION['u_cuid'] = $row['OrganizationID'];
-                $_SESSION['u_first'] = $row['EmployeeFirst'];
-                $_SESSION['u_last'] = $row['EmployeeLast'];
-                $_SESSION['u_type'] = $row['EmployeeType'];
-                $_SESSION['u_payrate'] = $row['EmployeePayrate'];
-                $_SESSION['u_email'] = $row['EmployeeEmail'];
+                $_SESSION['user'] = array(
+                    'u_first' => $row['EmployeeFirst'],
+                    'u_last' => $row['EmployeeLast'],
+                    'u_type' => $row['EmployeeType'],
+                    'u_payrate' => $row['EmployeePayrate'],
+                    'u_email' => $row['EmployeeEmail'],
+                    'u_cuid' => $row['OrganizationID'],
+                    'u_id' => $row['EmployeeID']
+                );
+
+                $query = strtr("SELECT * FROM tblorganization WHERE OrganizationID=':cuid'",
+                    [":cuid" => $user['u_cuid']]
+                );
+                $result = $dbh->executeSelect($query);
+                $row = $result[0];
+
+                $_SESSION['company'] = array(
+                    'c_name' => $row['OrganizationName'],
+                    'c_start' => $row['OrganizationStart'],
+                    'c_stop' => $row['OrganizationStop'],
+                    'c_hours' => $row['OrganizationMaxHours'],
+                    'c_days' => $row['OrganizationDays'],     
+                    'c_payout' => $row['OrganizationPayout']
+                );
+
                 header("Location: ../overview?login=success");
                 exit(); 
             }
-
-            //if () {
-                //header("Location: ../login?login=error");
-                //exit();
-            //} elseif ($hashedPwd) {
-                
-            //}
         }  
     } 
+} else {
+    header("Location: ../login?login=error");
+    exit();
 }

@@ -26,7 +26,17 @@ if (isset($_POST['submit'])) {
             header("Location: ../register?register=invaliddays");
 		    exit(); 
         } else {
-            $companyCheck = true;
+            if ($company['c_startDay'] < 1 || $company['c_startDay'] > 7) {
+                header("Location: ../register?register=invaliddays");
+		        exit(); 
+            } else {
+                if ($company['c_endDay'] < 1 || $company['c_endDay'] > 7) {
+                    header("Location: ../register?register=invaliddays");
+		            exit(); 
+                } else {
+                    $companyCheck = true;
+                }
+            }
         }
     }
 

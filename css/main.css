@@ -521,6 +521,10 @@ header#header__overview-header nav.overview-header__nav span:nth-child(1):hover,
   }
 }
 
+.overview-manager__cell.overview-manager__cell--user {
+  background-color: #d4f7f0;
+}
+
 .overview-manager__cell.overview-manager__cell--today::before {
   -webkit-box-shadow: -15px 0 15px -15px #bbb inset;
           box-shadow: -15px 0 15px -15px #bbb inset;

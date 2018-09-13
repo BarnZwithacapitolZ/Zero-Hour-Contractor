@@ -172,6 +172,10 @@ class Company {
         );
     }
 
+    public function getID() {
+        return $this->companyID;
+    }
+
     public function getDays() {
         $numDays = ($this->companyEndDay - $this->companyStartDay) + 1;
         return "day" . $numDays;

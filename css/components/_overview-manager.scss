@@ -83,6 +83,10 @@
         font-size: getFontSize(overview-default) - 5px;
     }
 
+    &.overview-manager__cell--user {
+        background-color: lighten(getColor(noti-green), 38%);
+    }
+
     &.overview-manager__cell--today {     
         &::before {
             box-shadow: -15px 0 15px -15px #bbb inset;

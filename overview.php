@@ -61,9 +61,9 @@
                 </div>     
 
                 <?php
-                    $cuid = $user->getCUID();
+                    $cuid = $company->getID();
                     $query = "SELECT EmployeeID, CompanyID, EmployeeFirst, EmployeeLast, EmployeeType, 
-                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE CompanyID='$cuid'";
+                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE CompanyID='$cuid' ORDER BY EmployeeID DESC";
                     $empResult = $dbh->executeSelect($query);
                     if ($empResult) {
                         foreach ($empResult as $emp) {
@@ -87,6 +87,9 @@
 
                                 if ($date == date('Y-m-d')) {
                                     $today = "overview-manager__cell--today";
+                                    if ($employee->getID() == $user->getID()) {
+                                        $today = "overview-manager__cell--today overview-manager__cell--user";
+                                    }
                                 } else {
                                     $today = "";
                                 }

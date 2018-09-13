@@ -9,28 +9,30 @@ class Employee {
     private $employeeType; // Delete
     private $employeePayrate;
     private $employeeEmail; // Delete
-    private $organizationID;
+    private $companyID;
     private $error;
 
-    public function setByArray($array){
-        extract($array);
-        $this->employeeID = $u_id;
-        $this->employeeFirst = $u_first;
-        $this->employeeLast = $u_last;
-        $this->employeeType = $u_type;
-        $this->employeePayrate = $u_payrate;
-        $this->employeeEmail = $u_email;
-        $this->organizationID = $u_cuid;
-    }
-
-    public function setByParams($id, $first, $last, $type, $payrate, $email, $orgID) {
+    public function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
         $this->employeeID = $id;
         $this->employeeFirst = $first;
         $this->employeeLast = $last;
         $this->employeeType = $type;
         $this->employeePayrate = $payrate;
         $this->employeeEmail = $email;
-        $this->organizationID = $orgID;
+        $this->companyID = $compID;
+    }
+
+    public function setByArray($array){
+        extract($array);     
+        $this->setByParams(
+            $u_id,
+            $u_first,
+            $u_last,
+            $u_type,
+            $u_payrate,
+            $u_email,
+            $u_cuid
+        );
     }
 
     public function setByRow($row) {
@@ -41,7 +43,7 @@ class Employee {
             $row['EmployeeType'],
             $row['EmployeePayrate'],
             $row['EmployeeEmail'],
-            $row['OrganizationID']
+            $row['CompanyID']
         );
     }
 
@@ -57,8 +59,8 @@ class Employee {
         return $this->employeeID;
     }
 
-    public function getOrgID() {
-        return $this->organizationID;
+    public function getCUID() {
+        return $this->companyID;
     }
 
     public function getType() {
@@ -141,8 +143,47 @@ class Company {
     private $companyStart;
     private $companyStop;
     private $companyMaxHours;
-    // Days will need to be calculated from a start and end date (eg tue - fri)
+    private $companyStartDay;
+    private $companyEndDay;
     private $companyPayout;
+
+    public function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
+        $this->companyID = $id;
+        $this->companyName = $name;
+        $this->companyStart = $start;
+        $this->companyStop = $stop;
+        $this->companyMaxHours = $hours;
+        $this->companyStartDay = $startDay;
+        $this->companyEndDay = $endDay;
+        $this->companyPayout = $payout;
+    }
+
+    public function setByArray($array) {
+        extract($array);
+        $this->setByParams(
+            $c_id,
+            $c_name,
+            $c_start,
+            $c_stop,
+            $c_hours,
+            $c_startDay,
+            $c_endDay,
+            $c_payout
+        );
+    }
+
+    public function getDays() {
+        $numDays = ($this->companyEndDay - $this->companyStartDay) + 1;
+        return "day" . $numDays;
+    }
+
+    public function getStart() {
+        return $this->companyStartDay;
+    }
+
+    public function getEnd() {
+        return $this->companyEndDay;
+    }
 }
 
 

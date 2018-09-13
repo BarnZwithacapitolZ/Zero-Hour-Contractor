@@ -15,8 +15,9 @@
     if (isset($_SESSION['user']) && isset($_SESSION['company'])) {
         $user = new Employee();
         $user->setByArray($_SESSION['user']);
-        $numDays = $_SESSION['company']['c_days'];
-        $days = "day" . $numDays;
+
+        $company = new Company();
+        $company->setByArray($_SESSION['company']);
     } else {
         header("Location: index?login=nologin");
         exit();
@@ -35,12 +36,12 @@
             <div class="overview-manager__table">
                 <!-- Table header for column nams -->
                 <div class="overview-manager__row overview-manager__row--header">
-                    <div class="overview-manager__cell overview-manager__cell--header <?php echo $days; ?>">
+                    <div class="overview-manager__cell overview-manager__cell--header <?php echo $company->getDays(); ?>">
                         <div class="cell__content"><div class="cell__text-content"><span>Name</span></div></div>
                     </div>
 
                     <?php
-                        for ($i = 1; $i < $numDays + 1; $i++) {        
+                        for ($i = $company->getStart(); $i < $company->getEnd() + 1; $i++) {        
                             $date = new DateTime(date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)));  
                             if ($date->format('Y-m-d') == date('Y-m-d')) {
                                 $today = "overview-manager__cell--today";
@@ -48,7 +49,7 @@
                                 $today = "";
                             }
                     ?>
-                    <div class="overview-manager__cell overview-manager__cell--header <?php echo $today . " " . $days; ?>">
+                    <div class="overview-manager__cell overview-manager__cell--header <?php echo $today . " " . $company->getDays(); ?>">
                         <div class="cell__content">
                             <div class="cell__text-content">
                                 <span><?php echo  $date->format('D'); ?></span>
@@ -60,9 +61,9 @@
                 </div>     
 
                 <?php
-                    $orgID = $user->getOrgID();
-                    $query = "SELECT EmployeeID, OrganizationID, EmployeeFirst, EmployeeLast, EmployeeType, 
-                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE OrganizationID='$orgID'";
+                    $cuid = $user->getCUID();
+                    $query = "SELECT EmployeeID, CompanyID, EmployeeFirst, EmployeeLast, EmployeeType, 
+                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE CompanyID='$cuid'";
                     $empResult = $dbh->executeSelect($query);
                     if ($empResult) {
                         foreach ($empResult as $emp) {
@@ -70,7 +71,7 @@
                             $employee->setByRow($emp);
                 ?>
                 <div class="overview-manager__row <?php if ($employee->getID() == $user->getID()) { echo "user"; } ?>">
-                    <div class="overview-manager__cell <?php echo $days; ?>">
+                    <div class="overview-manager__cell <?php echo $company->getDays(); ?>">
                         <div class="cell__content cell__content--first">
                             <div class="cell__text-content">
                                 <img src="media/img/icons/profile.jpg" class="user-pic" />
@@ -80,7 +81,7 @@
                     </div>
 
                     <?php                                   
-                            for ($i = 1; $i < $numDays + 1; $i++) {
+                            for ($i = $company->getStart(); $i < ($company->getEnd() + 1); $i++) {
                                 $select = $employee->getID();
                                 $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)); // 86300 for new day
 
@@ -96,7 +97,7 @@
                                     $bookedHours = new HourTile();
                                     $bookedHours->setByRow($bookResult[0]); // Only show the first result of any day
                     ?>
-                    <div class="overview-manager__cell overview-manager__cell--button <?php echo $today . " " . $days; ?>">
+                    <div class="overview-manager__cell overview-manager__cell--button <?php echo $today . " " . $company->getDays(); ?>">
                         <div class="cell__content cell__content--dropdown">
                             <div class="cell__text-content cell__text-content--responsive"> 
                                 <span>
@@ -154,7 +155,7 @@
 
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
-                    <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php echo $today . " " . $days; ?>">
+                    <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php echo $today . " " . $company->getDays(); ?>">
                         <div class="cell__content"></div>
                     </div>
                     <?php

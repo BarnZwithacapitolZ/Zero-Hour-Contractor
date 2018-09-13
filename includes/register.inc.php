@@ -12,7 +12,8 @@ if (isset($_POST['submit'])) {
         'c_start' => filter_input(INPUT_POST, 'start'),
         'c_stop' => filter_input(INPUT_POST, 'stop'),
         'c_hours' => filter_input(INPUT_POST, 'hours', FILTER_VALIDATE_INT),
-        'c_days' => filter_input(INPUT_POST, 'days', FILTER_VALIDATE_INT),     
+        'c_startDay' => filter_input(INPUT_POST, 'startDay', FILTER_VALIDATE_INT),   
+        'c_endDay' => filter_input(INPUT_POST, 'endDay', FILTER_VALIDATE_INT),   
         'c_payout' => filter_input(INPUT_POST, 'payout')
     );
     $companyCheck = false;
@@ -21,7 +22,12 @@ if (isset($_POST['submit'])) {
         header("Location: ../register?register=$result");
 		exit(); 
     } else {
-        $companyCheck = true;
+        if ($company['c_endDay'] < $company['c_startDay']) {
+            header("Location: ../register?register=invaliddays");
+		    exit(); 
+        } else {
+            $companyCheck = true;
+        }
     }
 
     // Admin registration in reference to the company
@@ -57,22 +63,24 @@ if (isset($_POST['submit'])) {
                         header("Location: ../register?register=usertaken");
                         exit(); 
                     } else {
-                        $query = strtr("INSERT INTO tblorganization (OrganizationName, OrganizationStart,
-                        OrganizationStop, OrganizationMaxHours, OrganizationDays, OrganizationPayout) 
-                        VALUES (':name', ':start', ':stop', ':hours', ':days', ':payout')", 
+                        $query = strtr("INSERT INTO tblcompany (CompanyName, CompanyStart,
+                        CompanyStop, CompanyMaxHours, CompanyStartDay, CompanyEndDay, CompanyPayout) 
+                        VALUES (':name', ':start', ':stop', ':hours', ':startDay', ':endDay', ':payout')", 
                             [
                                 ":name" => $company['c_name'], 
                                 ":start" => $company['c_start'],
                                 ":stop" => $company['c_stop'],
                                 ":hours" => $company['c_hours'], 
-                                ":days" => $company['c_days'],                      
+                                ":startDay" => $company['c_startDay'],
+                                ":endDay" => $company['c_endDay'],                      
                                 ":payout" => $company['c_payout']
                             ]
                         );
                         $dbh->executeQuery($query);
+                        $company['c_id'] = $dbh->lastID();
                         $admin['u_cuid'] = $dbh->lastID();
 
-                        $query = strtr("INSERT INTO tblemployee (OrganizationID, EmployeeFirst, 
+                        $query = strtr("INSERT INTO tblemployee (CompanyID, EmployeeFirst, 
                             EmployeeLast, EmployeeType, EmployeePayrate, EmployeeEmail, EmployeePassword) 
                             VALUES (':cuid', ':first', ':last', ':type', ':payrate', ':email', ':pwd')", 
                             [

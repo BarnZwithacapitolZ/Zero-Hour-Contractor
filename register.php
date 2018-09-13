@@ -19,7 +19,27 @@
         <input type="time" value="08:00" name="start" />
         <input type="time" value="22:00" name="stop" />
         <input type="text" name="hours"  placeholder="Max Hours" />
-        <input type="text" name="days"  placeholder="Days Open" />    
+        <!--<input type="text" name="days"  placeholder="Days Open" /> -->
+
+        <select name="startDay"  placeholder="Weekly Start">
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="7">Sunday</option>
+        </select> 
+
+        <select name="endDay" placeholder="Weekly Stop">
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5" selected="selected">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="7">Sunday</option>
+        </select> 
 
         <select name="payout"  placeholder="Payout">
             <option value="daily">Daily</option>

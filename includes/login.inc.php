@@ -16,7 +16,11 @@ if (isset($_POST['submit'])) {
         header("Location: ../login?login=$result");
         exit();
     } else {
-        $query = strtr("SELECT * FROM tblemployee WHERE EmployeeEmail=':email' AND CompanyID=':cuid'",
+        $query = strtr(
+            "SELECT * 
+            FROM tblemployee 
+            WHERE EmployeeEmail=':email'
+            AND CompanyID=':cuid'",
             [
                 ":email" => $user['u_email'],
                 ":cuid" => $user['u_cuid']
@@ -44,7 +48,10 @@ if (isset($_POST['submit'])) {
                     'u_id' => $row['EmployeeID']
                 );
 
-                $query = strtr("SELECT * FROM tblcompany WHERE CompanyID=':cuid'",
+                $query = strtr(
+                    "SELECT * 
+                    FROM tblcompany 
+                    WHERE CompanyID=':cuid'",
                     [":cuid" => $user['u_cuid']]
                 );
                 $result = $dbh->executeSelect($query);

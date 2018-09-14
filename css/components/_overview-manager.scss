@@ -31,6 +31,12 @@
                 color: getColor(default-fg);
                 cursor: default;  
                 height: getElemSize(row-header);
+
+                &:nth-last-child(n+2) {
+                    .cell__content {
+                        border-right: 1px solid getColor(overview-border); 
+                    }
+                } 
             }
         }
 
@@ -82,11 +88,12 @@
         font-size: getFontSize(overview-default) - 5px;
     }
 
-    &.overview-manager__cell--user {
+    /*&.overview-manager__cell--user {
         background-color: lighten(getColor(noti-green), 35%);
-    }
+    }*/
 
-    &.overview-manager__cell--today {     
+    &.overview-manager__cell--today {    
+        border: none; 
         &::before {
             box-shadow: -15px 0 15px -15px #bbb inset;
             content: " ";
@@ -110,6 +117,25 @@
                 width: 15px;
             }
         }    
+    }
+
+    &.overview-manager__cell--button {     
+        &:nth-last-child(n+2) {
+            .cell__content {
+                border-right: 1px solid getColor(overview-border); 
+            }
+        }  
+        
+        &:hover {
+            box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+            background-color: getColor(overview-hover-blue);
+            transition: .4s;
+            text-decoration: underline;
+        }
+
+        &.overview-manager__cell--empty:hover {
+            background-color: getColor(hover-red);
+        }        
     }
 
     .cell__content {
@@ -188,31 +214,32 @@
 
     .notification-bubble {
         right: 0;
-        top: -15px;
+        float: right;
+        top: (getElemSize(row-cell) + 15) * -1;
         width: getElemSize(overview-noti-bubble);
         height: getElemSize(overview-noti-bubble);
         line-height: getElemSize(overview-noti-bubble);
         font-weight: bold;
-    }
+        position: relative;
 
-    &.overview-manager__cell--button {     
-        &:nth-last-child(n+2) {
-            .cell__content {
-                border-right: 1px solid getColor(overview-border); 
+        &:nth-child(n+2){
+            margin-right: 10px;
+            
+            @include step1(max) {
+                display: none !important;
             }
-        }  
-        
-        &:hover {
-            box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-            background-color: getColor(overview-hover-blue);
-            transition: .4s;
-            text-decoration: underline;
         }
 
-        &.overview-manager__cell--empty:hover {
-            background-color: getColor(hover-red);
-        }        
-    }
+        &.notification-bubble--today, &.notification-bubble--desc {
+            line-height: 35px;
+            background-color: lighten(getColor(noti-blue), 13%);
+
+            img {
+                width: 15px;
+                height: 15px; 
+            }
+        }
+    }   
 }
 
 .cell__text-content {

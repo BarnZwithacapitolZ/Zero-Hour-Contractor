@@ -73,9 +73,25 @@ if (isset($_POST['submit'])) {
                         header("Location: ../register?register=usertaken");
                         exit(); 
                     } else {
-                        $query = strtr("INSERT INTO tblcompany (CompanyName, CompanyStart,
-                        CompanyStop, CompanyMaxHours, CompanyStartDay, CompanyEndDay, CompanyPayout) 
-                        VALUES (':name', ':start', ':stop', ':hours', ':startDay', ':endDay', ':payout')", 
+                        $query = strtr(
+                            "INSERT INTO tblcompany (
+                                        CompanyName, 
+                                        CompanyStart,
+                                        CompanyStop, 
+                                        CompanyMaxHours, 
+                                        CompanyStartDay, 
+                                        CompanyEndDay, 
+                                        CompanyPayout
+                                        ) 
+                            VALUES (
+                                ':name', 
+                                ':start', 
+                                ':stop', 
+                                ':hours', 
+                                ':startDay', 
+                                ':endDay', 
+                                ':payout'
+                                )", 
                             [
                                 ":name" => $company['c_name'], 
                                 ":start" => $company['c_start'],
@@ -86,13 +102,30 @@ if (isset($_POST['submit'])) {
                                 ":payout" => $company['c_payout']
                             ]
                         );
+
                         $dbh->executeQuery($query);
                         $company['c_id'] = $dbh->lastID();
                         $admin['u_cuid'] = $dbh->lastID();
 
-                        $query = strtr("INSERT INTO tblemployee (CompanyID, EmployeeFirst, 
-                            EmployeeLast, EmployeeType, EmployeePayrate, EmployeeEmail, EmployeePassword) 
-                            VALUES (':cuid', ':first', ':last', ':type', ':payrate', ':email', ':pwd')", 
+                        $query = strtr(
+                            "INSERT INTO tblemployee (
+                                        CompanyID, 
+                                        EmployeeFirst, 
+                                        EmployeeLast, 
+                                        EmployeeType, 
+                                        EmployeePayrate, 
+                                        EmployeeEmail, 
+                                        EmployeePassword
+                                        ) 
+                            VALUES (
+                                ':cuid', 
+                                ':first', 
+                                ':last', 
+                                ':type', 
+                                ':payrate', 
+                                ':email', 
+                                ':pwd'
+                                )", 
                             [
                                 ":cuid" => $admin['u_cuid'], 
                                 ":first" => $admin['u_first'],
@@ -103,6 +136,7 @@ if (isset($_POST['submit'])) {
                                 ":pwd" => password_hash($admin['u_firmPwd'], PASSWORD_DEFAULT)
                             ]
                         );
+                        
                         $dbh->executeQuery($query);
                         $admin['u_id'] = $dbh->lastID();
 

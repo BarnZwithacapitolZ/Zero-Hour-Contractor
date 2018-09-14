@@ -19,7 +19,7 @@
                 <div class="desc__container">
                     <div class="desc__content">
                         <div class="desc__title">
-                            <span><b>Reminder for <?php echo $employee->getName("full"); ?> on <?php echo $bookedHours->getDate(); ?>:</b><span>                       
+                            <span><b>Reminder for <?php echo $employee->getName("full"); ?> on '<?php echo $bookedHours->getDate(true); ?>':</b><span>                       
                         </div>
                         <span class="desc__desc"><?php echo $bookedHours->getDesc(); ?></span>
                         <span class="desc__close">×</span>

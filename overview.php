@@ -61,9 +61,21 @@
                 </div>     
 
                 <?php
-                    $cuid = $company->getID();
-                    $query = "SELECT EmployeeID, CompanyID, EmployeeFirst, EmployeeLast, EmployeeType, 
-                        EmployeePayrate, EmployeeEmail FROM tblemployee WHERE CompanyID='$cuid' ORDER BY EmployeeID DESC";
+                    $query = strtr(
+                        "SELECT 
+                            EmployeeID, 
+                            CompanyID, 
+                            EmployeeFirst, 
+                            EmployeeLast, 
+                            EmployeeType, 
+                            EmployeePayrate, 
+                            EmployeeEmail 
+                        FROM tblemployee 
+                        WHERE CompanyID=':cuid' 
+                        ORDER BY EmployeeID DESC",
+                        [":cuid" => $company->getID()]
+                    );
+
                     $empResult = $dbh->executeSelect($query);
                     if ($empResult) {
                         foreach ($empResult as $emp) {
@@ -82,19 +94,31 @@
 
                     <?php                                   
                             for ($i = $company->getStart(); $i < ($company->getEnd() + 1); $i++) {
-                                $select = $employee->getID();
                                 $date = date('Y-m-d', strtotime('monday ' . $week . ' week') + ($i * 86300)); // 86300 for new day
 
                                 if ($date == date('Y-m-d')) {
                                     $today = "overview-manager__cell--today";
-                                    if ($employee->getID() == $user->getID()) {
-                                        $today = "overview-manager__cell--today overview-manager__cell--user";
-                                    }
+                                    //if ($employee->getID() == $user->getID()) {
+                                        //$today .= " overview-manager__cell--user";
+                                    //}
                                 } else {
                                     $today = "";
                                 }
                                 
-                                $query = "SELECT * FROM tblbook WHERE BookDate='$date' AND EmployeeID='$select' ORDER BY StartTime, EndTime";
+                                $query = strtr(
+                                    "SELECT * 
+                                    FROM tblbook 
+                                    WHERE BookDate=':date' 
+                                    AND EmployeeID=':id' 
+                                    ORDER BY 
+                                            StartTime, 
+                                            EndTime",
+                                    [
+                                        ":date" => $date,
+                                        ":id" => $employee->getID()
+                                    ]
+                                );
+
                                 $bookResult = $dbh->executeSelect($query);
                                 if ($bookResult) {
                                     $bookedHours = new HourTile();
@@ -114,9 +138,23 @@
                             </div>
                         </div>
                         
+                        <div class="notifications">
                         <?php if (count($bookResult) > 1) { ?>
                             <div class="notification-bubble">+<?php echo count($bookResult) - 1;?></div>
+                        <?php
+                            } 
+                            if ($date == date('Y-m-d') && $employee->getID() == $user->getID()) {
+                         ?>
+                            <div class="notification-bubble">!</div>
+                        <?php 
+                            } 
+                            if ($bookedHours->getDesc() !== "") {
+                        ?>
+                            <div class="notification-bubble notification-bubble--desc">
+                                <img src="media/img/icons/description.png" alt="Description icon" />
+                            </div>
                         <?php } ?>
+                        </div>
 
                         <div class="cell__dropdown">
                             <div class="cell__text-content cell__text-content--index">
@@ -159,7 +197,14 @@
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
                     <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php echo $today . " " . $company->getDays(); ?>">
-                        <div class="cell__content"></div>
+                        <div class="cell__content"> </div>
+                        <?php if ($date == date('Y-m-d') && $employee->getID() == $user->getID()) { ?> 
+                            <div class="notifications">
+                                <div class="notification-bubble notification-bubble--today">
+                                    <img src="media/img/icons/today.png" alt="Description icon" />
+                                </div>
+                            </div>
+                        <?php } ?>
                     </div>
                     <?php
                             }

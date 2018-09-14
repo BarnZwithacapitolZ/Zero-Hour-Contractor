@@ -12,7 +12,7 @@ class Employee {
     private $companyID;
     private $error;
 
-    public function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
+    private function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
         $this->employeeID = $id;
         $this->employeeFirst = $first;
         $this->employeeLast = $last;
@@ -78,7 +78,7 @@ class HourTile {
     private $description;
     private $error;
 
-    public function setByParams($id, $empId, $depID, $start, $end, $date, $desc) {
+    private function setByParams($id, $empId, $depID, $start, $end, $date, $desc) {
         $this->bookID = $id;
         $this->employeeID = $id;
         $this->departmentID = $depID;
@@ -108,8 +108,13 @@ class HourTile {
         return substr($this->endTime, 0, 5);
     }
 
-    public function getDate() {
-        return $this->bookDate;
+    public function getDate($verbal = false) {
+        $date = new DateTime(date('Y-m-d', strtotime($this->bookDate)));
+        if ($verbal) {
+            $verbal = $date->format('l') . " the " . $date->format('dS') . " of " . $date->format('F') . " " .  $date->format('Y');
+            return $verbal;
+        }
+        return $date->format('d-m-Y');
     }
 
     public function getHours() {
@@ -154,7 +159,7 @@ class Company {
     private $companyEndDay;
     private $companyPayout;
 
-    public function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
+    private function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
         $this->companyID = $id;
         $this->companyName = $name;
         $this->companyStart = $start;
@@ -194,28 +199,6 @@ class Company {
 
     public function getEnd() {
         return $this->companyEndDay;
-    }
-}
-
-
-
-class Department {
-    private $departmentID;
-    private $departmentName;
-    private $departmentMinEmployees;
-
-    public function setByParams($id, $name, $minEmp) {
-        $this->departmentID = $id;
-        $this->departmentName = $name;
-        $this->departmentMinEmployees = $minEmp;
-    }
-
-    public function setByRow($row) {
-        $this->setByParams(
-            $row['DepartmentID'],
-            $row['DepartmentName'],
-            $row['DepartmentMinEmployees']
-        );
     }
 }
 

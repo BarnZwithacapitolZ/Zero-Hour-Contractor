@@ -14,7 +14,6 @@
             </li>
             <?php 
                 } 
-
                 if ($user->getType() == "admin") {
             ?>
             <li class="nav__icon nav__icon--link" data-tool-tip="Add New..."> 

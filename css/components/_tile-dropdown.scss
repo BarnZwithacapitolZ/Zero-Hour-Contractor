@@ -16,6 +16,7 @@
         padding-top: 5px;
         padding-bottom: 5px;  
         margin-right: 20px;
+        color: black;
 
         &:first-child{
             padding-top: 15px;
@@ -38,22 +39,30 @@ span{
             height: 16px;
             background-color: getColor(noti-red);
             padding: 8px;
-            border-radius: 15px;
+            border-radius: 6px;
             cursor: pointer;
+            margin: 0 5px;
 
             &:hover{
                 background-color: getColor(hover-red-dark);
             }
 
-            &:first-child{
-                background-color: getColor(noti-green);
-                margin-right: 20px; 
+            &.text-content__tools--blue {
+                background-color: lighten(getColor(noti-blue), 13%);
 
-                &:hover{
-                    background-color: getColor(hover-green);
+                &:hover {
+                    background-color: lighten(getColor(hover-blue), 13%);
                 }
             }
-        }
+
+            &.text-content__tools--green {
+                background-color: getColor(noti-green);
+
+                &:hover {
+                    background-color: getColor(hover-green);
+                }
+            }          
+        }      
     }
 
     &.dropdown__button{
@@ -84,6 +93,62 @@ span{
 
             &:hover{
                 background-color: getColor(hover-blue);
+            }
+        }
+    }
+}
+
+.text-content__desc {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 12;
+    background-color: rgba(0, 0, 0, .4);    
+    overflow: auto;
+    display: none;
+
+    .desc__container {
+        max-width: 700px;
+        margin: 100px auto;
+    }
+
+    .desc__content {
+        position: relative;
+        z-index: 11;
+        background-color: white;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, .2);
+        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+        display: block;
+        font-size: 18px;
+        line-height: 1.2;
+        margin: 0 30px;            
+
+        span.desc__desc {
+            padding: 20px 40px 0 40px;
+        }
+
+        span.desc__close {
+            color: rgba(0, 0, 0, .3);
+            font-size: 25px;
+            margin: 20px 40px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-block;
+
+            &:hover {
+                color: black;
+            }
+        }
+
+        .desc__title{
+            border-bottom: 1px solid #ddd;
+            padding: 20px 0;
+
+            span {
+                padding: 0 40px;
             }
         }
     }

@@ -75,15 +75,17 @@ class HourTile {
     private $startTime;
     private $endTime;
     private $bookDate;
+    private $description;
     private $error;
 
-    public function setByParams($id, $empId, $depID, $start, $end, $date) {
+    public function setByParams($id, $empId, $depID, $start, $end, $date, $desc) {
         $this->bookID = $id;
         $this->employeeID = $id;
         $this->departmentID = $depID;
         $this->startTime = $start;
         $this->endTime = $end;
         $this->bookDate = $date;
+        $this->description = $desc;
     }
 
     public function setByRow($row) {
@@ -93,7 +95,8 @@ class HourTile {
             $row['DepartmentID'],
             $row['StartTime'],
             $row['EndTime'],
-            $row['BookDate']
+            $row['BookDate'],
+            $row['Description']
         );
     }
 
@@ -122,6 +125,10 @@ class HourTile {
         }
           
         return $elapsed;
+    }
+
+    public function getDesc() {
+        return $this->description;
     }
 
     public function getDepartment() {

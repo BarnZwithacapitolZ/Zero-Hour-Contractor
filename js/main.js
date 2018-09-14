@@ -69,6 +69,15 @@ $(document).ready(function() {
         } 
         return true;
     });
+
+
+    $('.text-content__tools--blue').on('click', function() {
+        $(this).parent().find('.text-content__desc').fadeIn();
+    });
+
+    $('.desc__close').on('click', function() {
+        $(this).parent().parent().parent().fadeOut();
+    });
 });
 
 

@@ -72,7 +72,6 @@
     display: inline-block;
     font-size: getFontSize(overview-default);
     vertical-align: top;
-    text-align: left;
     position: relative;
 
     @include step3 {
@@ -84,7 +83,7 @@
     }
 
     &.overview-manager__cell--user {
-        background-color: lighten(getColor(noti-green), 38%);
+        background-color: lighten(getColor(noti-green), 35%);
     }
 
     &.overview-manager__cell--today {     

@@ -88,10 +88,6 @@
         font-size: getFontSize(overview-default) - 5px;
     }
 
-    /*&.overview-manager__cell--user {
-        background-color: lighten(getColor(noti-green), 35%);
-    }*/
-
     &.overview-manager__cell--today {    
         border: none; 
         &::before {
@@ -232,7 +228,7 @@
 
         &.notification-bubble--today, &.notification-bubble--desc {
             line-height: 35px;
-            background-color: lighten(getColor(noti-blue), 13%);
+            background-color: getColor(row-names-fg);
 
             img {
                 width: 15px;

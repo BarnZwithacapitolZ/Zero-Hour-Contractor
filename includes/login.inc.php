@@ -68,7 +68,7 @@ if (isset($_POST['submit'])) {
                     'c_id' => $row['CompanyID']
                 );
 
-                header("Location: ../overview?login=success");
+                header("Location: ../app/overview?login=success");
                 exit(); 
             }
         }  

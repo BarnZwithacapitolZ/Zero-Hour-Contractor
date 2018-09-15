@@ -2,6 +2,32 @@
 
 require_once "dbh.inc.php";
 
+
+class Calender {
+    private $date;
+    private $week;
+
+    public function setDate($day) {
+        $this->date = new DateTime(date('Y-m-d', strtotime('monday ' . $this->week . ' week') + ($day * 86300)));
+    }
+
+    public function getDate($format) {
+        return $this->date->format($format);
+    }
+
+    public function setWeek($val) {
+        $this->week = $val;
+    }
+
+    public function getToday($valT = true, $valF = false) {
+        if ($this->date->format('Y-m-d') == date('Y-m-d')) {
+            return $valT;
+        }
+        return $valF;
+    }
+}
+
+
 class Employee {
     private $employeeID;
     private $employeeFirst;
@@ -10,7 +36,76 @@ class Employee {
     private $employeePayrate;
     private $employeeEmail; // Delete
     private $companyID;
-    private $error;
+    private $dbh;
+
+    function __construct() {
+        $this->dbh = new Dbh();
+    }
+
+    public function setByPost($post) {
+         if ($result = $this->dbh->invalidCheck($post)) {
+            header("Location: ?entry=$result");
+            exit(); 
+         } else {
+            if (!preg_match("/^[a-zA-Z]*$/", $post['u_first']) || !preg_match("/^[a-zA-Z]*$/", $post['u_last'])) {
+                header("Location: ?entry=invalid");
+                exit(); 
+            } else {
+                if ($post['u_pwd'] !== $post['u_firmPwd']) {
+                    header("Location: ?entry=unequal");
+                    exit(); 
+                } else {
+                    $query = strtr("SELECT EmployeeEmail FROM tblemployee WHERE EmployeeEmail=':email'",    
+                        [":email" => $post['u_email']]
+                    );
+                    $result = $this->dbh->executeSelect($query);
+
+                    if ($result) { // Email already exists
+                        header("Location: ?entry=usertaken");
+                        exit();
+                    } else {
+                        $post['u_id'] = '-1';
+                        $this->setByArray($post);                       
+                    }
+                }
+            }
+        }
+    }
+
+    public function insertEntry($pwd) {
+        $query = strtr(
+            "INSERT INTO tblemployee (
+                        CompanyID, 
+                        EmployeeFirst, 
+                        EmployeeLast, 
+                        EmployeeType, 
+                        EmployeePayrate, 
+                        EmployeeEmail, 
+                        EmployeePassword
+                        ) 
+            VALUES (
+                ':cuid', 
+                ':first', 
+                ':last', 
+                ':type', 
+                ':payrate', 
+                ':email', 
+                ':pwd'
+                )", 
+            [
+                ":cuid" => $this->companyID, 
+                ":first" => $this->employeeFirst,
+                ":last" => $this->employeeLast, 
+                ":type" => $this->employeeType, 
+                ":payrate" => $this->employeePayrate, 
+                ":email" => $this->employeeEmail,
+                ":pwd" => password_hash($pwd, PASSWORD_DEFAULT)
+            ]
+        );
+
+        $this->dbh->executeQuery($query);
+        $this->employeeID = $this->dbh->lastID();
+    }
 
     private function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
         $this->employeeID = $id;

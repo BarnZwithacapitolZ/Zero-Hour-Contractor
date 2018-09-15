@@ -6,24 +6,33 @@
     require_once "includes/header.inc.php";
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
+
+    $hrefs = array(
+        'home' => "index",
+        'overview' => "apps/overview",
+        'register' => "register",
+        'login' => "login",
+        'works' => "###",
+        'terms' => "###"
+    );
 ?>
 
         <header id="header__landing-header">
             <nav class="landing-header__nav">
                 <ul>    
-                    <li><a href="index"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
-                    <li><a class="nav__link" href="overview">How it works</a></li>
-                    <li><a class="nav__link" href="register">Register</a></li>
-                    <li><a class="nav__login" href="login">Login</a></li>
+                    <li><a href="<?php echo $hrefs['home']; ?>"><img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" /></a></li>
+                    <li><a class="nav__link" href="<?php echo $hrefs['works']; ?>">How it works</a></li>
+                    <li><a class="nav__link" href="<?php echo $hrefs['register']; ?>">Register</a></li>
+                    <li><a class="nav__login" href="<?php echo $hrefs['login']; ?>">Login</a></li>
                     <li class="nav__toggle"><span></span></li>
                 </ul>              
             </nav>  
             
             <nav class="landing-header__nav-dropdown">
                 <ul>           
-                    <li><a class="nav__link" href="overview">How it works</a></li>
-                    <li><a class="nav__link" href="register">Register</a></li>
-                    <li><a class="nav__login" href="login">Login</a></li>
+                    <li><a class="nav__link" href="<?php echo $hrefs['works']; ?>">How it works</a></li>
+                    <li><a class="nav__link" href="<?php echo $hrefs['register']; ?>">Register</a></li>
+                    <li><a class="nav__login" href="<?php echo $hrefs['login']; ?>">Login</a></li>
                 </ul>
             </nav>
         </header>
@@ -34,7 +43,7 @@
                 <h1 class="hl-banner__headline">Manage hours, accounts and employees all in one place.</h1>
                 <p class="hl-banner__subheading">Register your business for free and start managing your contracts today.</p>
 
-                <form action="register" class="hl-banner__company-register" method="GET" autocomplete="off">
+                <form action="<?php echo $hrefs['register']; ?>" class="hl-banner__company-register" method="GET" autocomplete="off">
                     <span error-output="You must enter a name!">
                         <input class="company-register__input" type="text" name="company-name"  placeholder="Business name" />
                     </span>
@@ -105,17 +114,17 @@
 
         <div id="hl-more" class="hl-more__container">
             <p class="hl-more__desc">Eager to learn more huh?</p>
-            <a class="hl-more__link" href="#">How it works</a>
+            <a class="hl-more__link" href="<?php echo $hrefs['works']; ?>">How it works</a>
         </div>
 
         <footer class="footer__landing-footer">
             <div class="footer__col">
                 <nav class="footer__nav">
                     <ul>
-                        <li><a href="overview">Register</a></li>
-                        <li><a href="overview">Login</a></li>
-                        <li><a href="index">Home</a></li>
-                        <li><a href="#">How it works</a></li>
+                        <li><a href="<?php echo $hrefs['register']; ?>">Register</a></li>
+                        <li><a href="<?php echo $hrefs['login']; ?>">Login</a></li>
+                        <li><a href="<?php echo $hrefs['home']; ?>">Home</a></li>
+                        <li><a href="<?php echo $hrefs['works']; ?>">How it works</a></li>
                     </ul>
                 </nav>
             </div>
@@ -124,7 +133,7 @@
                     <ul>
                         <li>Zero Hour Contractor</li>
                         <li>Copyright &copy; 2018</li>
-                        <li><a href="#">Terms</a></li>
+                        <li><a href="<?php echo $hrefs['terms']; ?>">Terms</a></li>
                     </ul>
                 </nav>
             </div>

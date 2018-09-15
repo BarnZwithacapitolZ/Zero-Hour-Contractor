@@ -142,7 +142,7 @@ if (isset($_POST['submit'])) {
 
                         $_SESSION['company'] = $company;
                         $_SESSION['user'] = $admin; // Set the session
-                        header("Location: ../overview?login=success");                      
+                        header("Location: ../app/overview?login=success");                      
                         exit(); 
                     }
                 }

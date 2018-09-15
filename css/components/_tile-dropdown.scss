@@ -48,10 +48,10 @@ span{
             }
 
             &.text-content__tools--blue {
-                background-color: lighten(getColor(noti-blue), 13%);
+                background-color: getColor(row-names-fg);
 
                 &:hover {
-                    background-color: lighten(getColor(hover-blue), 13%);
+                    background-color: getColor(noti-blue);
                 }
             }
 
@@ -89,10 +89,10 @@ span{
         }
 
         &.dropdown__button--return{
-            background-color: getColor(noti-blue);
+            background-color: getColor(row-names-fg);
 
             &:hover{
-                background-color: getColor(hover-blue);
+                background-color: getColor(noti-blue);
             }
         }
     }

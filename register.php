@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     $title = "Register";
     $stylesheet = "landing";
 
@@ -12,9 +14,107 @@
     if (isset($_GET['submit'])) {
         $c_name = $_GET['company-name'];
     }
+
+    if (isset($_POST['register'])) {
+        $validate = new Validate();
+        $validation = $validate->check($_POST, array(
+            'name' => array(
+                'required' => true,
+                'min' => 2,
+                'max' => 40
+            ),
+            'start' => array(
+                'required' => true,
+                'time' => true
+            ),
+            'stop' => array(
+                'required' => true,
+                'time' => true
+            ),
+            'hours' => array(
+                'required' => true,
+                'int' => true
+            ),
+            'startDay' => array(
+                'required' => true,
+                'int' => true
+            ),
+            'endDay' => array(
+                'required' => true,
+                'int' => true
+            ),
+            'payout' => array(
+                'required' => true,
+                'string' => true
+            ),
+            'first' => array(
+                'required' => true,
+                'string' => true,
+                'min' => 2,
+                'max' => 20
+            ),
+            'last' => array(
+                'required' => true,
+                'string' => true,
+                'min' => 2,
+                'max' => 20
+            ),
+            'email' => array(
+                'required' => true,
+                'email' => true,
+                'unique' => array('tblemployee', 'EmployeeEmail')
+            ),
+            'payrate' => array(
+                'required' => true,
+                'float' => true
+            ),
+            'pwd' => array(
+                'required' => true,
+                'min' => 6
+            ),
+            'firmPwd' => array(
+                'required' => true,
+                'matches' => 'pwd',
+                'min' => 6
+            )    
+        ));
+
+        if ($validation->passed()) {
+            $user = new Employee();
+            $company = new Company();
+            try {
+                $company->create(array(
+                    'CompanyName' => $_POST['name'],
+                    'CompanyStart' => $_POST['start'],
+                    'CompanyStop' => $_POST['stop'],
+                    'CompanyMaxHours' => $_POST['hours'],
+                    'CompanyStartDay' => $_POST['startDay'],
+                    'CompanyEndDay' => $_POST['endDay'],
+                    'CompanyPayout' => $_POST['payout']
+                ));             
+                try {
+                    $user->create(array(
+                        'CompanyID' => $company->getLast(),
+                        'EmployeeFirst' => $_POST['first'],
+                        'EmployeeLast' => $_POST['last'],
+                        'EmployeeType' => 'admin',
+                        'EmployeePayrate' => $_POST['payrate'],
+                        'EmployeeEmail' => $_POST['email'],
+                        'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
+                    ));
+                } catch(Exception $e) {
+                    die($e->getMessage());
+                }    
+            } catch(Exception $e) { 
+                die($e->getMessage()); // redirect saying they couldnt log in for whatever reason
+            }
+        } else {
+            print_r($validation->getErrors()); 
+        }  
+    }
 ?>
 
-    <form action="includes/register.inc.php" method="POST" autocomplete="off">
+    <form action="register" method="POST" autocomplete="off">
         <input type="text" name="name"  placeholder="Company Name" value="<?php echo $c_name; ?>" />
         <input type="time" value="08:00" name="start" />
         <input type="time" value="22:00" name="stop" />
@@ -58,6 +158,8 @@
         <input type="text" name="payrate"  placeholder="Your payrate" />
         <input type="password" name="pwd"  placeholder="Password" />
         <input type="password" name="firmPwd"  placeholder="Confirm Password" />
+
+        <input type="hidden" name="register" />
 
         <button name="submit">Start</button>
     </form>

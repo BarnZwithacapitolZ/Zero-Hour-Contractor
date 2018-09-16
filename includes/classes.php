@@ -27,7 +27,6 @@ class Calender {
     }
 }
 
-
 class Employee {
     private $employeeID;
     private $employeeFirst;
@@ -42,69 +41,10 @@ class Employee {
         $this->dbh = new Dbh();
     }
 
-    public function setByPost($post) {
-         if ($result = $this->dbh->invalidCheck($post)) {
-            header("Location: ?entry=$result");
-            exit(); 
-         } else {
-            if (!preg_match("/^[a-zA-Z]*$/", $post['u_first']) || !preg_match("/^[a-zA-Z]*$/", $post['u_last'])) {
-                header("Location: ?entry=invalid");
-                exit(); 
-            } else {
-                if ($post['u_pwd'] !== $post['u_firmPwd']) {
-                    header("Location: ?entry=unequal");
-                    exit(); 
-                } else {
-                    $query = strtr("SELECT EmployeeEmail FROM tblemployee WHERE EmployeeEmail=':email'",    
-                        [":email" => $post['u_email']]
-                    );
-                    $result = $this->dbh->executeSelect($query);
-
-                    if ($result) { // Email already exists
-                        header("Location: ?entry=usertaken");
-                        exit();
-                    } else {
-                        $post['u_id'] = '-1';
-                        $this->setByArray($post);                       
-                    }
-                }
-            }
-        }
-    }
-
-    public function insertEntry($pwd) {
-        $query = strtr(
-            "INSERT INTO tblemployee (
-                        CompanyID, 
-                        EmployeeFirst, 
-                        EmployeeLast, 
-                        EmployeeType, 
-                        EmployeePayrate, 
-                        EmployeeEmail, 
-                        EmployeePassword
-                        ) 
-            VALUES (
-                ':cuid', 
-                ':first', 
-                ':last', 
-                ':type', 
-                ':payrate', 
-                ':email', 
-                ':pwd'
-                )", 
-            [
-                ":cuid" => $this->companyID, 
-                ":first" => $this->employeeFirst,
-                ":last" => $this->employeeLast, 
-                ":type" => $this->employeeType, 
-                ":payrate" => $this->employeePayrate, 
-                ":email" => $this->employeeEmail,
-                ":pwd" => password_hash($pwd, PASSWORD_DEFAULT)
-            ]
-        );
-
-        $this->dbh->executeQuery($query);
-        $this->employeeID = $this->dbh->lastID();
+    public function create($fields = array()) {
+        if (!$this->dbh->insert('tblemployee', $fields)) {
+            throw new Exception("There was a problem creating your user account.");
+        }     
     }
 
     private function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
@@ -162,6 +102,76 @@ class Employee {
         return $this->employeeType;
     }
 }
+
+class Company {
+    private $companyID;
+    private $companyName;
+    private $companyStart;
+    private $companyStop;
+    private $companyMaxHours;
+    private $companyStartDay;
+    private $companyEndDay;
+    private $companyPayout;
+    private $dbh;
+
+    function __construct() {
+        $this->dbh = new Dbh();
+    }
+
+    public function create($fields = array()) {
+        if (!$this->dbh->insert('tblcompany', $fields)) {
+            throw new Exception("There was a problem creating your company account.");
+        }     
+    }
+
+    public function getLast() {
+        return $this->dbh->lastID();
+    }  
+
+    private function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
+        $this->companyID = $id;
+        $this->companyName = $name;
+        $this->companyStart = $start;
+        $this->companyStop = $stop;
+        $this->companyMaxHours = $hours;
+        $this->companyStartDay = $startDay;
+        $this->companyEndDay = $endDay;
+        $this->companyPayout = $payout;
+    }
+
+    public function setByArray($array) {
+        extract($array);
+        $this->setByParams(
+            $c_id,
+            $c_name,
+            $c_start,
+            $c_stop,
+            $c_hours,
+            $c_startDay,
+            $c_endDay,
+            $c_payout
+        );
+    }
+
+    public function getID() {
+        return $this->companyID;
+    }
+
+    public function getDays() {
+        $numDays = ($this->companyEndDay - $this->companyStartDay) + 1;
+        return "day" . $numDays;
+    }
+
+    public function getStart() {
+        return $this->companyStartDay;
+    }
+
+    public function getEnd() {
+        return $this->companyEndDay;
+    }
+}
+
+
 
 class HourTile {
     private $bookID;
@@ -244,58 +254,91 @@ class HourTile {
 }
 
 
-class Company {
-    private $companyID;
-    private $companyName;
-    private $companyStart;
-    private $companyStop;
-    private $companyMaxHours;
-    private $companyStartDay;
-    private $companyEndDay;
-    private $companyPayout;
+Class Validate {
+    private $passed = false;
+    private $errors = array();
+    private $dbh;
 
-    private function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
-        $this->companyID = $id;
-        $this->companyName = $name;
-        $this->companyStart = $start;
-        $this->companyStop = $stop;
-        $this->companyMaxHours = $hours;
-        $this->companyStartDay = $startDay;
-        $this->companyEndDay = $endDay;
-        $this->companyPayout = $payout;
+    function __construct() {
+        $this->dbh = new Dbh();
     }
 
-    public function setByArray($array) {
-        extract($array);
-        $this->setByParams(
-            $c_id,
-            $c_name,
-            $c_start,
-            $c_stop,
-            $c_hours,
-            $c_startDay,
-            $c_endDay,
-            $c_payout
-        );
+    public function check($source, $items = array()) {
+        foreach($items as $item => $rules) {
+            foreach($rules as $rule => $ruleValue) {
+                $value = $source[$item];
+
+                if ($rule === 'required' && empty($value)) {
+                    $this->addError("{$item} is required");
+                } else if(!empty($value)) {
+                    switch($rule) {
+                        case 'min':
+                            if (strlen($value) < $ruleValue) {
+                                $this->addError("{$item} must be a minimum of {$ruleValue} characters");
+                            }
+                        break;
+                        case 'max':
+                            if (strlen($value) > $ruleValue) {
+                                $this->addError("{$item} must be a maximum of {$ruleValue} characters");
+                            }
+                        break;
+                        case 'time':
+                            if (DateTime::createFromFormat('G:i', $value) === false) {
+                                $this->addError("{$item} must be a valid time");
+                            }
+                        break;
+                        case 'int':
+                            if (!filter_var($value, FILTER_VALIDATE_INT)) {
+                                $this->addError("{$item} must be a valid number");
+                            }
+                        break;
+                        case 'float':
+                            if (!filter_var($value, FILTER_VALIDATE_FLOAT)) {
+                                $this->addError("{$item} must be a valid number");
+                            }
+                        break;
+                        case 'email':
+                            if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                                $this->addError("{$item} must be a valid email");
+                            }
+                        break;
+                        case 'string':
+                            if (!preg_match("/^[a-zA-Z]*$/", $value)) {
+                                $this->addError("{$item} must not contain any spaces or letters");
+                            }
+                        break;
+                        case 'matches':
+                            if ($value != $source[$ruleValue]) {
+                                $this->addError("{$ruleValue} must match {$item}");
+                            }
+                        break;
+                        case 'unique':
+                            $result = $this->dbh->get($ruleValue[0], array($ruleValue[1], '=', $value));
+                            if ($result->count()) {
+                                $this->addError("{$item} already exists");
+                            }
+                        break;
+                    }
+                }
+            }
+        }
+        if (empty($this->errors)) {
+            $this->passed = true;
+        }
+
+        return $this;
     }
 
-    public function getID() {
-        return $this->companyID;
+    private function addError($error) {
+        $this->errors[] = $error;
     }
 
-    public function getDays() {
-        $numDays = ($this->companyEndDay - $this->companyStartDay) + 1;
-        return "day" . $numDays;
+    public function getErrors() {
+        return $this->errors;
     }
 
-    public function getStart() {
-        return $this->companyStartDay;
-    }
-
-    public function getEnd() {
-        return $this->companyEndDay;
+    public function passed() {
+        return $this->passed;
     }
 }
-
-
 

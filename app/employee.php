@@ -16,21 +16,60 @@
         $company->setByArray($_SESSION['company']);
 
         if (isset($_POST['entry'])) {
-            $new = new Employee();
-    
-            $entry = array(
-                'u_first' => filter_input(INPUT_POST,'first'),
-                'u_last' => filter_input(INPUT_POST, 'last'),
-                'u_type' => "employee",         
-                'u_payrate' => filter_input(INPUT_POST, 'payrate', FILTER_VALIDATE_FLOAT),
-                'u_email' => filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL),
-                'u_pwd' => filter_input(INPUT_POST, 'pwd'),
-                'u_firmPwd' => filter_input(INPUT_POST, 'firmPwd'),
-                'u_cuid' => $company->getId()
-             );
-            $new->setByPost($entry);
-            $new->insertEntry($entry['u_firmPwd']);
-        }
+            $validate = new Validate();
+            $validation = $validate->check($_POST, array(
+                'first' => array(
+                    'required' => true,
+                    'string' => true,
+                    'min' => 2,
+                    'max' => 20
+                ),
+                'last' => array(
+                    'required' => true,
+                    'string' => true,
+                    'min' => 2,
+                    'max' => 20
+                ),
+                'email' => array(
+                    'required' => true,
+                    'email' => true,
+                    'unique' => array('tblemployee', 'EmployeeEmail')
+                ),
+                'payrate' => array(
+                    'required' => true,
+                    'float' => true
+                ),
+                'pwd' => array(
+                    'required' => true,
+                    'min' => 6
+                ),
+                'firmPwd' => array(
+                    'required' => true,
+                    'matches' => 'pwd',
+                    'min' => 6
+                )    
+            ));
+
+            if ($validation->passed()) {
+                $entry = new Employee();
+
+                try {
+                    $entry->create(array(
+                        'CompanyID' => $company->getID(),
+                        'EmployeeFirst' => $_POST['first'],
+                        'EmployeeLast' => $_POST['last'],
+                        'EmployeeType' => 'employee',
+                        'EmployeePayrate' => $_POST['payrate'],
+                        'EmployeeEmail' => $_POST['email'],
+                        'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
+                    ));
+                } catch(Exception $e) {
+                    die($e->getMessage());
+                }    
+            } else {
+                print_r($validation->getErrors()); 
+            }         
+        }            
     } else {
         header("Location: /zero-hour-contractor/index?login=nologin");
         exit();

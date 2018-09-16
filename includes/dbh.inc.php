@@ -48,7 +48,9 @@ class Dbh{
 
 
 
-    
+    public function first() {
+        return $this->results()[0];
+    }
 
     public function query($stmt, $params = array()) {
         $this->error = false;
@@ -72,28 +74,53 @@ class Dbh{
         return $this;
     }
 
-    public function action($action, $table, $where = array()) {
-        if (count($where) === 3) {
-            $operators = array('=', '>', '<', '>=', '<=');
+    public function multiAction($action, $table, $where = array()) {
+        $condition = '';
+        $values = array();
 
-            $field = $where[0];
-            $operator = $where[1];
-            $value = $where[2];
+        foreach ($where as $key => $value) {
+            $condition .= $value[0] . $value[1] . "?";
+            $values[] = $value[2]; 
 
-            if (in_array($operator, $operators)) {
-                $stmt = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
-                if (!$this->query($stmt, array($value))->error()) {
-                    return $this;
-                }
-            }
+            if ($key !== count($where) - 1) {
+                $condition .= " AND ";     
+            }     
         }
+        $stmt = "{$action} FROM {$table} WHERE {$condition}";
+        if (!$this->query($stmt, $values)->error()) {
+            return $this;
+        }
+        return false;
     }
 
-    public function get($table, $where) {
-        return $this->action('SELECT *', $table, $where);
+    public function action($action, $table, $where = array()) {
+        $field = $where[0];
+        $operator = $where[1];
+        $value = $where[2];
+
+        $stmt = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
+        if (!$this->query($stmt, array($value))->error()) {
+            return $this;               
+        }
+        return false;
     }
 
-    public function delete($table, $where) {
+    public function get($select, $table, $where = array()) {
+        $fields = $select;
+        if (is_array($select)) {
+            $fields = implode(', ', $select);
+        }
+
+        if (is_array($where[0])) {
+            return $this->multiAction("SELECT {$fields}", $table, $where);  
+        } else {
+            return $this->action("SELECT {$fields}", $table, $where); 
+        }
+        
+        return false;
+    }
+
+    public function delete($table, $where = array()) {
         return $this->action('DELETE', $table, $where);
     }
 
@@ -102,7 +129,7 @@ class Dbh{
             $keys = array_keys($fields);
             $values = null;
 
-            $stmt = "INSERT INTO {$table} (".implode(', ', $keys).") VALUES (".implode(', ', array_fill(0, count($fields), '?')).")";
+            $stmt = "INSERT INTO {$table} (" . implode(', ', $keys).") VALUES (" . implode(', ', array_fill(0, count($fields), '?')).")";
 
             if (!$this->query($stmt, $fields)->error()) {
                 return true;

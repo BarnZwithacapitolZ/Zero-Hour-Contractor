@@ -109,12 +109,14 @@
                 die($e->getMessage()); // redirect saying they couldnt log in for whatever reason
             }
         } else {
-            print_r($validation->getErrors()); 
+            foreach($validation->getErrors() as $error) {
+                echo $error, '<br>';
+            }
         }  
     }
 ?>
 
-    <form action="register" method="POST" autocomplete="off">
+    <form action="" method="POST" autocomplete="off">
         <input type="text" name="name"  placeholder="Company Name" value="<?php echo $c_name; ?>" />
         <input type="time" value="08:00" name="start" />
         <input type="time" value="22:00" name="stop" />

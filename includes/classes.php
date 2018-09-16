@@ -35,6 +35,7 @@ class Employee {
     private $employeePayrate;
     private $employeeEmail; // Delete
     private $companyID;
+    private $data;
     private $dbh;
 
     function __construct() {
@@ -45,6 +46,36 @@ class Employee {
         if (!$this->dbh->insert('tblemployee', $fields)) {
             throw new Exception("There was a problem creating your user account.");
         }     
+    }
+
+    public function find($email = null, $cuid = null) {
+        if ($email && $cuid) {
+            $data = $this->dbh->get('*', 'tblemployee', array(
+                array('EmployeeEmail', '=', $email),
+                array('CompanyID', '=', $cuid)
+            ));
+
+            if ($data->count()) {
+                $this->data = $data->first();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function login($email = null, $pwd = null, $cuid = null) {
+        $user = $this->find($email, $cuid);
+
+        if ($user) {
+            if (password_verify($pwd, $this->data()->EmployeePassword)) {
+                return true; // Successful login
+            }
+        }
+        return false;
+    }
+
+    private function data() {
+        return $this->data;
     }
 
     private function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
@@ -170,8 +201,6 @@ class Company {
         return $this->companyEndDay;
     }
 }
-
-
 
 class HourTile {
     private $bookID;
@@ -299,7 +328,7 @@ Class Validate {
                         break;
                         case 'email':
                             if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                                $this->addError("{$item} must be a valid email");
+                                $this->addError("{$item} must be valid");
                             }
                         break;
                         case 'string':
@@ -313,7 +342,7 @@ Class Validate {
                             }
                         break;
                         case 'unique':
-                            $result = $this->dbh->get($ruleValue[0], array($ruleValue[1], '=', $value));
+                            $result = $this->dbh->get('EmployeeEmail', $ruleValue[0], array($ruleValue[1], '=', $value));
                             if ($result->count()) {
                                 $this->addError("{$item} already exists");
                             }

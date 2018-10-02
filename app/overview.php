@@ -13,12 +13,12 @@
     $date->setWeek("this");   
      // For changing when the company is open (might only be 5 days a week etc.)
 
-    if (isset($_SESSION['user']) && isset($_SESSION['company'])) {
+    if (Session::exists('user')) {
         $user = new Employee();
-        $user->setByArray($_SESSION['user']);
+        $user->setByID(Session::get('user'));
 
         $company = new Company();
-        $company->setByArray($_SESSION['company']);
+        $company->setByID($user->getCUID());
     } else {
         header("Location: /zero-hour-contractor/index?login=nologin");
         exit();

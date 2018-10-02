@@ -1,4 +1,5 @@
 <?php
+    session_start();
     $title = "Login";
     $stylesheet = "landing";
 
@@ -7,7 +8,7 @@
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
 
-    if (isset($_POST['login'])) {
+    if (Input::exists()) {
         $validate= new Validate();
         $validation = $validate->check($_POST, array(
             'email' => array(
@@ -20,10 +21,13 @@
 
         if ($validation->passed()) {
             $user = new Employee();
-            $login = $user->login($_POST['email'], $_POST['pwd'], $_POST['cuid']);
 
-            if ($login) {
-                echo "success!!!";
+            if ($user->login(
+                $_POST['email'], 
+                $_POST['pwd'], 
+                $_POST['cuid']
+                )) {
+                header("Location: app/overview?login=success");
             } else {
                 echo "login failed you idiot!!!!";
             }
@@ -36,9 +40,9 @@
 ?>
 
     <form action="" method="POST" autocomplete="off">
-        <input type="text" name="email"  placeholder="Email" />
+        <input type="text" name="email"  placeholder="Email" value="<?php echo escape(Input::get('email')); ?>" />
         <input type="password" name="pwd"  placeholder="Password" />
-        <input type="text" name="cuid"  placeholder="Company Unique ID" />
+        <input type="text" name="cuid"  placeholder="Company Unique ID" value="<?php echo escape(Input::get('cuid')); ?>" />
 
         <input type="hidden" name="login" />
 

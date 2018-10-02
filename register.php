@@ -9,13 +9,7 @@
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
 
-    $c_name = "";
-
-    if (isset($_GET['submit'])) {
-        $c_name = $_GET['company-name'];
-    }
-
-    if (isset($_POST['register'])) {
+    if (Input::exists()) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'name' => array(
@@ -102,6 +96,10 @@
                         'EmployeeEmail' => $_POST['email'],
                         'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
                     ));
+
+                    Session::put('user', $user->getLast());
+                    header("Location: app/overview?registration=success");
+
                 } catch(Exception $e) {
                     die($e->getMessage());
                 }    
@@ -117,13 +115,13 @@
 ?>
 
     <form action="" method="POST" autocomplete="off">
-        <input type="text" name="name"  placeholder="Company Name" value="<?php echo $c_name; ?>" />
-        <input type="time" value="08:00" name="start" />
-        <input type="time" value="22:00" name="stop" />
-        <input type="text" name="hours"  placeholder="Max Hours" />
+        <input type="text" name="name" placeholder="Company Name" value="<?php echo escape(Input::get('name')); ?>" />
+        <input type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+        <input type="time" name="stop" value="<?php echo escape(Input::get('stop', '22:00')); ?>" />
+        <input type="text" name="hours" placeholder="Max Hours" value="<?php echo escape(Input::get('hours')); ?>" />
         <!--<input type="text" name="days"  placeholder="Days Open" /> -->
 
-        <select name="startDay"  placeholder="Weekly Start">
+        <select name="startDay" placeholder="Weekly Start" >
             <option value="1">Monday</option>
             <option value="2">Tuesday</option>
             <option value="3">Wednesday</option>
@@ -154,12 +152,12 @@
 
         <br /> <br />
 
-        <input type="text" name="first"  placeholder="First Name" />
-        <input type="text" name="last"  placeholder="Last Name" />
-        <input type="text" name="email"  placeholder="Email Address" />
-        <input type="text" name="payrate"  placeholder="Your payrate" />
-        <input type="password" name="pwd"  placeholder="Password" />
-        <input type="password" name="firmPwd"  placeholder="Confirm Password" />
+        <input type="text" name="first" placeholder="First Name" value="<?php echo escape(Input::get('first')); ?>" />
+        <input type="text" name="last" placeholder="Last Name" value="<?php echo escape(Input::get('last')); ?>" />
+        <input type="text" name="email" placeholder="Email Address" value="<?php echo escape(Input::get('email')); ?>" />
+        <input type="text" name="payrate" placeholder="Your payrate" value="<?php echo escape(Input::get('payrate')); ?>" />
+        <input type="password" name="pwd" placeholder="Password" />
+        <input type="password" name="firmPwd" placeholder="Confirm Password" />
 
         <input type="hidden" name="register" />
 

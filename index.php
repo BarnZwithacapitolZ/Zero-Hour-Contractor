@@ -45,7 +45,7 @@
 
                 <form action="<?php echo $hrefs['register']; ?>" class="hl-banner__company-register" method="GET" autocomplete="off">
                     <span error-output="You must enter a name!">
-                        <input class="company-register__input" type="text" name="company-name"  placeholder="Business name" />
+                        <input class="company-register__input" type="text" name="name"  placeholder="Business name" />
                     </span>
                     <button class="company-register__submit" name="submit">Start</button>
                 </form>

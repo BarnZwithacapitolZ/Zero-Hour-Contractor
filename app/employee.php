@@ -8,14 +8,14 @@
     require_once "../includes/dbh.inc.php";
     require_once "../includes/classes.php";
 
-    if (isset($_SESSION['user']) && isset($_SESSION['company'])) {
+    if (Session::exists('user')) {
         $user = new Employee();
-        $user->setByArray($_SESSION['user']);
+        $user->setByID(Session::get('user'));
 
         $company = new Company();
-        $company->setByArray($_SESSION['company']);
+        $company->setByID($user->getCUID());
 
-        if (isset($_POST['entry'])) {
+        if (Input::exists()) {
             $validate = new Validate();
             $validation = $validate->check($_POST, array(
                 'first' => array(
@@ -77,11 +77,11 @@
 ?>
 
         <div id="overview-manager" class="overview-manager__container">
-            <form action="employee" method="POST" autocomplete="off">
-                <input type="text" name="first"  placeholder="First Name" />
-                <input type="text" name="last"  placeholder="Last Name" />
-                <input type="text" name="email"  placeholder="Email Address" />
-                <input type="text" name="payrate"  placeholder="Your payrate" />
+            <form action="" method="POST" autocomplete="off">
+                <input type="text" name="first"  placeholder="First Name" value="<?php echo escape(Input::get('first')); ?>" />
+                <input type="text" name="last"  placeholder="Last Name" value="<?php echo escape(Input::get('last')); ?>" />
+                <input type="text" name="email"  placeholder="Email Address" value="<?php echo escape(Input::get('email')); ?>" />
+                <input type="text" name="payrate"  placeholder="Your payrate" value="<?php echo escape(Input::get('payrate')); ?>" />
                 <input type="password" name="pwd"  placeholder="Password" />
                 <input type="password" name="firmPwd"  placeholder="Confirm Password" />
 

@@ -2,6 +2,10 @@
 
 // Connect to the databse
 
+function escape($string) {
+    return htmlentities($string, ENT_QUOTES, 'UTF-8');
+} 
+
 class Dbh{
     private $dbh;
     private $dbServername = "localhost";
@@ -45,8 +49,7 @@ class Dbh{
 
         return $entry;
     }
-
-
+   
 
     public function first() {
         return $this->results()[0];

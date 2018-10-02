@@ -35,17 +35,20 @@ class Employee {
     private $employeePayrate;
     private $employeeEmail; // Delete
     private $companyID;
-    private $data;
     private $dbh;
 
     function __construct() {
         $this->dbh = new Dbh();
     }
 
+    public function getLast() {
+        return $this->dbh->lastID();
+    }  
+
     public function create($fields = array()) {
         if (!$this->dbh->insert('tblemployee', $fields)) {
             throw new Exception("There was a problem creating your user account.");
-        }     
+        } 
     }
 
     public function find($email = null, $cuid = null) {
@@ -56,8 +59,7 @@ class Employee {
             ));
 
             if ($data->count()) {
-                $this->data = $data->first();
-                return true;
+                return $data->first();
             }
         }
         return false;
@@ -66,8 +68,9 @@ class Employee {
     public function login($email = null, $pwd = null, $cuid = null) {
         $user = $this->find($email, $cuid);
 
-        if ($user) {
-            if (password_verify($pwd, $this->data()->EmployeePassword)) {
+        if ($result = $user) {
+            if (password_verify($pwd, $result->EmployeePassword)) { // only if password is correct
+                Session::put('user', $result->EmployeeID);
                 return true; // Successful login
             }
         }
@@ -88,17 +91,20 @@ class Employee {
         $this->companyID = $compID;
     }
 
-    public function setByArray($array){
-        extract($array);     
-        $this->setByParams(
-            $u_id,
-            $u_first,
-            $u_last,
-            $u_type,
-            $u_payrate,
-            $u_email,
-            $u_cuid
-        );
+    public function setByID($id) {
+        $data = $this->dbh->get('*', 'tblemployee', array('EmployeeID', '=', $id));
+        if ($data->count()) {
+            $row = $data->first();
+            $this->setByParams(
+                $row->EmployeeID,
+                $row->EmployeeFirst,
+                $row->EmployeeLast,
+                $row->EmployeeType,
+                $row->EmployeePayrate,
+                $row->EmployeeEmail,
+                $row->CompanyID
+            );
+        }
     }
 
     public function setByRow($row) {
@@ -170,18 +176,21 @@ class Company {
         $this->companyPayout = $payout;
     }
 
-    public function setByArray($array) {
-        extract($array);
-        $this->setByParams(
-            $c_id,
-            $c_name,
-            $c_start,
-            $c_stop,
-            $c_hours,
-            $c_startDay,
-            $c_endDay,
-            $c_payout
-        );
+    public function setByID($id) {
+        $data = $this->dbh->get('*', 'tblcompany', array('CompanyID', '=', $id));
+        if ($data->count()) {
+            $row = $data->first();
+            $this->setByParams(
+                $row->CompanyID,
+                $row->CompanyName,
+                $row->CompanyStart,
+                $row->CompanyStop,
+                $row->CompanyMaxHours,
+                $row->CompanyStartDay,
+                $row->CompanyEndDay,
+                $row->CompanyPayout
+            );
+        }
     }
 
     public function getID() {
@@ -371,3 +380,47 @@ Class Validate {
     }
 }
 
+class Input {
+    public static function exists($type = 'post') {
+        switch($type) {
+            case 'post':
+                return (!empty($_POST)) ? true : false;
+            break;  
+            case 'get':
+                return (!empty($_GET[$name])) ? true : false;
+            break; 
+            default:
+                return false;
+            break;
+        }
+    }
+
+    public static function get($item, $default = '') {
+        if (isset($_POST[$item])) {
+            return $_POST[$item];
+        } else if (isset($_GET[$item])) {
+            return $_GET[$item];
+        }
+        return $default;
+    }
+}
+
+class Session {
+    public static function exists($name) {
+        return (isset($_SESSION[$name])) ? true : false;
+    }
+
+    public static function put($name, $value) {
+        return $_SESSION[$name] = $value;
+    }
+
+    public static function get($name) {
+        return $_SESSION[$name];
+    }
+
+    public static function delete($name) {
+        if (self::exists($name)) {
+            unset($_SESSION[$name]);
+        }
+    }
+}

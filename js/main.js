@@ -71,11 +71,11 @@ $(document).ready(function() {
     });
 
 
-    $('.text-content__tools--blue').on('click', function() {
-        $(this).parent().find('.text-content__desc').fadeIn();
+    $('.model--open').on('click', function() {
+        $(this).parent().find('.model__full').fadeIn();
     });
 
-    $('.desc__close').on('click', function() {
+    $('.model__close').on('click', function() {
         $(this).parent().parent().parent().fadeOut();
     });
 });

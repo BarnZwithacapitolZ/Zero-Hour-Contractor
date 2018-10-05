@@ -64,10 +64,12 @@
                         'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
                     ));
                 } catch(Exception $e) {
-                    die($e->getMessage());
+                    print_r($e->getMessage());
                 }    
             } else {
-                print_r($validation->getErrors()); 
+                foreach($validation->getErrors() as $error) {
+                    echo $error, '<br>';
+                }
             }         
         }            
     } else {

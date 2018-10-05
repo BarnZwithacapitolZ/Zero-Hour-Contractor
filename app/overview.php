@@ -19,6 +19,11 @@
 
         $company = new Company();
         $company->setByID($user->getCUID());
+
+
+        // Where the validation for post inputs will be
+
+
     } else {
         header("Location: /zero-hour-contractor/index?login=nologin");
         exit();
@@ -198,13 +203,67 @@
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
                     <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php echo $date->getToday("overview-manager__cell--today ", "") . $company->getDays(); ?>">
-                        <div class="cell__content"> </div>
+                        <div class="cell__content model--open"> </div>
+
+                        <div class="model__full">
+                            <div class="model__container">
+                                <div class="model__content">
+                                    <div class="model__title">
+                                        <span><b>Request hours for <?php echo $employee->getName("full"); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                                    </div>
+
+                                    <div class="model__desc">
+                                        <?php 
+                                            $department = new Department();
+                                            $result = $department->getDepByComp($company->getID());
+
+                                            if (!$result) { // If there are no departments for that specific company     
+                                                if ($user->getType() == 'admin') {                                 
+                                        ?>
+                                            <p>You currently have no department to bind hours to.</p>
+                                            <a href="department" class="add">Add Departments</a>
+                                        <?php
+                                                } else {
+                                        ?>
+                                            <p>You currently have no department to bind hours to.</p>
+                                            <p>You must wait for an admin to create some.</p>
+                                        <?php
+                                                }
+                                            } else {
+                                        ?>
+                                        <form action="" method="POST" autocomplete="off">                                       
+                                            <input type="hidden" name="uid" value="<?php $employee->getID(); ?>" />
+
+                                            <select name="department" placeholder="Department" >
+                                                <?php
+                                                    foreach ($result as $dep) {
+                                                ?>
+                                                    <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                                <?php
+                                                    }
+                                                ?>
+                                            </select> 
+
+                                            <input type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+                                            <input type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
+
+                                            <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+
+                                            <button name="submit">Submit</button>
+                                        </form>
+                                        <?php }?>
+                                    </div>
+                                    <span class="model__close">×</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <?php if ($date->getToday() && $employee->getID() == $user->getID()) { ?> 
                             <div class="notifications">
                                 <div class="notification-bubble notification-bubble--today">
                                     <img src="../media/img/icons/today.png" alt="Description icon" />
                                 </div>
-                            </div>
+                            </div>                         
                         <?php } ?>
                     </div>
                     <?php

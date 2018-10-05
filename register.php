@@ -98,7 +98,7 @@
                     ));
 
                     Session::put('user', $user->getLast());
-                    header("Location: app/overview?registration=success");
+                    //header("Location: app/overview?registration=success");
 
                 } catch(Exception $e) {
                     die($e->getMessage());

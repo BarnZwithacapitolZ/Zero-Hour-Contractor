@@ -26,6 +26,8 @@ class Dbh{
         return $this->dbh->lastInsertId();
     }
 
+
+    // ******************* DELETE ***************************
     public function executeQuery($query) {
         $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -49,7 +51,10 @@ class Dbh{
 
         return $entry;
     }
-   
+
+    //***************************DELETE END *************** 
+
+
 
     public function first() {
         return $this->results()[0];
@@ -69,11 +74,12 @@ class Dbh{
             if ($this->query->execute()) {
                 $this->results = $this->query->fetchAll(PDO::FETCH_OBJ);
                 $this->count = $this->query->rowCount();
-            } else {
+                
+            } else {                
                 $this->error = $this->dbh->errorInfo();
+      
             }
         }
-
         return $this;
     }
 
@@ -128,7 +134,7 @@ class Dbh{
     }
 
     public function insert($table, $fields = array()) {
-        if (count($fields)) {
+        if (count($fields)) {            
             $keys = array_keys($fields);
             $values = null;
 
@@ -138,6 +144,7 @@ class Dbh{
                 return true;
             }
         }
+
         return false; // No data
     }
 

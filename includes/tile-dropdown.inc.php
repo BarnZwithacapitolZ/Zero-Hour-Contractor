@@ -14,15 +14,15 @@
 
     <span class="text-content__tools">
         <?php if ($bookedHours->getDesc() !== "") { ?>
-            <img src="../media/img/icons/description.png" class="text-content__tools--blue" alt="Edit icon" />
-            <div class="text-content__desc">
-                <div class="desc__container">
-                    <div class="desc__content">
-                        <div class="desc__title">
-                            <span><b>Reminder for <?php echo $employee->getName("full"); ?> on '<?php echo $bookedHours->getDate(true); ?>':</b><span>                       
+            <img src="../media/img/icons/description.png" class="text-content__tools--blue model--open" alt="Edit icon" />
+            <div class="text-content__desc model__full">
+                <div class="model__container">
+                    <div class="model__content">
+                        <div class="model__title">
+                            <span><b>Reminder for <?php echo $employee->getName("full"); ?> on <?php echo $bookedHours->getDate(true); ?>:</b></span>                       
                         </div>
-                        <span class="desc__desc"><?php echo $bookedHours->getDesc(); ?></span>
-                        <span class="desc__close">×</span>
+                        <div class="model__desc"><?php echo $bookedHours->getDesc(); ?></div>
+                        <span class="model__close">×</span>
                     </div>
                 </div>
             </div>

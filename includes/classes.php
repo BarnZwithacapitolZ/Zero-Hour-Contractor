@@ -11,8 +11,12 @@ class Calender {
         $this->date = new DateTime(date('Y-m-d', strtotime('monday ' . $this->week . ' week') + ($day * 86300)));
     }
 
-    public function getDate($format) {
+    public function getDate($format = 'Y-m-d') {
         return $this->date->format($format);
+    }
+
+    public function getDateVerbal() {
+        return $this->date->format('l') . " the " . $this->date->format('dS') . " of " . $this->date->format('F') . " " .  $this->date->format('Y');
     }
 
     public function setWeek($val) {
@@ -288,6 +292,26 @@ class HourTile {
         $name = $dbh->executeSelect($query);
 
         return $name[0]['DepartmentName'];
+    }
+}
+
+class Department {
+    private $departmentID;
+    private $companyID;
+    private $departmentName;
+    private $departmentMinEmployees;
+    private $dbh;
+
+    function __construct() {
+        $this->dbh = new Dbh();
+    }
+
+    public function getDepByComp($cuid) {
+        $result = $this->dbh->get('*', 'tbldepartment', array('CompanyID', '=', $cuid));
+        if ($result->count()) {
+            return $result->results();
+        }
+        return false;
     }
 }
 

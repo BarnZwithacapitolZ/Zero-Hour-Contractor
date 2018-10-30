@@ -71,11 +71,26 @@ $(document).ready(function() {
     });
 
 
-    $('.model--open').on('click', function() {
-        $(this).parent().find('.model__full').fadeIn();
+
+    // Seperate events so that different modals can be differentiated from one another
+
+    $('.modal__open--del').on('click', function() {
+        $(this).parent().find('.modal__full--del').fadeIn();     
     });
 
-    $('.model__close').on('click', function() {
+    $('.modal__open--desc').on('click', function() {
+        $(this).parent().find('.modal__full--desc').fadeIn();     
+    });
+
+    $('.modal__open--edit').on('click', function() {
+        $(this).parent().find('.modal__full--edit').fadeIn();     
+    });
+
+    $('.modal__open').on('click', function() {
+        $(this).parent().find('.modal__full').fadeIn();     
+    });
+
+    $('.modal__close').on('click', function() {
         $(this).parent().parent().parent().fadeOut();
     });
 });

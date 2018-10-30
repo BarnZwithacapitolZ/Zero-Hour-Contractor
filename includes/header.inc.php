@@ -4,9 +4,10 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width = device-width, initial-scale = 1">
-		<title><?php echo $title; ?></title>			
+		<title><?php echo $title; ?></title>
+		<!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->			
 		<!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-		<link rel="stylesheet" type="text/css" href="/zero-hour-contractor/css/<?php echo $stylesheet; ?>.css?version=75">
+		<link rel="stylesheet" type="text/css" href="/zero-hour-contractor/css/<?php echo $stylesheet; ?>.css?version=87">
 		<link rel="icon" href="media/img/icons/icon.png">
 	</head>
 	

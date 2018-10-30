@@ -52,6 +52,10 @@ a {
     text-decoration: none;
 }
 
+::placeholder {
+    color: #a9a9a9;
+}
+
 
 article,aside,details,figcaption,figure,
 footer,header,hgroup,menu,nav,section { 

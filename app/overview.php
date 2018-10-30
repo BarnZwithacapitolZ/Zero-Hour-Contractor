@@ -20,9 +20,18 @@
         $company = new Company();
         $company->setByID($user->getCUID());
 
-
-        // Where the validation for post inputs will be
-
+        if (Input::exists('delete')) {
+            $tile = new HourTile();
+            try {
+                $tile->delete($_POST['id']);
+            } catch(Exception $e) {
+                die($e->getMessage());
+            }         
+        } else if (Input::exists('submit')) {
+            return;
+        } else if (Input::exists('update')) {
+            return;
+        }
 
     } else {
         header("Location: /zero-hour-contractor/index?login=nologin");
@@ -191,9 +200,55 @@
                                     include "../includes/tile-dropdown.inc.php"; 
                                 }  
                             ?>             
-                            <span class="dropdown__button dropdown__button--add"> <!-- Book more hours onto tile (anchor point) -->
+                            <span class="dropdown__button dropdown__button--add modal__open"> <!-- Book more hours onto tile (anchor point) -->
                                 <img src="../media/img/icons/plus.png" alt="Add new hours icon" />
                             </span>
+                            <div class="modal__full">
+                                <div class="modal__container">
+                                    <div class="modal__content">
+                                        <div class="modal__title">
+                                            <span><b>Request new hours for <?php echo $employee->getName("full"); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                                        </div>
+
+                                        <div class="modal__desc">
+                                            <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
+                                                <input type="hidden" name="uid" value="<?php $employee->getID(); ?>" />
+                                                <div class="modal-form--left">
+                                                    <span class="modal-form__tag">Department:</span>
+                                                    <select class="modal-form__input" name="department" placeholder="Department">
+                                                        <option value="" disabled selected>Please select</option>
+                                                        <?php
+                                                            foreach ($result as $dep) {
+                                                        ?>
+                                                            <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </select> 
+
+                                                    <div class="modal-form__time">
+                                                        <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
+                                                        <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+                                                    </div>
+
+                                                    <div class="modal-form__time">
+                                                        <span class="modal-form__tag modal-form__tag--time">End Time:</span>
+                                                        <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
+                                                    </div>
+                                                    
+                                                    <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+
+                                                    <span class="modal-form__tag">Description (optional):</span>
+                                                    <input class="modal-form__input modal-form__input--desc" type="text" name="desc"  value="<?php echo escape(Input::get('desc')); ?>" />
+                                                </div>
+                                                <button name="submit" class="modal-form__add">Submit</button>
+                                            </form>                              
+                                        </div>
+                                        <span class="modal__close">×</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <span class="dropdown__button dropdown__button--return">
                                 <img src="../media/img/icons/arrow.png" alt="Close dropdown icon" />
                             </span>
@@ -203,16 +258,16 @@
                         
                     <?php } else { // No results found within employee row (no booked hours) ?>
                     <div class="overview-manager__cell overview-manager__cell--button overview-manager__cell--empty <?php echo $date->getToday("overview-manager__cell--today ", "") . $company->getDays(); ?>">
-                        <div class="cell__content model--open"> </div>
+                        <div class="cell__content modal__open"> </div>
 
-                        <div class="model__full">
-                            <div class="model__container">
-                                <div class="model__content">
-                                    <div class="model__title">
+                        <div class="modal__full">
+                            <div class="modal__container">
+                                <div class="modal__content">
+                                    <div class="modal__title">
                                         <span><b>Request hours for <?php echo $employee->getName("full"); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
                                     </div>
 
-                                    <div class="model__desc">
+                                    <div class="modal__desc">
                                         <?php 
                                             $department = new Department();
                                             $result = $department->getDepByComp($company->getID());
@@ -221,7 +276,9 @@
                                                 if ($user->getType() == 'admin') {                                 
                                         ?>
                                             <p>You currently have no department to bind hours to.</p>
-                                            <a href="department" class="add">Add Departments</a>
+                                            <span class="modal__form">
+                                                <a href="department" class="modal-form__add">Add Departments</a>
+                                            </span>
                                         <?php
                                                 } else {
                                         ?>
@@ -231,29 +288,39 @@
                                                 }
                                             } else {
                                         ?>
-                                        <form action="" method="POST" autocomplete="off">                                       
+                                        <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
                                             <input type="hidden" name="uid" value="<?php $employee->getID(); ?>" />
+                                            <div class="modal-form--left">
+                                                <span class="modal-form__tag">Department:</span>
+                                                <select class="modal-form__input" name="department" placeholder="Department" >
+                                                    <option value="" disabled selected>Please select</option>
+                                                    <?php
+                                                        foreach ($result as $dep) {
+                                                    ?>
+                                                        <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                                    <?php
+                                                        }
+                                                    ?>
+                                                </select> 
+                                                <div class="modal-form__time">
+                                                    <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+                                                </div>
 
-                                            <select name="department" placeholder="Department" >
-                                                <?php
-                                                    foreach ($result as $dep) {
-                                                ?>
-                                                    <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
-                                                <?php
-                                                    }
-                                                ?>
-                                            </select> 
+                                                <div class="modal-form__time">
+                                                    <span class="modal-form__tag modal-form__tag--time">End Time:</span>
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
+                                                </div>
 
-                                            <input type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
-                                            <input type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
-
-                                            <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-
-                                            <button name="submit">Submit</button>
+                                                <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+                                                <span class="modal-form__tag">Description (optional):</span>
+                                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc')); ?>" />
+                                            </div>
+                                            <button name="submit" class="modal-form__add">Submit</button>
                                         </form>
                                         <?php }?>
                                     </div>
-                                    <span class="model__close">×</span>
+                                    <span class="modal__close">×</span>
                                 </div>
                             </div>
                         </div>

@@ -9,7 +9,7 @@
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
 
-    if (Input::exists()) {
+    if (Input::exists('submit')) {
         $validate = new Validate();
         $validation = $validate->check($_POST, array(
             'name' => array(
@@ -158,8 +158,6 @@
         <input type="text" name="payrate" placeholder="Your payrate" value="<?php echo escape(Input::get('payrate')); ?>" />
         <input type="password" name="pwd" placeholder="Password" />
         <input type="password" name="firmPwd" placeholder="Confirm Password" />
-
-        <input type="hidden" name="register" />
 
         <button name="submit">Start</button>
     </form>

@@ -8,7 +8,7 @@
     require_once "includes/dbh.inc.php";
     require_once "includes/classes.php";
 
-    if (Input::exists()) {
+    if (Input::exists('submit')) {
         $validate= new Validate();
         $validation = $validate->check($_POST, array(
             'email' => array(
@@ -43,8 +43,6 @@
         <input type="text" name="email"  placeholder="Email" value="<?php echo escape(Input::get('email')); ?>" />
         <input type="password" name="pwd"  placeholder="Password" />
         <input type="text" name="cuid"  placeholder="Company Unique ID" value="<?php echo escape(Input::get('cuid')); ?>" />
-
-        <input type="hidden" name="login" />
 
         <button name="submit">Start</button>
     </form>

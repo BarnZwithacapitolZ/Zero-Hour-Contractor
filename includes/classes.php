@@ -49,6 +49,13 @@ class Employee {
         return $this->dbh->lastID();
     }  
 
+    public function getFromCuid($cuid){
+        $result = $this->dbh->get('*', 'tblemployee', array("CompanyID", '=', $cuid));
+        if ($result->count()) {
+            return;
+        }
+    }
+
     public function create($fields = array()) {
         if (!$this->dbh->insert('tblemployee', $fields)) {
             throw new Exception("There was a problem creating your user account.");
@@ -224,6 +231,29 @@ class HourTile {
     private $bookDate;
     private $description;
     private $error;
+    private $dbh;
+
+    function __construct() {
+        $this->dbh = new Dbh();
+    }
+
+    public function create($fields = array()) {
+        if (!$this->dbh->insert('tblbook', $fields)) {
+            throw new Exception("There was a problem processing your request."); // When false returned
+        }
+    }
+
+    public function update($fields = array()) {
+        if (!$this->tbh->update('tblbook', $this->bookID, $fields)) {
+            throw new Exception("There was a problem processing your request."); // When false returned
+        }
+    }
+
+    public function delete($id) {
+        if (!$this->dbh->delete('tblbook', array('BookID', '=', $id))) {
+            throw new Exception("There was a problem processing your request."); // When false returned
+        }
+    }
 
     private function setByParams($id, $empId, $depID, $start, $end, $date, $desc) {
         $this->bookID = $id;
@@ -245,6 +275,10 @@ class HourTile {
             $row['BookDate'],
             $row['Description']
         );
+    }
+
+    public function getID() {
+        return $this->bookID;
     }
 
     public function getStart() {
@@ -304,6 +338,12 @@ class Department {
 
     function __construct() {
         $this->dbh = new Dbh();
+    }
+
+    public function create($fields = array()) {
+        if (!$this->dbh->insert('tbldepartment', $fields)) {
+            throw new Exception("There was a problem creating your user account.");
+        } 
     }
 
     public function getDepByComp($cuid) {
@@ -405,13 +445,13 @@ Class Validate {
 }
 
 class Input {
-    public static function exists($type = 'post') {
+    public static function exists($name, $type = 'post') {
         switch($type) {
             case 'post':
-                return (!empty($_POST)) ? true : false;
+                return (isset($_POST[$name])) ? true : false;
             break;  
             case 'get':
-                return (!empty($_GET[$name])) ? true : false;
+                return (isset($_GET[$name])) ? true : false;
             break; 
             default:
                 return false;

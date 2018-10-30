@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $title = "Weekly Overview";
+    $title = "Employees";
     $stylesheet = "main";
 
     date_default_timezone_set('Europe/London');
@@ -15,7 +15,7 @@
         $company = new Company();
         $company->setByID($user->getCUID());
 
-        if (Input::exists()) {
+        if (Input::exists('submit')) {
             $validate = new Validate();
             $validation = $validate->check($_POST, array(
                 'first' => array(
@@ -63,6 +63,8 @@
                         'EmployeeEmail' => $_POST['email'],
                         'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
                     ));
+
+                    $_POST = array(); // Clear post to allow for new entries
                 } catch(Exception $e) {
                     print_r($e->getMessage());
                 }    
@@ -89,7 +91,7 @@
 
                 <input type="hidden" name="entry" />
 
-                <button name="submit">Start</button>
+                <button name="submit">Submit</button>
             </form>
         </div>
 

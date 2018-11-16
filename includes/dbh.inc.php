@@ -83,54 +83,49 @@ class Dbh{
         return $this;
     }
 
-    public function multiAction($action, $table, $where = array()) {
+    public function action($action, $table, $where = array(), $order) {
         $condition = '';
         $values = array();
 
-        foreach ($where as $key => $value) {
-            $condition .= $value[0] . $value[1] . "?";
-            $values[] = $value[2]; 
-
-            if ($key !== count($where) - 1) {
-                $condition .= " AND ";     
-            }     
+        if (is_array($where[0])) {
+            foreach ($where as $key => $value) {
+                $condition .= $value[0] . " " . $value[1] . ' ?';
+                $values[] = $value[2];
+                if ($key !== count($where) - 1) {
+                    $condition .= " AND ";
+                }
+            }
+        } else {
+            $condition = $where[0] . " " . $where[1] . ' ?';
+            $values[] = $where[2];
         }
-        $stmt = "{$action} FROM {$table} WHERE {$condition}";
+
+        $stmt = "{$action} FROM {$table} WHERE {$condition} {$order}";
         if (!$this->query($stmt, $values)->error()) {
-            return $this;
-        }
-        return false;
-    }
-
-    public function action($action, $table, $where = array()) {
-        $field = $where[0];
-        $operator = $where[1];
-        $value = $where[2];
-
-        $stmt = "{$action} FROM {$table} WHERE {$field} {$operator} ?";
-        if (!$this->query($stmt, array($value))->error()) {
             return $this;               
         }
         return false;
     }
 
-    public function get($select, $table, $where = array()) {
+    public function get($select, $table, $where = array(), $order = '') {
         $fields = $select;
+        
         if (is_array($select)) {
             $fields = implode(', ', $select);
         }
 
-        if (is_array($where[0])) {
-            return $this->multiAction("SELECT {$fields}", $table, $where);  
-        } else {
-            return $this->action("SELECT {$fields}", $table, $where); 
+        if ($order !== '') {
+            $place = $order;
+            if (is_array($order)) {
+                $place = implode(', ', $order);
+            } 
+            return $this->action("SELECT {$fields}", $table, $where, "ORDER BY {$place}");
         }
-        
-        return false;
+        return $this->action("SELECT {$fields}", $table, $where, $order);      
     }
 
     public function delete($table, $where = array()) {
-        return $this->action('DELETE', $table, $where);
+        return $this->action('DELETE', $table, $where, '');
     }
 
     public function insert($table, $fields = array()) {

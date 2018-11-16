@@ -5,7 +5,7 @@
             <?php 
                 // Make sure to echo employee name once login is set up (as a session variable)
                 $icons = array(
-                    array("profile.jpg", $user->getName("full"), "profile"), 
+                    array("profile.jpg", $employee->getFullName($user), "profile"), 
                     array("weekly.png", "Weekly Overview", "overview"), 
                     array("daily.png", "Daily Overview", "###"), 
                     array("bell.png", "Notifications", "###"), 
@@ -43,7 +43,7 @@
             </li>
 
             <?php                 
-                if ($user->getType() == "admin") {
+                if ($user->EmployeeType == "admin") {
             ?>
             <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[5][1]; ?>"> 
                 <a href="<?php echo $icons[5][2]; ?>"><img src="../media/img/icons/<?php echo $icons[5][0]; ?>" /></a>

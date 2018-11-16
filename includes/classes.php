@@ -23,22 +23,19 @@ class Calender {
         $this->week = $val;
     }
 
-    public function getToday($valT = true, $valF = false) {
+    public function checkToday($valT = true, $valF = false) {
         if ($this->date->format('Y-m-d') == date('Y-m-d')) {
             return $valT;
         }
         return $valF;
     }
+
+    public function getToday($format = 'Y-m-d') {
+        return date($format);
+    }
 }
 
 class Employee {
-    private $employeeID;
-    private $employeeFirst;
-    private $employeeLast;
-    private $employeeType; // Delete
-    private $employeePayrate;
-    private $employeeEmail; // Delete
-    private $companyID;
     private $dbh;
 
     function __construct() {
@@ -52,8 +49,9 @@ class Employee {
     public function getFromCuid($cuid){
         $result = $this->dbh->get('*', 'tblemployee', array("CompanyID", '=', $cuid));
         if ($result->count()) {
-            return;
+            return $result->results();
         }
+        return false;
     }
 
     public function create($fields = array()) {
@@ -88,78 +86,20 @@ class Employee {
         return false;
     }
 
-    private function data() {
-        return $this->data;
-    }
-
-    private function setByParams($id, $first, $last, $type, $payrate, $email, $compID) {
-        $this->employeeID = $id;
-        $this->employeeFirst = $first;
-        $this->employeeLast = $last;
-        $this->employeeType = $type;
-        $this->employeePayrate = $payrate;
-        $this->employeeEmail = $email;
-        $this->companyID = $compID;
-    }
-
-    public function setByID($id) {
-        $data = $this->dbh->get('*', 'tblemployee', array('EmployeeID', '=', $id));
-        if ($data->count()) {
-            $row = $data->first();
-            $this->setByParams(
-                $row->EmployeeID,
-                $row->EmployeeFirst,
-                $row->EmployeeLast,
-                $row->EmployeeType,
-                $row->EmployeePayrate,
-                $row->EmployeeEmail,
-                $row->CompanyID
-            );
+    public function getByID($id) {
+        $result = $this->dbh->get('*', 'tblemployee', array('EmployeeID', '=', $id));
+        if ($result->count()) {
+            return $result->first();
         }
+        return false;
     }
 
-    public function setByRow($row) {
-        $this->setByParams(
-            $row['EmployeeID'],
-            $row['EmployeeFirst'],
-            $row['EmployeeLast'],
-            $row['EmployeeType'],
-            $row['EmployeePayrate'],
-            $row['EmployeeEmail'],
-            $row['CompanyID']
-        );
-    }
-
-    public function getName($length = "first") {
-        if ($length == "full") {
-            return $this->employeeFirst . " " . $this->employeeLast;
-        } else {
-            return $this->employeeFirst;
-        }
-    }
-
-    public function getID() {
-        return $this->employeeID;
-    }
-
-    public function getCUID() {
-        return $this->companyID;
-    }
-
-    public function getType() {
-        return $this->employeeType;
+    public function getFullName($data) {
+        return $data->EmployeeFirst . " " . $data->EmployeeLast;
     }
 }
 
 class Company {
-    private $companyID;
-    private $companyName;
-    private $companyStart;
-    private $companyStop;
-    private $companyMaxHours;
-    private $companyStartDay;
-    private $companyEndDay;
-    private $companyPayout;
     private $dbh;
 
     function __construct() {
@@ -176,65 +116,35 @@ class Company {
         return $this->dbh->lastID();
     }  
 
-    private function setByParams($id, $name, $start, $stop, $hours, $startDay, $endDay, $payout) {
-        $this->companyID = $id;
-        $this->companyName = $name;
-        $this->companyStart = $start;
-        $this->companyStop = $stop;
-        $this->companyMaxHours = $hours;
-        $this->companyStartDay = $startDay;
-        $this->companyEndDay = $endDay;
-        $this->companyPayout = $payout;
-    }
-
-    public function setByID($id) {
-        $data = $this->dbh->get('*', 'tblcompany', array('CompanyID', '=', $id));
-        if ($data->count()) {
-            $row = $data->first();
-            $this->setByParams(
-                $row->CompanyID,
-                $row->CompanyName,
-                $row->CompanyStart,
-                $row->CompanyStop,
-                $row->CompanyMaxHours,
-                $row->CompanyStartDay,
-                $row->CompanyEndDay,
-                $row->CompanyPayout
-            );
+    public function getByID($id) {
+        $result = $this->dbh->get('*', 'tblcompany', array('CompanyID', '=', $id));
+        if ($result->count()) {
+            return $result->first();
         }
-    }
-
-    public function getID() {
-        return $this->companyID;
-    }
-
-    public function getDays() {
-        $numDays = ($this->companyEndDay - $this->companyStartDay) + 1;
-        return "day" . $numDays;
-    }
-
-    public function getStart() {
-        return $this->companyStartDay;
-    }
-
-    public function getEnd() {
-        return $this->companyEndDay;
+        return false;
     }
 }
 
 class HourTile {
-    private $bookID;
-    private $employeeID;
-    private $departmentID;
-    private $startTime;
-    private $endTime;
-    private $bookDate;
-    private $description;
     private $error;
     private $dbh;
 
     function __construct() {
         $this->dbh = new Dbh();
+    }
+
+    public function getByIdDate($id, $date) {
+        $result = $this->dbh->get('*', 'tblbook', array(
+            array('EmployeeID', '=', $id),
+            array('BookDate', '=', $date)
+        ), array(
+            'StartTime',
+            'EndTime'
+        ));
+        if ($result->count()) {
+            return $result->results();
+        }
+        return false;
     }
 
     public function create($fields = array()) {
@@ -255,55 +165,20 @@ class HourTile {
         }
     }
 
-    private function setByParams($id, $empId, $depID, $start, $end, $date, $desc) {
-        $this->bookID = $id;
-        $this->employeeID = $id;
-        $this->departmentID = $depID;
-        $this->startTime = $start;
-        $this->endTime = $end;
-        $this->bookDate = $date;
-        $this->description = $desc;
+    public function getStart($data) {
+        return substr($data->StartTime, 0, 5);
     }
 
-    public function setByRow($row) {
-        $this->setByParams(
-            $row['BookID'],
-            $row['EmployeeID'],
-            $row['DepartmentID'],
-            $row['StartTime'],
-            $row['EndTime'],
-            $row['BookDate'],
-            $row['Description']
-        );
+    public function getEnd($data) {
+        return substr($data->EndTime, 0, 5);
     }
 
-    public function getID() {
-        return $this->bookID;
-    }
-
-    public function getStart() {
-        return substr($this->startTime, 0, 5);
-    }
-
-    public function getEnd() {
-        return substr($this->endTime, 0, 5);
-    }
-
-    public function getDate($verbal = false) {
-        $date = new DateTime(date('Y-m-d', strtotime($this->bookDate)));
-        if ($verbal) {
-            $verbal = $date->format('l') . " the " . $date->format('dS') . " of " . $date->format('F') . " " .  $date->format('Y');
-            return $verbal;
-        }
-        return $date->format('d-m-Y');
-    }
-
-    public function getHours() {
-        $time1 = new DateTime($this->startTime);
-        $time2 = new DateTime($this->endTime);
+    public function getHours($data) {
+        $time1 = new DateTime($data->StartTime);
+        $time2 = new DateTime($data->EndTime);
         $interval = $time1->diff($time2);
         $elapsed = '';
-        if ($interval->format('%h') > 0){
+        if ($interval->format('%h') > 0) {
             $elapsed .= $interval->format('%h hour '); // Add hours if any
         } 
         if ($interval->format('%i') > 0) {
@@ -313,27 +188,17 @@ class HourTile {
         return $elapsed;
     }
 
-    public function getDesc() {
-        return $this->description;
-    }
-
-    public function getDepartment() {
-        //make a connection with the department class to return the department name
-        $dep = $this->departmentID;
-
-        $query = "SELECT DepartmentName FROM tbldepartment WHERE DepartmentID='$dep'";
-        $dbh = new Dbh();
-        $name = $dbh->executeSelect($query);
-
-        return $name[0]['DepartmentName'];
+    public function getDepartment($id, $departments) {
+        foreach ($departments as $dep) {
+            if ($dep->DepartmentID == $id) {
+                return $dep->DepartmentName;
+            }
+        }
+        return $id;
     }
 }
 
 class Department {
-    private $departmentID;
-    private $companyID;
-    private $departmentName;
-    private $departmentMinEmployees;
     private $dbh;
 
     function __construct() {

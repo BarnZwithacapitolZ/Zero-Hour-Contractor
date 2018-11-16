@@ -1,27 +1,27 @@
 <div class="cell__text-content">
     <span>
         <img src="../media/img/icons/clock.png" alt="Clock time icon" class="img-small" />
-        <?php echo $bookedHours->getStart(); ?> - <?php echo $bookedHours->getEnd(); ?>
+        <?php echo $hours->getStart($hResult); ?> - <?php echo $hours->getEnd($hResult); ?>
     </span>
     <span>
         <img src="../media/img/icons/sigma.png" alt="Total icon" class="img-small" />
-        <?php echo $bookedHours->getHours();?> shift
+        <?php echo $hours->getHours($hResult); ?> shift
     </span>
     <span>
         <img src="../media/img/icons/department.png" clock="Department icon" class="img-small" />
-        <?php echo $bookedHours->getDepartment(); ?>
+        <?php echo $hours->getDepartment($hResult->DepartmentID, $department); ?>
     </span> 
 
     <span class="text-content__tools">
-        <?php if ($bookedHours->getDesc() !== "") { ?>
+        <?php if ($hResult->Description !== "") { ?>
             <img src="../media/img/icons/description.png" class="text-content__tools--blue modal__open--desc" alt="Edit icon" />
             <div class="modal__full--desc">
                 <div class="modal__container">
                     <div class="modal__content">
                         <div class="modal__title">
-                            <span><b>Reminder for <?php echo $employee->getName("full"); ?> on <?php echo $bookedHours->getDate(true); ?>:</b></span>                       
+                            <span><b>Reminder for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                       
                         </div>
-                        <div class="modal__desc"><?php echo $bookedHours->getDesc(); ?></div>
+                        <div class="modal__desc"><?php echo $hResult->Description; ?></div>
                         <span class="modal__close">×</span>
                     </div>
                 </div>
@@ -33,18 +33,18 @@
             <div class="modal__container">
                 <div class="modal__content">
                     <div class="modal__title">
-                        <span><b>Edit hours for <?php echo $employee->getName("full"); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                        <span><b>Edit hours for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
                     </div>
 
                     <div class="modal__desc">
                         <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
-                            <input type="hidden" name="uid" value="<?php $employee->getID(); ?>" />
+                            <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
                             <div class="modal-form--left">
                                 <span class="modal-form__tag">Department:</span>
                                 <select class="modal-form__input" name="department" placeholder="Department" >
                                 <?php
-                                    foreach ($result as $dep) {
-                                        if ($dep->DepartmentName == $bookedHours->getDepartment()) {
+                                    foreach ($department as $dep) {
+                                        if ($dep->DepartmentID == $hResult->DepartmentID) {
                                 ?>
                                     <option value="<?php echo $dep->DepartmentID; ?>" selected="selected"><?php echo $dep->DepartmentName; ?></option>
                                 <?php
@@ -59,17 +59,17 @@
 
                                 <div class="modal-form__time">
                                     <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', $bookedHours->getStart())); ?>" />
+                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', $hours->getStart($hResult))); ?>" />
                                 </div>
                                    
                                 <div class="modal-form__time">
                                     <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', $bookedHours->getEnd())); ?>" />
+                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', $hours->getEnd($hResult))); ?>" />
                                 </div>
                                 
                                 <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
                                 <span class="modal-form__tag">Description (optional):</span>
-                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc', $bookedHours->getDesc())); ?>" />
+                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc', $hResult->Description)); ?>" />
                             </div>
                             <button name="submit" class="modal-form__add">Update</button>
                         </form>
@@ -89,7 +89,7 @@
 
                     <div class="modal__desc">
                         <form action="" method="POST" class="modal__form">
-                            <input type="hidden" name="id" value="<?php echo $bookedHours->getID(); ?>"/>
+                            <input type="hidden" name="id" value="<?php echo $hResult->BookID; ?>"/>
                             <button name="delete" class="modal-form__add">Ok!</button>
                         </form>
                     </div>

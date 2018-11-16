@@ -9,11 +9,11 @@
     require_once "../includes/classes.php";
 
     if (Session::exists('user')) {
-        $user = new Employee();
-        $user->setByID(Session::get('user'));
+        $employee = new Employee();
+        $user = $employee->getByID(Session::get('user'));
 
-        $company = new Company();
-        $company->setByID($user->getCUID());
+        $organization = new Company();
+        $company = $organization->getByID($user->CompanyID);
 
 
         if (Input::exists('submit')) {

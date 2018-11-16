@@ -17,8 +17,7 @@
 
         .overview-manager__row {
             width: 100%;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
+            border-bottom: 1px solid #ddd;   
             transition: .3s;
 
             &.user {
@@ -29,7 +28,6 @@
                 font-weight: bold;
                 font-size: getFontSize(overview-header);
                 color: getColor(default-fg);
-                cursor: default;  
                 height: getElemSize(row-header);
 
                 &:nth-last-child(n+2) {
@@ -131,7 +129,13 @@
 
         &.overview-manager__cell--empty:hover {
             background-color: getColor(hover-red);
-        }        
+        }   
+        
+        &.overview-manager__cell--before:hover {
+            cursor: auto;
+            background-color: transparent;  
+            transition: .1s;       
+        }
     }
 
     .cell__content {
@@ -201,6 +205,10 @@
                 align-items: center;             
             }
         }  
+
+        &.modal__open, &.cell__content--dropdown, &.cell__content--first {
+            cursor: pointer;
+        }
     }
 
     &.holiday {

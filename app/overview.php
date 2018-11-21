@@ -10,15 +10,19 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $date->setWeek("this");   
+    $date->setWeek("last");   
      // For changing when the company is open (might only be 5 days a week etc.)
+
+    $cover = array();
+    $test = array();
 
     if (Session::exists('user')) {
         $employee = new Employee();
-        $user = $employee->getByID(Session::get('user'));
-
+        $user = $employee->getByID(Session::get('user')); // get the user (who is accessing the page) data
+        
         $organization = new Company();
         $company = $organization->getByID($user->CompanyID);
+        $eResult = $employee->getFromCuid($company->CompanyID); // get all employees of a specific company, to be displayed in the overview 
 
         $departments = new Department();
         $department = $departments->getDepByComp($company->CompanyID);
@@ -76,6 +80,10 @@
             <?php
                 for ($i = $company->CompanyStartDay; $i < $company->CompanyEndDay + 1; $i++) {        
                     $date->setDate($i); 
+
+                    foreach ($department as $dep) {
+                        $test[$date->getDate('D')][$dep->DepartmentID] = array();
+                    }
             ?>
                 <div class="overview-manager__cell overview-manager__cell--header <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
                     <div class="cell__content">
@@ -90,8 +98,7 @@
             ?>
         </div>     
 
-        <?php
-            $eResult = $employee->getFromCuid($company->CompanyID);
+        <?php        
             if ($eResult) {
                 foreach ($eResult as $emp) {
         ?>
@@ -105,13 +112,22 @@
                     </div>
                 </div>
 
-                <?php                                   
+                <?php                                  
                     for ($i = $company->CompanyStartDay; $i < ($company->CompanyEndDay + 1); $i++) {
                         $date->setDate($i);
                         $hours = new HourTile();
                         $requests = $hours->getByIdDate($emp->EmployeeID, $date->getDate());
 
                         if ($requests) {
+                            foreach ($requests as $key => $value) {
+                                $test[$date->getDate('D')][$value->DepartmentID][] = array($hours->getStart($value), $hours->getEnd($value), $value->BookID);
+
+                                $cover[] = new Cover($date->getDate('D'), $value->DepartmentID, array(
+                                    $hours->getStart($value), 
+                                    $hours->getEnd($value)
+                                ), $value->EmployeeID);
+                            }
+
                             $hResult = $requests[0];
                 ?>
                     <div class="overview-manager__cell overview-manager__cell--button <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
@@ -135,7 +151,7 @@
                                 <div class="notification-bubble">+<?php echo count($requests) - 1;?></div>
                             <?php
                                 } 
-                                if ($date->checkToday() && $emp->EmployeeID == $user->EmployeeID) {
+                                if ($date->checkToday() && $emp->EmployeeID == $user->EmployeeID) {                                  
                             ?>
                                 <div class="notification-bubble">!</div>
                             <?php 
@@ -157,7 +173,7 @@
                             <div class="cell__text-content cell__text-content--index">
                                 <span>
                                     <img src="../media/img/icons/user.png" alt="User icon" class="img-small" />
-                                    <?php echo $emp->EmployeeFirst; ?>
+                                    <?php echo $employee->getFullName($emp); ?>
                                 </span>
                             </div>
                             <div class="cell__text-content cell__text-content--index">
@@ -213,17 +229,17 @@
 
                                                         <div class="modal-form__time">
                                                             <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+                                                            <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $company->CompanyStart)); ?>" />
                                                         </div>
 
                                                         <div class="modal-form__time">
                                                             <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
+                                                            <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $company->CompanyStop)); ?>" />
                                                         </div>
                                                         
                                                         <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
 
-                                                        <span class="modal-form__tag">Description (optional):</span>
+                                                        <span class="modal-form__tag">Reminder (optional):</span>
                                                         <input class="modal-form__input modal-form__input--desc" type="text" name="desc"  value="<?php echo escape(Input::get('desc')); ?>" />
                                                     </div>
                                                     <button name="submit" class="modal-form__add">Submit</button>
@@ -291,16 +307,16 @@
                                                 </select> 
                                                 <div class="modal-form__time">
                                                     <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', '08:00')); ?>" />
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $company->CompanyStart)); ?>" />
                                                 </div>
 
                                                 <div class="modal-form__time">
                                                     <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', '17:00')); ?>" />
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $company->CompanyStop)); ?>" />
                                                 </div>
 
                                                 <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-                                                <span class="modal-form__tag">Description (optional):</span>
+                                                <span class="modal-form__tag">Reminder (optional):</span>
                                                 <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc')); ?>" />
                                             </div>
                                             <button name="submit" class="modal-form__add">Submit</button>
@@ -349,7 +365,71 @@
     </div>  
     
     <div id="footer__overview-footer">
+        This is where the temporary cover needed details will be placed<br><br>
+        <b>
+        <?php
+            function my_sort($a,$b)
+            {
+                if ($a[0]==$b[0]) return 0;
+                return ($a[0] < $b[0])?-1:1;
+            }
 
+            $cStart = new DateTime($company->CompanyStart);
+            $cEnd = new DateTime($company->CompanyStop);
+
+            function check_gaps($shifts, $start, $end) {
+                if (count($shifts) < 1) {
+                    return;
+                }
+                
+                $last = $start;
+                $lastShift = array($shifts[0][0], $shifts[0][1]);
+                $cases = array();
+                
+                foreach ($shifts as $shift) {
+                    if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
+                        continue;
+                    }
+                    $diff = $last->diff($shift[0])->format('%R%h:%i');
+
+                    if ($diff > 0) {
+                        $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
+                    }
+                    $last = $shift[1];
+                    $lastShift = array($shift[0], $shift[1]);
+                }
+
+                $diff = $last->diff($end)->format('%R%h:%i');
+                if ($diff > 0) {
+                    $cases[] = array($last->format('h:i'), $end->format('h:i'));
+                }
+                return $cases;
+            }
+
+            foreach ($test as $day => $shift) {
+                foreach ($shift as $key => $dep) {
+                    $full = array();
+                    foreach($dep as $time) {
+                        $start = new DateTime($time[0]);
+                        $end = new DateTime($time[1]);
+                        $full[] = array($start, $end);
+                    }
+                    usort($full,"my_sort");
+                    $cases = check_gaps($full, $cStart, $cEnd);
+                    if (count($cases) > 0) {
+                        echo "on " . $day . " in department " . $hours->getDepartment($key, $department);
+                        foreach ($cases as $case) {   
+                            echo " ";                      
+                            print_r($case[0]);
+                            echo " - ";
+                            print_r($case[1]);
+                        }
+                        echo "<br> <br>";
+                    }                  
+                }
+            }
+        ?>
+        </b>
     </div>
 </div>
 

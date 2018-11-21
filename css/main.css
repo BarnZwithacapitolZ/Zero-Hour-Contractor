@@ -970,6 +970,7 @@ span.dropdown__button.dropdown__button--return:hover {
 }
 
 .modal__full .modal__content .modal__title span, .modal__full--edit .modal__content .modal__title span, .modal__full--desc .modal__content .modal__title span, .modal__full--del .modal__content .modal__title span {
+  display: block;
   padding: 0 40px;
 }
 

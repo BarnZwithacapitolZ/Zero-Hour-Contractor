@@ -98,8 +98,9 @@
         .modal__title{
             border-bottom: 1px solid #ddd;
             padding: 20px 0;
-
+            
             span {
+                display: block;
                 padding: 0 40px;
             }
         }

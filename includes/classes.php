@@ -188,10 +188,34 @@ class HourTile {
         return $elapsed;
     }
 
+    public function getRunning($data) {
+        $time1 = new DateTime($data->StartTime);
+        $time2 = new DateTime($data->EndTime);
+        $interval = $time1->diff($time2);
+        $elapsed = '';
+        if ($interval->format('%h') > 0) {
+            $elapsed .= $interval->format('%h.'); // Add hours if any
+        } 
+        if ($interval->format('%i') > 0) {
+            $elapsed .= $interval->format('%i'); // Add minutes if any
+        }
+          
+        return $elapsed;
+    }
+
     public function getDepartment($id, $departments) {
         foreach ($departments as $dep) {
             if ($dep->DepartmentID == $id) {
                 return $dep->DepartmentName;
+            }
+        }
+        return $id;
+    }
+
+    public function getMinEmployee($id, $departments) {
+        foreach ($departments as $dep) {
+            if ($dep->DepartmentID == $id) {
+                return $dep->DepartmentMinEmployees;
             }
         }
         return $id;
@@ -353,3 +377,19 @@ class Session {
         }
     }
 }
+
+
+class Cover {
+    public $day;
+    public $department;
+    public $time = array();
+    public $id;
+
+    public function __construct($day, $dep, $time = array(), $id) {
+        $this->day = $day;
+        $this->department = $dep;
+        $this->time = $time;
+        $this->id = $id;
+    }
+}
+

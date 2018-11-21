@@ -27,11 +27,6 @@
                 <!--<div class="notification-bubble">!</div>-->
             </li>
 
-            <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[2][1]; ?>"> 
-                <a href="<?php echo $icons[2][2]; ?>"><img src="../media/img/icons/<?php echo $icons[2][0]; ?>" /></a>
-                <!--<div class="notification-bubble">!</div>-->
-            </li>
-
             <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[3][1]; ?>"> 
                 <a href="<?php echo $icons[3][2]; ?>"><img src="../media/img/icons/<?php echo $icons[3][0]; ?>" /></a>
                 <!--<div class="notification-bubble">!</div>-->

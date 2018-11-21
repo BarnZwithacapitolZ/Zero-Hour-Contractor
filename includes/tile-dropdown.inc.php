@@ -59,16 +59,16 @@
 
                                 <div class="modal-form__time">
                                     <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" value="<?php echo escape(Input::get('start', $hours->getStart($hResult))); ?>" />
+                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $hours->getStart($hResult))); ?>" />
                                 </div>
                                    
                                 <div class="modal-form__time">
                                     <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" value="<?php echo escape(Input::get('stop', $hours->getEnd($hResult))); ?>" />
+                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $hours->getEnd($hResult))); ?>" />
                                 </div>
                                 
                                 <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-                                <span class="modal-form__tag">Description (optional):</span>
+                                <span class="modal-form__tag">Reminder (optional):</span>
                                 <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc', $hResult->Description)); ?>" />
                             </div>
                             <button name="submit" class="modal-form__add">Update</button>

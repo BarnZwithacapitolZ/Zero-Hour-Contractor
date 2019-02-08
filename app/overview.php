@@ -10,11 +10,10 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $date->setWeek("last");   
+    $date->setWeek("this");   
      // For changing when the company is open (might only be 5 days a week etc.)
 
     $cover = array();
-    $test = array();
 
     if (Session::exists('user')) {
         $employee = new Employee();
@@ -82,7 +81,7 @@
                     $date->setDate($i); 
 
                     foreach ($department as $dep) {
-                        $test[$date->getDate('D')][$dep->DepartmentID] = array();
+                        $cover[$date->getDate('D')][$dep->DepartmentID] = array();
                     }
             ?>
                 <div class="overview-manager__cell overview-manager__cell--header <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
@@ -120,12 +119,7 @@
 
                         if ($requests) {
                             foreach ($requests as $key => $value) {
-                                $test[$date->getDate('D')][$value->DepartmentID][] = array($hours->getStart($value), $hours->getEnd($value), $value->BookID);
-
-                                $cover[] = new Cover($date->getDate('D'), $value->DepartmentID, array(
-                                    $hours->getStart($value), 
-                                    $hours->getEnd($value)
-                                ), $value->EmployeeID);
+                                $cover[$date->getDate('D')][$value->DepartmentID][] = array($hours->getStart($value), $hours->getEnd($value), $value->BookID);
                             }
 
                             $hResult = $requests[0];
@@ -390,9 +384,9 @@
                     if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
                         continue;
                     }
-                    $diff = $last->diff($shift[0])->format('%R%h:%i');
+                    //$diff = $last->diff($shift[0])->format('%R%h:%i');
 
-                    if ($diff > 0) {
+                    if ($shift[0] > $last) { 
                         $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
                     }
                     $last = $shift[1];
@@ -400,13 +394,14 @@
                 }
 
                 $diff = $last->diff($end)->format('%R%h:%i');
-                if ($diff > 0) {
+                if ($end > $last) {
                     $cases[] = array($last->format('h:i'), $end->format('h:i'));
                 }
                 return $cases;
             }
 
-            foreach ($test as $day => $shift) {
+            // If there are no hours available on a specific day, set the hours available to (for each (total working hours / max hours ))
+            foreach ($cover as $day => $shift) {
                 foreach ($shift as $key => $dep) {
                     $full = array();
                     foreach($dep as $time) {

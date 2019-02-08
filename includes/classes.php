@@ -2,6 +2,11 @@
 
 require_once "dbh.inc.php";
 
+function sorted($a,$b)
+{
+    if ($a[0] == $b[0]) return 0;
+    return ($a[0] < $b[0]) ? -1 : 1;
+}
 
 class Calender {
     private $date;
@@ -385,11 +390,62 @@ class Cover {
     public $time = array();
     public $id;
 
-    public function __construct($day, $dep, $time = array(), $id) {
-        $this->day = $day;
-        $this->department = $dep;
-        $this->time = $time;
-        $this->id = $id;
+    // public function __construct($day, $dep, $time = array(), $id) {
+    //     $this->day = $day;
+    //     $this->department = $dep;
+    //     $this->time = $time;
+    //     $this->id = $id;
+    // }
+
+    public function getGaps($shifts, $start, $end) {
+        if (count($shifts) < 1) {
+            return;
+        }   
+        $last = $start;
+        $lastShift = array($shifts[0][0], $shifts[0][1]);
+        $cases = array();
+        
+        foreach ($shifts as $shift) {
+            if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
+                continue;
+            }
+            $diff = $last->diff($shift[0])->format('%R%h:%i');
+
+            if ($diff > 0) {
+                $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
+            }
+            $last = $shift[1];
+            $lastShift = array($shift[0], $shift[1]);
+        }
+
+        $diff = $last->diff($end)->format('%R%h:%i');
+        if ($diff > 0) {
+            $cases[] = array($last->format('h:i'), $end->format('h:i'));
+        }
+        return $cases;
     }
+    
+    public function getCover($data, $company) {
+        $cStart = new DateTime($company->CompanyStart);
+        $cEnd = new DateTime($company->CompanyStop);
+
+        foreach($data as $day => $shift) { // Dont need
+            foreach ($shift as $key => $dep) { // Dont need (loop through in overview, when displaying the data)
+                $full = array();
+                foreach ($dep as $time) {
+                    $start = new DateTime($time[0]);
+                    $end = new DateTime($time[1]);
+                    $full[] = array($start, $end);
+                }
+                usort($full, "sorted");
+                $cases = $this->getGaps($full, $cStart, $cEnd);
+                if (count($cases) > 0) {
+                    return $cases;
+                }
+            }
+        }
+        return array($cStart, $cEnd);
+    }
+
 }
 

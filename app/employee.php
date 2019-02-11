@@ -9,11 +9,11 @@
     require_once "../includes/classes.php";
 
     if (Session::exists('user')) {
-        $user = new Employee();
-        $user->setByID(Session::get('user'));
+        $employee = new Employee();
+        $user = $employee->getByID(Session::get('user'));
 
-        $company = new Company();
-        $company->setByID($user->getCUID());
+        $organization = new Company();
+        $company = $organization->getByID($user->CompanyID);
 
         if (Input::exists('submit')) {
             $validate = new Validate();
@@ -55,7 +55,7 @@
 
                 try {
                     $entry->create(array(
-                        'CompanyID' => $company->getID(),
+                        'CompanyID' => $company->CompanyID,
                         'EmployeeFirst' => $_POST['first'],
                         'EmployeeLast' => $_POST['last'],
                         'EmployeeType' => 'employee',

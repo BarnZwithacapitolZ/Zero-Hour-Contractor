@@ -34,7 +34,7 @@
 
                 try {
                     $entry->create(array(
-                        'CompanyID' => $company->getID(),
+                        'CompanyID' => $company->CompanyID,
                         'DepartmentName' => $_POST['name'],
                         'DepartmentMinEmployees' => $_POST['minEmployee']
                     ));

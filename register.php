@@ -97,9 +97,15 @@
                         'EmployeePassword' => password_hash($_POST['firmPwd'], PASSWORD_DEFAULT)
                     ));
 
-                    Session::put('user', $user->getLast());
-                    //header("Location: app/overview?registration=success");
-
+                    if ($user->login(
+                        $_POST['email'],
+                        $_POST['firmPwd'],
+                        $company->getLast()
+                    )) {
+                        header("Location: app/overview?registration=success");
+                    } else {
+                        echo "Login failed you idiot!!!";
+                    }
                 } catch(Exception $e) {
                     die($e->getMessage());
                 }    

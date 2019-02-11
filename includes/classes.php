@@ -409,17 +409,15 @@ class Cover {
             if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
                 continue;
             }
-            $diff = $last->diff($shift[0])->format('%R%h:%i');
 
-            if ($diff > 0) {
+            if ($shift[0] > $last) {
                 $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
             }
             $last = $shift[1];
             $lastShift = array($shift[0], $shift[1]);
         }
 
-        $diff = $last->diff($end)->format('%R%h:%i');
-        if ($diff > 0) {
+        if ($end > $last) {
             $cases[] = array($last->format('h:i'), $end->format('h:i'));
         }
         return $cases;

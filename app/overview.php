@@ -80,9 +80,12 @@
                 for ($i = $company->CompanyStartDay; $i < $company->CompanyEndDay + 1; $i++) {        
                     $date->setDate($i); 
 
-                    foreach ($department as $dep) {
-                        $cover[$date->getDate('D')][$dep->DepartmentID] = array();
+                    if ($department) {
+                        foreach ($department as $dep) {
+                            $cover[$date->getDate('D')][$dep->DepartmentID] = array();
+                        }
                     }
+                    
             ?>
                 <div class="overview-manager__cell overview-manager__cell--header <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
                     <div class="cell__content">
@@ -371,6 +374,7 @@
             $cStart = new DateTime($company->CompanyStart);
             $cEnd = new DateTime($company->CompanyStop);
 
+
             function check_gaps($shifts, $start, $end) {
                 if (count($shifts) < 1) {
                     return;
@@ -384,7 +388,6 @@
                     if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
                         continue;
                     }
-                    //$diff = $last->diff($shift[0])->format('%R%h:%i');
 
                     if ($shift[0] > $last) { 
                         $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
@@ -393,7 +396,6 @@
                     $lastShift = array($shift[0], $shift[1]);
                 }
 
-                $diff = $last->diff($end)->format('%R%h:%i');
                 if ($end > $last) {
                     $cases[] = array($last->format('h:i'), $end->format('h:i'));
                 }
@@ -412,6 +414,7 @@
                     usort($full,"my_sort");
                     $cases = check_gaps($full, $cStart, $cEnd);
                     if (count($cases) > 0) {
+                        // The actual output of the hours available 
                         echo "on " . $day . " in department " . $hours->getDepartment($key, $department);
                         foreach ($cases as $case) {   
                             echo " ";                      

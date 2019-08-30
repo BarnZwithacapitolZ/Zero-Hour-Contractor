@@ -125,7 +125,8 @@
                                 $cover[$date->getDate('D')][$value->DepartmentID][] = array($hours->getStart($value), $hours->getEnd($value), $value->BookID);
                             }
 
-                            $hResult = $requests[0];
+                            // hResult is to show the first shift, if there are multiple shifts by one member on the same day
+                            $hResult = $requests[0]; // Always show the first shift, if a member has multiple shifts on one day
                 ?>
                     <div class="overview-manager__cell overview-manager__cell--button <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
                         <div class="cell__content cell__content--dropdown">
@@ -141,6 +142,8 @@
                             </div>
                         </div>
                         
+                        
+                        <!-- Notifications for the dropdown menus -->
                         <div class="notifications">
                             <?php 
                                 if (count($requests) > 1) { 
@@ -153,18 +156,25 @@
                                 <div class="notification-bubble">!</div>
                             <?php 
                                 } 
+                                $testcount = 0;
                                 foreach ($requests as $hour) {
                                     $hResult = $hour;
-                                    if ($hResult->Description !== "") {                           
+                                    if ($hResult->Description !== "") {       
+                                        $testcount += 1; // Work out how many message boxes there are
+                                    }
+                                }
+
+                                if ($testcount > 0) {
                             ?>
                                 <div class="notification-bubble notification-bubble--desc">
                                     <img src="../media/img/icons/description.png" alt="Description icon" />
                                 </div>
                             <?php 
-                                    }
+                                    
                                 } 
                             ?>
                         </div>
+
 
                         <div class="cell__dropdown">
                             <div class="cell__text-content cell__text-content--index">

@@ -71,7 +71,7 @@
                                 <span class="modal-form__tag">Reminder (optional):</span>
                                 <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc', $hResult->Description)); ?>" />
                             </div>
-                            <button name="submit" class="modal-form__add">Update</button>
+                            <button name="update" class="modal-form__add">Update</button>
                         </form>
                     </div>
                     <span class="modal__close">×</span>

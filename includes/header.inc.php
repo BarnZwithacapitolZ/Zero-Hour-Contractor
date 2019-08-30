@@ -8,7 +8,7 @@
 		<!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->			
 		<!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 		<link rel="stylesheet" type="text/css" href="/zero-hour-contractor/css/<?php echo $stylesheet; ?>.css?version=90">
-		<link rel="icon" href="media/img/icons/icon.png">
+		<link rel="icon" href="/zero-hour-contractor/media/img/icons/icon.png">
 	</head>
 	
 	<body>

@@ -288,7 +288,7 @@
                                                 }
                                             } else {
                                         ?>
-                                        <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
+                                        <form action="overview" method="POST" autocomplete="off" class="modal__form">                                       
                                             <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
                                             <div class="modal-form--left">
                                                 <span class="modal-form__tag">Department:</span>
@@ -316,7 +316,7 @@
                                                 <span class="modal-form__tag">Reminder (optional):</span>
                                                 <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc')); ?>" />
                                             </div>
-                                            <button name="submit" class="modal-form__add">Submit</button>
+                                            <button name="submit" class="modal-form__add modal-form__test">Submit</button>
                                         </form>
                                         <?php 
                                             }

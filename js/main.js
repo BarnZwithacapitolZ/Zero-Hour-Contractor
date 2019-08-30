@@ -215,3 +215,10 @@ $(window).scroll(function(){
     
     showScrollToggle();
 });
+
+// Modal on-click events 
+
+$('.modal-form__test').on('click', function() {
+    console.log("this is a test of the onclick event");
+    return false;   
+});

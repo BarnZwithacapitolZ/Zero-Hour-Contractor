@@ -10,7 +10,7 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $date->setWeek("this");   
+    $date->setWeek("-1");   
      // For changing when the company is open (might only be 5 days a week etc.)
 
     $cover = array();
@@ -36,7 +36,16 @@
         } else if (Input::exists('submit')) {
             return;
         } else if (Input::exists('update')) {
-            return;
+            $tile = new HourTile();
+            try {
+                $tile->update($_POST['id'], array(
+                    'StartTime' => $_POST['start'],
+                    'EndTime' => $_POST['end'],
+                    'Description' => $_POST['desc']
+                ));
+            } catch (Exception $e) {
+                die($e->getMessage());
+            }
         }
 
     } else {
@@ -59,10 +68,12 @@
                 if ($date->getDate('M') !== $month) {
                     $month .= " - " . $date->getDate('M');
                 }
-                echo $date->getDate('dS') . " (" . $month . ")";
+                echo $date->getDate('dS') . " (" . $month . ") " . $date->getDate('y');
             ?>                 
         </span>
         <span>></span>
+        <!-- When arrow is pressed it increases or decreases a session 'day' variable where -1 = this week, 0 = next week, -2 = last week 
+        and so on -->
     </nav>
 </header>
 
@@ -174,6 +185,7 @@
                                 } 
                             ?>
                         </div>
+                        <!-- End of Notification bubbles -->
 
 
                         <div class="cell__dropdown">
@@ -236,18 +248,18 @@
 
                                                         <div class="modal-form__time">
                                                             <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $company->CompanyStart)); ?>" />
+                                                            <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo$company->CompanyStart; ?>" />
                                                         </div>
 
                                                         <div class="modal-form__time">
                                                             <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $company->CompanyStop)); ?>" />
+                                                            <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
                                                         </div>
                                                         
                                                         <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
 
                                                         <span class="modal-form__tag">Reminder (optional):</span>
-                                                        <input class="modal-form__input modal-form__input--desc" type="text" name="desc"  value="<?php echo escape(Input::get('desc')); ?>" />
+                                                        <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
                                                     </div>
                                                     <button name="submit" class="modal-form__add">Submit</button>
                                                 </form>                              
@@ -314,17 +326,17 @@
                                                 </select> 
                                                 <div class="modal-form__time">
                                                     <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $company->CompanyStart)); ?>" />
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStart; ?>" />
                                                 </div>
 
                                                 <div class="modal-form__time">
                                                     <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $company->CompanyStop)); ?>" />
+                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
                                                 </div>
 
                                                 <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
                                                 <span class="modal-form__tag">Reminder (optional):</span>
-                                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc')); ?>" />
+                                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
                                             </div>
                                             <button name="submit" class="modal-form__add modal-form__test">Submit</button>
                                         </form>

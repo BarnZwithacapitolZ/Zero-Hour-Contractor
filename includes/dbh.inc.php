@@ -54,11 +54,31 @@ class Dbh{
 
     //***************************DELETE END *************** 
 
+    private function getWhere($where = array()) {
+        $condition = '';
+        $values = array();
+
+        if (is_array($where[0])) {
+            foreach ($where as $key => $value) {
+                $condition .= $value[0] . " " . $value[1] . ' ?';
+                $values[] = $value[2];
+                if ($key !== count($where) - 1) {
+                    $condition .= " AND ";
+                }
+            }
+        } else {
+            $condition = $where[0] . " " . $where[1] . ' ?';
+            $values[] = $where[2];
+        }
+
+        return array($condition, $values);
+    }
 
 
     public function first() {
         return $this->results()[0];
     }
+
 
     public function query($stmt, $params = array()) {
         $this->error = false;
@@ -83,29 +103,18 @@ class Dbh{
         return $this;
     }
 
-    public function action($action, $table, $where = array(), $order) {
-        $condition = '';
-        $values = array();
 
-        if (is_array($where[0])) {
-            foreach ($where as $key => $value) {
-                $condition .= $value[0] . " " . $value[1] . ' ?';
-                $values[] = $value[2];
-                if ($key !== count($where) - 1) {
-                    $condition .= " AND ";
-                }
-            }
-        } else {
-            $condition = $where[0] . " " . $where[1] . ' ?';
-            $values[] = $where[2];
-        }
-
-        $stmt = "{$action} FROM {$table} WHERE {$condition} {$order}";
-        if (!$this->query($stmt, $values)->error()) {
+    public function action($action, $table, $where = array(), $order) {    
+        $statement = $this->getWhere($where);
+        
+        $stmt = "{$action} FROM {$table} WHERE {$statement[0]} {$order}";
+        if (!$this->query($stmt, $statement[1])->error()) {
             return $this;               
         }
         return false;
     }
+    
+    
 
     public function get($select, $table, $where = array(), $order = '') {
         $fields = $select;
@@ -124,9 +133,11 @@ class Dbh{
         return $this->action("SELECT {$fields}", $table, $where, $order);      
     }
 
+
     public function delete($table, $where = array()) {
         return $this->action('DELETE', $table, $where, '');
     }
+
 
     public function insert($table, $fields = array()) {
         if (count($fields)) {            
@@ -143,7 +154,9 @@ class Dbh{
         return false; // No data
     }
 
-    public function update($table, $id, $fields = array()) {
+
+    public function update($table, $fields = array(), $where = array()) {
+        $statement = $this->getWhere($where);
         $set = '';
         $x = 1;
 
@@ -155,7 +168,11 @@ class Dbh{
             $x++;
         }       
 
-        $stmt = "UPDATE {$table} SET {$set} WHERE EmployeeID={$id}"; 
+        $stmt = "UPDATE {$table} SET {$set} WHERE {$statement[0]}";
+
+        foreach ($statement[1] as $s) {
+            array_push($fields, $s);
+        }
 
         if (!$this->query($stmt, $fields)->error()) {
             return true;
@@ -164,13 +181,16 @@ class Dbh{
         return false;
     }
 
+
     public function results() {
         return $this->results;
     }
 
+
     public function error() {
         return $this->error;
     }
+
 
     public function count() {
         return $this->count;

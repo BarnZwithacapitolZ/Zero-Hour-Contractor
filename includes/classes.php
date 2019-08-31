@@ -158,8 +158,8 @@ class HourTile {
         }
     }
 
-    public function update($fields = array()) {
-        if (!$this->tbh->update('tblbook', $this->bookID, $fields)) {
+    public function update($id, $fields = array()) {
+        if (!$this->dbh->update('tblbook', $fields, array('BookID', '=', $id))) {
             throw new Exception("There was a problem processing your request."); // When false returned
         }
     }

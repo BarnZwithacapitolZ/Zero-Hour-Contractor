@@ -27,10 +27,10 @@
                 <!--<div class="notification-bubble">!</div>-->
             </li>
 
-            <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[3][1]; ?>"> 
+            <!-- <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[3][1]; ?>"> 
                 <a href="<?php echo $icons[3][2]; ?>"><img src="../media/img/icons/<?php echo $icons[3][0]; ?>" /></a>
-                <!--<div class="notification-bubble">!</div>-->
-            </li>
+                <div class="notification-bubble">!</div>
+            </li> -->
 
             <li class="nav__icon nav__icon--link" data-tool-tip="<?php echo $icons[4][1]; ?>"> 
                 <a href="<?php echo $icons[4][2]; ?>"><img src="../media/img/icons/<?php echo $icons[4][0]; ?>" /></a>

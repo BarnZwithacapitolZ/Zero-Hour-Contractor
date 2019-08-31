@@ -13,6 +13,7 @@
     </span> 
 
     <span class="text-content__tools">
+        <!-- If there is a message, show the message icon to load message box -->
         <?php if ($hResult->Description !== "") { ?>
             <img src="../media/img/icons/description.png" class="text-content__tools--blue modal__open--desc" alt="Edit icon" />
             <div class="modal__full--desc">
@@ -28,57 +29,69 @@
             </div>
         <?php } ?>
 
-        <img src="../media/img/icons/edit.png" class="text-content__tools--green modal__open--edit" alt="Edit icon" />
-        <div class="modal__full--edit">
-            <div class="modal__container">
-                <div class="modal__content">
-                    <div class="modal__title">
-                        <span><b>Edit hours for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
-                    </div>
 
-                    <div class="modal__desc">
-                        <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
-                            <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
-                            <div class="modal-form--left">
-                                <span class="modal-form__tag">Department:</span>
-                                <select class="modal-form__input" name="department" placeholder="Department" >
-                                <?php
-                                    foreach ($department as $dep) {
-                                        if ($dep->DepartmentID == $hResult->DepartmentID) {
-                                ?>
-                                    <option value="<?php echo $dep->DepartmentID; ?>" selected="selected"><?php echo $dep->DepartmentName; ?></option>
-                                <?php
-                                        } else {
-                                ?>
-                                    <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
-                                <?php   
+        <!-- Edit and update the requested hours -->
+        <?php
+            if ($date->getDate() >= $date->getToday()) { // we dont want to show the edit button, if the shift has already passed 
+        ?>
+            <img src="../media/img/icons/edit.png" class="text-content__tools--green modal__open--edit" alt="Edit icon" />
+            <div class="modal__full--edit">
+                <div class="modal__container">
+                    <div class="modal__content">
+                        <div class="modal__title">
+                            <span><b>Edit hours for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                        </div>
+
+                        <div class="modal__desc">
+                            <!-- Try to figure out a way so that when it updates it takes you back to the modal which is still open? -->
+                            <form action="" method="POST" autocomplete="off" class="modal__form">                                       
+                                <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
+                                <div class="modal-form--left">
+                                    <span class="modal-form__tag">Department:</span>
+                                    <select class="modal-form__input" name="department" placeholder="Department" >
+                                    <?php
+                                        foreach ($department as $dep) {
+                                            if ($dep->DepartmentID == $hResult->DepartmentID) {
+                                    ?>
+                                        <option value="<?php echo $dep->DepartmentID; ?>" selected="selected"><?php echo $dep->DepartmentName; ?></option>
+                                    <?php
+                                            } else {
+                                    ?>
+                                        <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                    <?php   
+                                            }
                                         }
-                                    }
-                                ?>
-                                </select> 
+                                    ?>
+                                    </select> 
 
-                                <div class="modal-form__time">
-                                    <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('start', $hours->getStart($hResult))); ?>" />
+                                    <div class="modal-form__time">
+                                        <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
+                                        <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $hours->getStart($hResult); ?>" />
+                                    </div>
+                                    
+                                    <div class="modal-form__time">
+                                        <span class="modal-form__tag modal-form__tag--time">End Time:</span>
+                                        <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $hours->getEnd($hResult); ?>" />
+                                    </div>
+                                    
+                                    <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+                                    <span class="modal-form__tag">Reminder (optional):</span>
+                                    <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo $hResult->Description; ?>" />
                                 </div>
-                                   
-                                <div class="modal-form__time">
-                                    <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo escape(Input::get('stop', $hours->getEnd($hResult))); ?>" />
-                                </div>
-                                
-                                <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-                                <span class="modal-form__tag">Reminder (optional):</span>
-                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" value="<?php echo escape(Input::get('desc', $hResult->Description)); ?>" />
-                            </div>
-                            <button name="update" class="modal-form__add">Update</button>
-                        </form>
+                                <input type="hidden" name="id" value="<?php echo $hResult->BookID; ?>"/>
+                                <button name="update" class="modal-form__add">Update</button>
+                            </form>
+                        </div>
+                        <span class="modal__close">×</span>
                     </div>
-                    <span class="modal__close">×</span>
                 </div>
             </div>
-        </div>
+        <?php
+            }
+        ?>
 
+
+        <!-- Delete the requested hour -->
         <img src="../media/img/icons/delete.png" alt="Delete icon" class="modal__open--del"/>   
         <div class="modal__full--del">
             <div class="modal__container">

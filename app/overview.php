@@ -10,8 +10,7 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $date->setWeek("-1");   
-     // For changing when the company is open (might only be 5 days a week etc.)
+    $date->setDates(escape(Input::get('date', date('Y-m-d')))); // Use URL date or if none provided use current date
 
     $cover = array();
 
@@ -26,17 +25,17 @@
         $departments = new Department();
         $department = $departments->getDepByComp($company->CompanyID);
 
-        if (Input::exists('delete')) {
-            $tile = new HourTile();
+        $tile = new HourTile();
+
+        if (Input::exists('delete')) { // Delete a request 
             try {
                 $tile->delete($_POST['id']);
             } catch(Exception $e) {
                 die($e->getMessage());
             }         
-        } else if (Input::exists('submit')) {
+        } else if (Input::exists('submit')) { // Add (create) and insert a new request
             return;
-        } else if (Input::exists('update')) {
-            $tile = new HourTile();
+        } else if (Input::exists('update')) { // Update a request
             try {
                 $tile->update($_POST['id'], array(
                     'StartTime' => $_POST['start'],
@@ -47,7 +46,6 @@
                 die($e->getMessage());
             }
         }
-
     } else {
         header("Location: /zero-hour-contractor/index?login=nologin");
         exit();
@@ -56,7 +54,12 @@
 
 <header id="header__overview-header">
     <nav class="overview-header__nav">
-        <span><</span>
+        <form action="" method="GET" autocomplete="off">
+            <button name="date" value="<?php echo $date->decrementWeek('Y') . '-' . $date->decrementWeek('m') . '-' . $date->decrementWeek('d'); ?>">
+                <span><</span>
+            </button>
+        </form>
+
         <span>
             <?php 
                 $date->setDate($company->CompanyStartDay);
@@ -68,12 +71,15 @@
                 if ($date->getDate('M') !== $month) {
                     $month .= " - " . $date->getDate('M');
                 }
-                echo $date->getDate('dS') . " (" . $month . ") " . $date->getDate('y');
+                echo $date->getDate('dS') . " (" . $month . ") " . $date->getDate('Y');
             ?>                 
         </span>
-        <span>></span>
-        <!-- When arrow is pressed it increases or decreases a session 'day' variable where -1 = this week, 0 = next week, -2 = last week 
-        and so on -->
+
+        <form action="" method="GET" autocomplete="off">
+            <button name="date" value="<?php echo $date->incrementWeek('Y') . '-' . $date->incrementWeek('m') . '-' . $date->incrementWeek('d'); ?>">
+                <span>></span>
+            </button>
+        </form>
     </nav>
 </header>
 
@@ -231,7 +237,7 @@
                                             </div>
 
                                             <div class="modal__desc">
-                                                <form action="#hourModal" method="POST" autocomplete="off" class="modal__form">                                       
+                                                <form action="" method="POST" autocomplete="off" class="modal__form">                                       
                                                     <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
                                                     <div class="modal-form--left">
                                                         <span class="modal-form__tag">Department:</span>

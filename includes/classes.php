@@ -10,10 +10,14 @@ function sorted($a,$b)
 
 class Calender {
     private $date;
-    private $week;
+    private $day;
+    private $month;
+    private $year;
 
-    public function setDate($day) {
-        $this->date = new DateTime(date('Y-m-d', strtotime('monday ' . $this->week . ' week') + ($day * 86300)));
+
+    public function setDate($i) {
+        $this->date = new DateTime(date("Y-m-d", strtotime($this->year . 'W' . date('W', 
+            strtotime($this->year . '-' . $this->month . '-' . $this->day)) . '1') + ($i * 86300)));
     }
 
     public function getDate($format = 'Y-m-d') {
@@ -24,9 +28,34 @@ class Calender {
         return $this->date->format('l') . " the " . $this->date->format('dS') . " of " . $this->date->format('F') . " " .  $this->date->format('Y');
     }
 
-    public function setWeek($val) {
-        $this->week = $val;
+    public function incrementWeek($format) {
+        $date = strtotime($this->year . '-' . $this->month . '-' . $this->day);
+        return date($format, strtotime('+1 weeks', $date));
     }
+
+    public function decrementWeek($format) {
+        $date = strtotime($this->year . '-' . $this->month . '-' . $this->day);
+        return date($format, strtotime('-1 weeks', $date));
+    }
+
+    public function setDates($date) {
+        $this->day = date('d', strtotime($date));
+        $this->month = date('m', strtotime($date));
+        $this->year = date('Y', strtotime($date));
+    }
+
+    public function setDay($day) {
+        $this->day = $day;
+    }
+
+    public function setMonth($month) {  
+        $this->month = $month;
+    }
+
+    public function setYear($year) {
+        $this->year = $year;
+    }
+
 
     public function checkToday($valT = true, $valF = false) {
         if ($this->date->format('Y-m-d') == date('Y-m-d')) {

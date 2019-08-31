@@ -5,7 +5,7 @@
             <?php 
                 // Make sure to echo employee name once login is set up (as a session variable)
                 $icons = array(
-                    array("profile.jpg", $employee->getFullName($user), "profile"), 
+                    array("profile.jpg", $employee->getFullName($user), "accounts"), 
                     array("weekly.png", "Weekly Overview", "overview"), 
                     array("daily.png", "Daily Overview", "###"), 
                     array("bell.png", "Notifications", "###"), 

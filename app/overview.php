@@ -10,7 +10,8 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $date->setDates(escape(Input::get('date', date('Y-m-d')))); // Use URL date or if none provided use current date
+    $currentDate = escape(escape(Input::get('date', date('Y-m-d'))));
+    $date->setDates($currentDate); // Use URL date or if none provided use current date
 
     $cover = array();
 
@@ -80,7 +81,12 @@
                 <span>></span>
             </button>
         </form>
-    </nav>
+        
+
+        <form action="" method="GET" autocomplete="off" id="date-selector">
+            <input type="hidden" id="datepicker" class="<?php echo $currentDate; ?>" name="date" placeholder="Select a date">
+        </form>
+    </nav>  
 </header>
 
 <!-- Side nav was here -->

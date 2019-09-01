@@ -222,3 +222,40 @@ $('.modal-form__test').on('click', function() {
     console.log("this is a test of the onclick event");
     return false;   
 });
+
+
+highlightDates = [$('#datepicker').attr('class')];
+
+$("#datepicker").datepicker({
+    dateFormat: 'yy-mm-dd',
+    showButtonPanel: true,
+    changeMonth: true,
+    changeYear: true,
+    yearRange: '-100:+100',
+    showOn: "button", 
+    buttonImageOnly: true,
+    buttonImage: '../media/img/icons/day.png',
+    minDate: new Date(1970, 1, 1),
+    maxDate: '+30Y',
+    inline: true,
+    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    monthNamesShort: ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    showOtherMonths: true,
+    onSelect: function() {
+        $('#date-selector').submit();
+    },
+    showAnim: "drop",
+    showOptions: { direction: "up"},
+    beforeShowDay: function(date) {
+        var month = ('0' + (date.getMonth() +1)).slice(-2);
+        var year = date.getFullYear();
+        var day = ('0' + (date.getDate())).slice(-2);
+        var newdate = year + "-" + month + '-' + day;
+
+        if(jQuery.inArray(newdate, highlightDates) != -1){
+            return [true, "highlight-date"];
+        }
+     
+        return [true];
+    }
+});

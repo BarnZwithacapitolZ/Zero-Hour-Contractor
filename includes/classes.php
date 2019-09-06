@@ -14,7 +14,6 @@ class Calender {
     private $month;
     private $year;
 
-
     public function setDate($i) {
         $this->date = new DateTime(date("Y-m-d", strtotime($this->year . 'W' . date('W', 
             strtotime($this->year . '-' . $this->month . '-' . $this->day)) . '1') + ($i * 86300)));
@@ -38,7 +37,12 @@ class Calender {
         return date($format, strtotime('-1 weeks', $date));
     }
 
-    public function setDates($date) {
+    public function validateDate($date, $format = 'Y-m-d') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) === $date;
+    }
+
+    public function setDates($date) {      
         $this->day = date('d', strtotime($date));
         $this->month = date('m', strtotime($date));
         $this->year = date('Y', strtotime($date));
@@ -55,7 +59,6 @@ class Calender {
     public function setYear($year) {
         $this->year = $year;
     }
-
 
     public function checkToday($valT = true, $valF = false) {
         if ($this->date->format('Y-m-d') == date('Y-m-d')) {

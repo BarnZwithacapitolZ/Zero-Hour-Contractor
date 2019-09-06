@@ -153,5 +153,10 @@
     width: 20px;
     height: 20px;
     padding: 6px;
+    margin-left: 40px;
     cursor: pointer;
+
+    @include step4 {
+        margin-left: 20px;
+    }
 }

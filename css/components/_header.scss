@@ -1,31 +1,74 @@
-
 header#header__overview-header {
-    width: 100%;
     height: getElemSize(header);
-    display: inline-block;
     position: relative;
+    margin-left: getElemSize(side-nav);
+
     @include step2{
-        display: none;
+        margin-left: 0;
+        margin-top: 55px;
     }
 
-    nav.overview-header__nav {
-        margin-left: getElemSize(side-nav);
+    @include step4 {
+        margin-top: 40px;
+    }
+
+    .overview-header__nav {
         display: flex;
         align-items: center;
-        justify-content: center;
+        float: right;
         height: 100%;
         background-color: getColor(header-bg);
+        margin-right: 40px;
+        text-align: center;
+        
+        @include step2 {
+            float: none;
+            justify-content: center;
+            margin: 0 20px;
+        }
 
-        span {
-            font-weight: bold;
-            font-size: getFontSize(header-default);
-            padding: 10px 18px;      
+        button {
+            border: none;
+            cursor: pointer;
+            background-color: getColor(row-names-fg);
+            background-image: url("/zero-hour-contractor/media/img/icons/arrow.png");
+            background-repeat: no-repeat;
+            background-size: 42% 35%;
+            background-position: 50% 45%;
+            width: 25px;
+            height: 25px;
+            border-radius: 14px;
+            padding: 0;
 
-            &:nth-child(1):hover, &:nth-child(3):hover {
-                cursor: pointer;
-                font-size: getFontSize(header-enlarged);
-                transition: .3s;
+            &.prev {
+                transform: rotate(270deg);
             }
+
+            &.next {
+                transform: rotate(90deg);
+            }
+
+            &:hover {
+                background-color: getColor(noti-blue);
+            }
+
+            @include step4 {
+                &:first-child {
+                    margin-right: 20px;
+                }
+            }
+        }  
+    }
+
+    .overview-header__carousel {
+        padding: 0 10px;
+
+        @include step3 {
+            font-size: 14px;
+        }
+
+        @include step4 {
+            display: none;
         }
     }
 }

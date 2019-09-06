@@ -211,44 +211,96 @@ input, select {
 }
 
 header#header__overview-header {
-  width: 100%;
   height: 80px;
-  display: inline-block;
   position: relative;
+  margin-left: 80px;
 }
 
 @media (max-width: 650px) {
   header#header__overview-header {
-    display: none;
+    margin-left: 0;
+    margin-top: 55px;
   }
 }
 
-header#header__overview-header nav.overview-header__nav {
-  margin-left: 80px;
+@media (max-width: 280px) {
+  header#header__overview-header {
+    margin-top: 40px;
+  }
+}
+
+header#header__overview-header .overview-header__nav {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  float: right;
   height: 100%;
   background-color: #fff;
+  margin-right: 40px;
+  text-align: center;
 }
 
-header#header__overview-header nav.overview-header__nav span {
-  font-weight: bold;
-  font-size: 21px;
-  padding: 10px 18px;
+@media (max-width: 650px) {
+  header#header__overview-header .overview-header__nav {
+    float: none;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin: 0 20px;
+  }
 }
 
-header#header__overview-header nav.overview-header__nav span:nth-child(1):hover, header#header__overview-header nav.overview-header__nav span:nth-child(3):hover {
+header#header__overview-header .overview-header__nav button {
+  border: none;
   cursor: pointer;
-  font-size: 30px;
-  -webkit-transition: .3s;
-  transition: .3s;
+  background-color: #006bb2;
+  background-image: url("/zero-hour-contractor/media/img/icons/arrow.png");
+  background-repeat: no-repeat;
+  background-size: 42% 35%;
+  background-position: 50% 45%;
+  width: 25px;
+  height: 25px;
+  border-radius: 14px;
+  padding: 0;
+}
+
+header#header__overview-header .overview-header__nav button.prev {
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+header#header__overview-header .overview-header__nav button.next {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+header#header__overview-header .overview-header__nav button:hover {
+  background-color: #006295;
+}
+
+@media (max-width: 280px) {
+  header#header__overview-header .overview-header__nav button:first-child {
+    margin-right: 20px;
+  }
+}
+
+header#header__overview-header .overview-header__carousel {
+  padding: 0 10px;
+}
+
+@media (max-width: 480px) {
+  header#header__overview-header .overview-header__carousel {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 280px) {
+  header#header__overview-header .overview-header__carousel {
+    display: none;
+  }
 }
 
 #side-nav.side-nav__container {
@@ -451,13 +503,6 @@ header#header__overview-header nav.overview-header__nav span:nth-child(1):hover,
 @media (max-width: 650px) {
   #overview-manager.overview-manager__container {
     margin-left: 0;
-    margin-top: 55px;
-  }
-}
-
-@media (max-width: 280px) {
-  #overview-manager.overview-manager__container {
-    margin-top: 40px;
   }
 }
 
@@ -1040,7 +1085,14 @@ span.dropdown__button.dropdown__button--return:hover {
   width: 20px;
   height: 20px;
   padding: 6px;
+  margin-left: 40px;
   cursor: pointer;
+}
+
+@media (max-width: 280px) {
+  .ui-datepicker-trigger {
+    margin-left: 20px;
+  }
 }
 
 /* width */

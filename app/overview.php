@@ -11,7 +11,12 @@
     $dbh = new Dbh();
     $date = new Calender();
     $currentDate = escape(escape(Input::get('date', date('Y-m-d'))));
-    $date->setDates($currentDate); // Use URL date or if none provided use current date
+    if ($date->validateDate($currentDate)) {
+        $date->setDates($currentDate);
+    } else {
+        header("Location: /zero-hour-contractor/app/overview?url=invalid");        
+        exit();
+    }
 
     $cover = array();
 
@@ -56,12 +61,10 @@
 <header id="header__overview-header">
     <nav class="overview-header__nav">
         <form action="" method="GET" autocomplete="off">
-            <button name="date" value="<?php echo $date->decrementWeek('Y') . '-' . $date->decrementWeek('m') . '-' . $date->decrementWeek('d'); ?>">
-                <span><</span>
-            </button>
+            <button name="date" value="<?php echo $date->decrementWeek('Y') . '-' . $date->decrementWeek('m') . '-' . $date->decrementWeek('d'); ?>" class="prev"></button>
         </form>
 
-        <span>
+        <span class="overview-header__carousel">
             <?php 
                 $date->setDate($company->CompanyStartDay);
                 $month = $date->getDate('M');
@@ -77,17 +80,17 @@
         </span>
 
         <form action="" method="GET" autocomplete="off">
-            <button name="date" value="<?php echo $date->incrementWeek('Y') . '-' . $date->incrementWeek('m') . '-' . $date->incrementWeek('d'); ?>">
-                <span>></span>
-            </button>
+            <button name="date" value="<?php echo $date->incrementWeek('Y') . '-' . $date->incrementWeek('m') . '-' . $date->incrementWeek('d'); ?>" class="next"></button>
         </form>
         
-
+  
         <form action="" method="GET" autocomplete="off" id="date-selector">
             <input type="hidden" id="datepicker" class="<?php echo $currentDate; ?>" name="date" placeholder="Select a date">
         </form>
-    </nav>  
+    </nav>
 </header>
+
+
 
 <!-- Side nav was here -->
 

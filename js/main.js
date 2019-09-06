@@ -73,7 +73,6 @@ $(document).ready(function() {
 
 
     // Seperate events so that different modals can be differentiated from one another
-
     $('.modal__open--del').on('click', function() {
         $(this).parent().find('.modal__full--del').fadeIn();     
     });
@@ -115,6 +114,7 @@ function openNavDropdown(target) {
     return dropdownHeight;
 }
 
+
 function closeNavDropdown(target, dropdownHeight) {
     target.animate({
         height: '0'
@@ -134,6 +134,7 @@ function rowHover(target, bg, shadow) {
         target.css('box-shadow', shadow);
     }
 }
+
 
 function openHourDropdown(target) {
     if (openElem.length >= 1) {
@@ -161,6 +162,7 @@ function openHourDropdown(target) {
      });
      openElem.push(target); // know that dropdown is open
 }
+
 
 function closeHourDropdown(target, speed) {
     target.animate({
@@ -205,6 +207,7 @@ function checkAnimation(elem, elemToAnim) {
     });
 }
 
+
 // Capture scroll events
 $(window).scroll(function(){
     if (docLoaded) { // Only load the elements when the document is loaded
@@ -216,14 +219,15 @@ $(window).scroll(function(){
     showScrollToggle();
 });
 
-// Modal on-click events 
 
+// Modal on-click events 
 $('.modal-form__test').on('click', function() {
     console.log("this is a test of the onclick event");
     return false;   
 });
 
 
+// Datepicker setup
 highlightDates = [$('#datepicker').attr('class')];
 
 $("#datepicker").datepicker({

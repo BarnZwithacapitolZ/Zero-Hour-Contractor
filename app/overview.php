@@ -10,7 +10,7 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $currentDate = escape(escape(Input::get('date', date('Y-m-d'))));
+    $currentDate = escape(escape(Input::get('y-m-d', date('Y-m-d'))));
     if ($date->validateDate($currentDate)) {
         $date->setDates($currentDate);
     } else {
@@ -44,6 +44,7 @@
         } else if (Input::exists('update')) { // Update a request
             try {
                 $tile->update($_POST['id'], array(
+                    'DepartmentID' => $_POST['department'],
                     'StartTime' => $_POST['start'],
                     'EndTime' => $_POST['end'],
                     'Description' => $_POST['desc']
@@ -61,7 +62,7 @@
 <header id="header__overview-header">
     <nav class="overview-header__nav">
         <form action="" method="GET" autocomplete="off">
-            <button name="date" value="<?php echo $date->decrementWeek('Y') . '-' . $date->decrementWeek('m') . '-' . $date->decrementWeek('d'); ?>" class="prev"></button>
+            <button name="y-m-d" value="<?php echo $date->decrementWeek('Y') . '-' . $date->decrementWeek('m') . '-' . $date->decrementWeek('d'); ?>" class="prev"></button>
         </form>
 
         <span class="overview-header__carousel">
@@ -80,12 +81,12 @@
         </span>
 
         <form action="" method="GET" autocomplete="off">
-            <button name="date" value="<?php echo $date->incrementWeek('Y') . '-' . $date->incrementWeek('m') . '-' . $date->incrementWeek('d'); ?>" class="next"></button>
+            <button name="y-m-d" value="<?php echo $date->incrementWeek('Y') . '-' . $date->incrementWeek('m') . '-' . $date->incrementWeek('d'); ?>" class="next"></button>
         </form>
         
   
         <form action="" method="GET" autocomplete="off" id="date-selector">
-            <input type="hidden" id="datepicker" class="<?php echo $currentDate; ?>" name="date" placeholder="Select a date">
+            <input type="hidden" id="datepicker" class="<?php echo $currentDate; ?>" name="y-m-d" placeholder="Select a date">
         </form>
     </nav>
 </header>
@@ -242,41 +243,57 @@
                                     <div class="modal__container">
                                         <div class="modal__content">
                                             <div class="modal__title">
-                                                <span><b>Request new hours for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                                                <span>Request new hours for <?php echo $employee->getFullName($user); ?> on:</span>
+                                                <span><?php echo $date->getDateVerbal(); ?></span>                        
                                             </div>
 
                                             <div class="modal__desc">
                                                 <form action="" method="POST" autocomplete="off" class="modal__form">                                       
                                                     <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
+                                                    <label class="modal-form__tag modal-form__tag--required"><span>*</span> Indicates required field</label>
                                                     <div class="modal-form--left">
-                                                        <span class="modal-form__tag">Department:</span>
-                                                        <select class="modal-form__input" name="department" placeholder="Department">
-                                                            <option value="" disabled selected>Please select</option>
-                                                            <?php
-                                                                foreach ($department as $dep) {
-                                                            ?>
-                                                                <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
-                                                            <?php
-                                                                }
-                                                            ?>
-                                                        </select> 
-
-                                                        <div class="modal-form__time">
-                                                            <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo$company->CompanyStart; ?>" />
+                                                        <!--Department field -->
+                                                        <div class="modal-form__field">
+                                                            <label class="modal-form__tag">Department <span>*</span></label>
+                                                            <select class="modal-form__input department" name="department" placeholder="Department">
+                                                                <option value="" disabled selected>Please select</option>
+                                                                <?php
+                                                                    foreach ($department as $dep) {
+                                                                ?>
+                                                                    <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                                                <?php
+                                                                    }
+                                                                ?>
+                                                            </select> 
+                                                            <label class="modal-form__tag--error departmentError">* Choose a Department</label>
                                                         </div>
 
-                                                        <div class="modal-form__time">
-                                                            <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                            <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
+                                                        <!--Time fields -->
+                                                        <div class="modal-form__field">
+                                                            <div class="modal-form__field--time">
+                                                                <div class="modal-form__time">
+                                                                    <label class="modal-form__tag modal-form__tag--time">Start Time <span>*</span></label>
+                                                                    <input class="modal-form__input modal-form__input--time start" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo$company->CompanyStart; ?>" />
+                                                                    <label class="modal-form__tag--error startError">* Enter a valid Time</label>                
+                                                                </div>
+
+                                                                <div class="modal-form__time">
+                                                                    <label class="modal-form__tag modal-form__tag--time">End Time <span>*</span></label>
+                                                                    <input class="modal-form__input modal-form__input--time end" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
+                                                                    <label class="modal-form__tag--error endError" >* Enter a valid Time</label>                                                             
+                                                                </div>
+                                                            </div>
+                                                            <label class="modal-form__tag--error timeError"></label>   
                                                         </div>
                                                         
-                                                        <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-
-                                                        <span class="modal-form__tag">Reminder (optional):</span>
-                                                        <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
+                                                        <!--Reminder field (optional)-->
+                                                        <div class="modal-form__field">
+                                                            <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+                                                            <label class="modal-form__tag">Reminder</label>
+                                                            <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
+                                                        </div>
                                                     </div>
-                                                    <button name="submit" class="modal-form__add">Submit</button>
+                                                    <button name="submit" class="modal-form__add submit">Submit</button>
                                                 </form>                              
                                             </div>
                                             <span class="modal__close">×</span>
@@ -304,7 +321,8 @@
                             <div class="modal__container">
                                 <div class="modal__content">
                                     <div class="modal__title">
-                                        <span><b>Request hours for <?php echo $employee->getFullName($user); ?> on <?php echo $date->getDateVerbal(); ?>:</b></span>                        
+                                        <span>Request hours for <?php echo $employee->getFullName($user); ?> on:</span>
+                                        <span><?php echo $date->getDateVerbal(); ?></span>                        
                                     </div>
 
                                     <div class="modal__desc">
@@ -325,35 +343,52 @@
                                                 }
                                             } else {
                                         ?>
-                                        <form action="overview" method="POST" autocomplete="off" class="modal__form">                                       
+                                        <form action="" method="POST" autocomplete="off" class="modal__form">                                       
                                             <input type="hidden" name="uid" value="<?php $emp->EmployeeID; ?>" />
+                                            <label class="modal-form__tag modal-form__tag--required"><span>*</span> Indicates required field</label>
                                             <div class="modal-form--left">
-                                                <span class="modal-form__tag">Department:</span>
-                                                <select class="modal-form__input" name="department" placeholder="Department" >
-                                                    <option value="" disabled selected>Please select</option>
-                                                    <?php
-                                                        foreach ($department as $dep) {
-                                                    ?>
-                                                        <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
-                                                    <?php
-                                                        }
-                                                    ?>
-                                                </select> 
-                                                <div class="modal-form__time">
-                                                    <span class="modal-form__tag modal-form__tag--time">Start Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStart; ?>" />
+                                                <!--Department field -->
+                                                <div class="modal-form__field">
+                                                    <label class="modal-form__tag">Department <span>*</span></label>
+                                                    <select class="modal-form__input department" name="department" placeholder="Department" >
+                                                        <option value="" disabled selected>Please select</option>
+                                                        <?php
+                                                            foreach ($department as $dep) {
+                                                        ?>
+                                                            <option value="<?php echo $dep->DepartmentID; ?>"><?php echo $dep->DepartmentName; ?></option>
+                                                        <?php
+                                                            }
+                                                        ?>
+                                                    </select> 
+                                                    <label class="modal-form__tag--error departmentError">* Choose a Department</label>
                                                 </div>
 
-                                                <div class="modal-form__time">
-                                                    <span class="modal-form__tag modal-form__tag--time">End Time:</span>
-                                                    <input class="modal-form__input modal-form__input--time" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
-                                                </div>
+                                                <!--Time fields -->
+                                                <div class="modal-form__field">
+                                                    <div class=" modal-form__field--time">
+                                                        <div class="modal-form__time">
+                                                            <label class="modal-form__tag modal-form__tag--time">Start Time <span>*</span></label>
+                                                            <input class="modal-form__input modal-form__input--time start" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStart; ?>" />
+                                                            <label class="modal-form__tag--error startError">* Enter a valid Time</label>
+                                                        </div>
 
-                                                <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
-                                                <span class="modal-form__tag">Reminder (optional):</span>
-                                                <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
+                                                        <div class="modal-form__time">
+                                                            <label class="modal-form__tag modal-form__tag--time">End Time <span>*</span></label>
+                                                            <input class="modal-form__input modal-form__input--time end" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
+                                                            <label class="modal-form__tag--error endError">* Enter a valid Time</label>                                                    
+                                                        </div>     
+                                                    </div>                                            
+                                                    <label class="modal-form__tag--error timeError"></label>   
+                                                </div>
+                                                    
+                                                <!--Reminder field (optional)-->
+                                                <div class="modal-form__field">
+                                                    <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
+                                                    <label class="modal-form__tag">Reminder</label>
+                                                    <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
+                                                </div>
                                             </div>
-                                            <button name="submit" class="modal-form__add modal-form__test">Submit</button>
+                                            <button name="submit" class="modal-form__add submit">Submit</button>
                                         </form>
                                         <?php 
                                             }
@@ -450,7 +485,7 @@
                     }
                     usort($full,"my_sort");
                     $cases = check_gaps($full, $cStart, $cEnd);
-                    if (count($cases) > 0) {
+                    if ($cases && count($cases) > 0) {
                         // The actual output of the hours available 
                         echo "on " . $day . " in department " . $hours->getDepartment($key, $department);
                         foreach ($cases as $case) {   

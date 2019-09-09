@@ -1184,7 +1184,8 @@ span.dropdown__button.dropdown__button--return:hover {
 
 .modal__full .modal__content .modal__title span, .modal__full--edit .modal__content .modal__title span, .modal__full--desc .modal__content .modal__title span, .modal__full--del .modal__content .modal__title span {
   display: block;
-  padding: 0 40px;
+  padding: 3px 40px;
+  font-weight: bold;
 }
 
 .modal__form .modal-form--left {
@@ -1215,8 +1216,34 @@ span.dropdown__button.dropdown__button--return:hover {
   color: #006bb2;
 }
 
-.modal__form .modal-form__tag .modal-form__tag--time {
-  display: inline-block;
+.modal__form .modal-form__tag span {
+  color: #ff6666;
+  font-size: 12px;
+  display: inline;
+}
+
+.modal__form .modal-form__tag--required {
+  text-align: right;
+  display: block;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.modal__form .modal-form__tag--error {
+  color: #ff6666;
+  display: none;
+  /*will become block */
+  font-size: 15px;
+}
+
+.modal__form .modal-form__field {
+  padding: 5px 0;
+}
+
+.modal__form .modal-form__field--time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .modal__form .modal-form__time {

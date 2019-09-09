@@ -102,7 +102,8 @@
             
             span {
                 display: block;
-                padding: 0 40px;
+                padding: 3px 40px;
+                font-weight: bold;
             }
         }
     }
@@ -135,8 +136,31 @@
         display: block;
         color: getColor(row-names-fg);
 
-        .modal-form__tag--time {
-            display: inline-block;
+        span {
+            color: getColor(noti-red);
+            font-size: 12px;
+            display: inline;
+        }
+
+        &--required {
+            text-align: right;
+            display: block;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        &--error {
+            color: getColor(noti-red);
+            display: none; /*will become block */
+            font-size: 15px;
+        }
+    }
+
+    .modal-form__field {
+        padding: 5px 0;
+
+        &--time {
+            display: flex
         }
     }
 

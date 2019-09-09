@@ -49,7 +49,7 @@ function submitForm(e, obj) {
         return false;
     }
 
-    return false;
+    return true;
 }
 
 function clearError(obj) {

@@ -36,11 +36,22 @@
         if (Input::exists('delete')) { // Delete a request 
             try {
                 $tile->delete($_POST['id']);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 die($e->getMessage());
             }         
         } else if (Input::exists('submit')) { // Add (create) and insert a new request
-            return;
+            try {
+                $tile->create(array(
+                    'EmployeeID' => $_POST['id'],
+                    'DepartmentID' => $_POST['department'],
+                    'StartTime' => $_POST['start'],
+                    'EndTime' => $_POST['end'],
+                    'BookDate' => $_POST['date'],
+                    'Description' => $_POST['desc']
+                ));
+            } catch (Exception $e) {
+                die($e->getMessage());
+            }
         } else if (Input::exists('update')) { // Update a request
             try {
                 $tile->update($_POST['id'], array(
@@ -383,11 +394,12 @@
                                                     
                                                 <!--Reminder field (optional)-->
                                                 <div class="modal-form__field">
-                                                    <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
                                                     <label class="modal-form__tag">Reminder</label>
                                                     <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="date" value="<?php echo $date->getDate(); ?>" />
+                                            <input type="hidden" name="id" value="<?php echo $hResult->EmployeeID; ?>" />
                                             <button name="submit" class="modal-form__add submit">Submit</button>
                                         </form>
                                         <?php 

@@ -305,7 +305,7 @@ header#header__landing-header {
             margin: 7.5px;
             position: relative;
         
-            &.company-register__input--error {
+            &--error {
                 border-color: getColor(hover-red);
                 @include animation('shake 0.82s cubic-bezier(.36,.07,.19,.97) both');
                 transform: translate(0, 0, 0);

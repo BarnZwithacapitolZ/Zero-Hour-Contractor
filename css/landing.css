@@ -647,7 +647,7 @@ header#header__landing-header nav.landing-header__nav-dropdown ul li a {
   position: relative;
 }
 
-#hl-banner.hl-banner__container .hl-banner__company-register input.company-register__input.company-register__input--error {
+#hl-banner.hl-banner__container .hl-banner__company-register input.company-register__input--error {
   border-color: #ff9999;
   -webkit-animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

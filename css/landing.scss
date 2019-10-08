@@ -8,14 +8,13 @@
 
 /* Components */
 @import "components/reset";
-@import "components/main-banner";
+@import "components/landing/main-banner";
 @import "components/scroll-to-top";
 
 
 ::-webkit-scrollbar {
     width: 5px;
 }
-
  
 /* Handle */
 ::-webkit-scrollbar-thumb {

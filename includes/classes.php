@@ -160,6 +160,14 @@ class Company {
         }
         return false;
     }
+
+    public function getStart($data) {
+        return substr($data->CompanyStart, 0, -3);
+    }
+
+    public function getStop($data) {
+        return substr($data->CompanyStop, 0, -3);
+    }
 }
 
 class HourTile {
@@ -313,6 +321,11 @@ Class Validate {
                         case 'time':
                             if (DateTime::createFromFormat('G:i', $value) === false) {
                                 $this->addError("{$item} must be a valid time");
+                            }
+                        break;
+                        case 'date':
+                            if (DateTime::createFromFormat('Y-m-d', $value) === false) {
+                                $this->addError("{$item} must be a valid date");
                             }
                         break;
                         case 'int':

@@ -8,15 +8,16 @@
 
 
 /* Components */
-
 @import "components/reset";
-@import "components/header";
-@import "components/side-nav";
-@import "components/overview-manager";
-@import "components/tile-dropdown";
 @import "components/scroll-to-top";
-@import "components/datepicker";
-
+@import "components/app/header";
+@import "components/app/footer";
+@import "components/app/side-nav";
+@import "components/app/overview-manager";
+@import "components/app/tile-dropdown";
+@import "components/app/datepicker";
+@import "components/app/notification-bubble";
+@import "components/app/modals";
 
 
 /* width */
@@ -32,167 +33,3 @@
     background: #555; 
 }
 
-.notification-bubble {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #ff6666;
-    color: white;
-    top: 5px;
-    right: 7px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 20px;
-    border-radius: 30px;
-    display: inline-block
-}
-
-
-.modal__full, .modal__full--edit, .modal__full--desc, .modal__full--del {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    position: fixed;
-    z-index: 12;
-    background-color: rgba(0, 0, 0, .67);    
-    overflow: auto;
-    position: fixed;
-    display: none;
-    z-index: 100; /* Just go above everything else */
-    text-align: center;
-    color: black;
-
-    .modal__container {
-        max-width: 700px;
-        margin: 100px auto;
-    }
-
-    .modal__content {
-        position: relative;
-        background-color: white;
-        border-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, .2);
-        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
-        display: block;
-        font-size: 18px;
-        line-height: 1.2;
-        margin: 0 30px;            
-
-        .modal__desc {
-            padding: 20px 40px 0 40px;
-        }
-
-        span.modal__close {
-            color: rgba(0, 0, 0, .3);
-            font-size: 25px;
-            margin: 20px 40px;
-            cursor: pointer;
-            font-weight: bold;
-            display: inline-block;
-
-            &:hover {
-                color: black;
-            }
-        }
-
-        .modal__title{
-            border-bottom: 1px solid #ddd;
-            padding: 20px 0;
-            
-            span {
-                display: block;
-                padding: 3px 40px;
-                font-weight: bold;
-            }
-        }
-    }
-}
-
-.modal__form {
-    .modal-form--left{
-        text-align: left;
-    }
-
-    .modal-form__add {
-        background-color: getColor(row-names-fg);
-        padding: 10px;
-        border-radius: 6px;
-        display: inline-block;
-        color: white;
-        margin-top: 20px;
-        transition: all .4s ease 0s; 
-        border: none;
-        cursor: pointer;   
-
-        &:hover {
-            background-color: lighten(getColor(noti-blue), 13%);
-        }
-    }
-
-    .modal-form__tag {
-        font-size: 16px;
-        font-weight: bold;
-        display: block;
-        color: getColor(row-names-fg);
-
-        span {
-            color: getColor(noti-red);
-            font-size: 12px;
-            display: inline;
-        }
-
-        &--required {
-            text-align: right;
-            display: block;
-            color: black;
-            margin-bottom: 10px;
-        }
-
-        &--error {
-            color: getColor(noti-red);
-            display: none; /*will become block */
-            font-size: 15px;
-        }
-    }
-
-    .modal-form__field {
-        padding: 5px 0;
-
-        &--time {
-            display: flex
-        }
-    }
-
-    .modal-form__time {
-        display: inline-block;
-        margin-right: 10px;
-    }
-
-    .modal-form__input {
-        border: 1px solid #ccc;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-        border-radius: 4px;
-        padding: 5px;
-        color: getColor(default-fg);
-        width: 100%;
-        /*font-size: 16px;*/
-        margin: 5px 0 7.5px 0;
-        position: relative;
-        display: inline-block;
-        text-align: center;
-        color: #a9a9a9;
-        font-size: 14px;
-
-        &.modal-form__input--desc {
-            height: 100px;
-            text-align: left;
-            color: getColor(default-fg);
-        }
-
-        &.modal-form__input--time {
-            width: 120px;
-            margin-right: 10px;
-        }
-    }   
-}

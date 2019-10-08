@@ -56,18 +56,41 @@
     }
 ?>
 
-        <div id="overview-manager" class="overview-manager__container">
-            <form action="" method="POST" autocomplete="off">
-                <input type="text" name="name"  placeholder="Department Name" value="<?php echo escape(Input::get('name')); ?>" />
-                <input type="text" name="minEmployee"  placeholder="Min Number of Employees" value="<?php echo escape(Input::get('minEmployee')); ?>" />
+<div id="overview-manager" class="overview-manager__container">
+    <header id="header__overview-header">
 
-                <input type="hidden" name="entry" />
+    </header>
 
-                <button name="submit">Submit</button>
-            </form>
+    <div class="overview-manager__table">
+        <div class="overview-manager__row overview-manager__row--header">
+            <div class="overview-manager__cell overview-manager__cell--header day2">
+                <div class="cell__content"><div class="cell__text-content"><span>Department Name</span></div></div>
+            </div>
+
+            <div class="overview-manager__cell overview-manager__cell--header day2">
+                <div class="cell__content"><div class="cell__text-content"><span>No. Min Employees</span></div></div>
+            </div>
+
+            <div class="overview-manager__cell overview-manager__cell--header day2">
+                <div class="cell__content"><div class="cell__text-content"><span>Edit</span></div></div>
+            </div>
         </div>
+    </div>
 
-        <?php require_once "../includes/side-nav.inc.php" ?>
+
+    <form action="" method="POST" autocomplete="off">
+        <input type="text" name="name"  placeholder="Department Name" value="<?php echo escape(Input::get('name')); ?>" />
+        <input type="text" name="minEmployee"  placeholder="Min Number of Employees" value="<?php echo escape(Input::get('minEmployee')); ?>" />
+
+        <input type="hidden" name="entry" />
+
+        <button name="submit">Submit</button>
+    </form>
+</div>
+
+
+
+<?php require_once "../includes/side-nav.inc.php"; ?>
 <?php 
     require_once "../includes/footer.inc.php";
 ?>

@@ -40,28 +40,76 @@
                 die($e->getMessage());
             }         
         } else if (Input::exists('submit')) { // Add (create) and insert a new request
-            try {
-                $tile->create(array(
-                    'EmployeeID' => $_POST['id'],
-                    'DepartmentID' => $_POST['department'],
-                    'StartTime' => $_POST['start'],
-                    'EndTime' => $_POST['end'],
-                    'BookDate' => $_POST['date'],
-                    'Description' => $_POST['desc']
-                ));
-            } catch (Exception $e) {
-                die($e->getMessage());
+            $validate = new Validate();
+            $validation = $validate->check($_POST, array(
+                'id' => array('required' => true),
+                'department' => array('required' => true),
+                'start' => array(
+                    'required' => true,
+                    'time' => true
+                ),
+                'end' => array(
+                    'required' => true,
+                    'time' => true
+                ),
+                'date' => array(
+                    'required' => true,
+                    'date' => true
+                ),
+                'desc' => array('max' => 100)
+            ));
+
+            if ($validation->passed()) {
+                try {
+                    $tile->create(array(
+                        'EmployeeID' => $_POST['id'],
+                        'DepartmentID' => $_POST['department'],
+                        'StartTime' => $_POST['start'],
+                        'EndTime' => $_POST['end'],
+                        'BookDate' => $_POST['date'],
+                        'Description' => $_POST['desc']
+                    ));
+
+                    $_POST = array();
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                foreach($validation->getErrors() as $error) {
+                    echo $error, '<br>';
+                }
             }
         } else if (Input::exists('update')) { // Update a request
-            try {
-                $tile->update($_POST['id'], array(
-                    'DepartmentID' => $_POST['department'],
-                    'StartTime' => $_POST['start'],
-                    'EndTime' => $_POST['end'],
-                    'Description' => $_POST['desc']
-                ));
-            } catch (Exception $e) {
-                die($e->getMessage());
+            $validate = new Validate();
+            $validation = $validate->check($_POST, array(
+                'id' => array('required' => true),
+                'department' => array('required' => true),
+                'start' => array(
+                    'required' => true,
+                    'time' => true
+                ),
+                'end' => array(
+                    'required' => true,
+                    'time' => true
+                ),
+                'desc' => array('max' => 100)
+            ));
+
+            if ($validation->passed()) {
+                try {
+                    $tile->update($_POST['id'], array(
+                        'DepartmentID' => $_POST['department'],
+                        'StartTime' => $_POST['start'],
+                        'EndTime' => $_POST['end'],
+                        'Description' => $_POST['desc']
+                    ));
+                } catch (Exception $e) {
+                    die($e->getMessage());
+                }
+            } else {
+                foreach($validation->getErrors() as $error) {
+                    echo $error, '<br>';
+                }
             }
         }
     } else {
@@ -254,7 +302,7 @@
                                     <div class="modal__container">
                                         <div class="modal__content">
                                             <div class="modal__title">
-                                                <span>Request new hours for <?php echo $employee->getFullName($user); ?> on:</span>
+                                                <span>Request new hours for <?php echo $employee->getFullName($emp); ?> on:</span>
                                                 <span><?php echo $date->getDateVerbal(); ?></span>                        
                                             </div>
 
@@ -284,13 +332,17 @@
                                                             <div class="modal-form__field--time">
                                                                 <div class="modal-form__time">
                                                                     <label class="modal-form__tag modal-form__tag--time">Start Time <span>*</span></label>
-                                                                    <input class="modal-form__input modal-form__input--time start" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo$company->CompanyStart; ?>" />
+                                                                    <input class="modal-form__input modal-form__input--time start" type="time" name="start" 
+                                                                        min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                                        value="<?php echo $organization->getStart($company); ?>" />
                                                                     <label class="modal-form__tag--error startError">* Enter a valid Time</label>                
                                                                 </div>
 
                                                                 <div class="modal-form__time">
                                                                     <label class="modal-form__tag modal-form__tag--time">End Time <span>*</span></label>
-                                                                    <input class="modal-form__input modal-form__input--time end" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
+                                                                    <input class="modal-form__input modal-form__input--time end" type="time" name="end" 
+                                                                        min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                                        value="<?php echo $organization->getStop($company); ?>" />
                                                                     <label class="modal-form__tag--error endError" >* Enter a valid Time</label>                                                             
                                                                 </div>
                                                             </div>
@@ -299,11 +351,13 @@
                                                         
                                                         <!--Reminder field (optional)-->
                                                         <div class="modal-form__field">
-                                                            <input type="hidden" name="date" value="<?php $date->getDate(); ?>" />
                                                             <label class="modal-form__tag">Reminder</label>
                                                             <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
                                                         </div>
                                                     </div>
+
+                                                    <input type="hidden" name="date" value="<?php echo $date->getDate(); ?>" />
+                                                    <input type="hidden" name="id" value="<?php echo $emp->EmployeeID; ?>" />
                                                     <button name="submit" class="modal-form__add submit">Submit</button>
                                                 </form>                              
                                             </div>
@@ -332,7 +386,7 @@
                             <div class="modal__container">
                                 <div class="modal__content">
                                     <div class="modal__title">
-                                        <span>Request hours for <?php echo $employee->getFullName($user); ?> on:</span>
+                                        <span>Request hours for <?php echo $employee->getFullName($emp); ?> on:</span>
                                         <span><?php echo $date->getDateVerbal(); ?></span>                        
                                     </div>
 
@@ -379,13 +433,17 @@
                                                     <div class=" modal-form__field--time">
                                                         <div class="modal-form__time">
                                                             <label class="modal-form__tag modal-form__tag--time">Start Time <span>*</span></label>
-                                                            <input class="modal-form__input modal-form__input--time start" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStart; ?>" />
+                                                            <input class="modal-form__input modal-form__input--time start" type="time" name="start" 
+                                                                min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                                value="<?php echo $organization->getStart($company); ?>" />
                                                             <label class="modal-form__tag--error startError">* Enter a valid Time</label>
                                                         </div>
 
                                                         <div class="modal-form__time">
                                                             <label class="modal-form__tag modal-form__tag--time">End Time <span>*</span></label>
-                                                            <input class="modal-form__input modal-form__input--time end" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $company->CompanyStop; ?>" />
+                                                            <input class="modal-form__input modal-form__input--time end" type="time" name="end" 
+                                                                min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                                value="<?php echo $organization->getStop($company) ?>" />
                                                             <label class="modal-form__tag--error endError">* Enter a valid Time</label>                                                    
                                                         </div>     
                                                     </div>                                            
@@ -398,8 +456,9 @@
                                                     <input class="modal-form__input modal-form__input--desc" type="text" name="desc" />
                                                 </div>
                                             </div>
+
                                             <input type="hidden" name="date" value="<?php echo $date->getDate(); ?>" />
-                                            <input type="hidden" name="id" value="<?php echo $hResult->EmployeeID; ?>" />
+                                            <input type="hidden" name="id" value="<?php echo $emp->EmployeeID; ?>" />
                                             <button name="submit" class="modal-form__add submit">Submit</button>
                                         </form>
                                         <?php 
@@ -515,7 +574,7 @@
     </div>
 </div>
 
-<?php require_once "../includes/side-nav.inc.php" ?>
+<?php require_once "../includes/side-nav.inc.php"; ?>
 
 <?php 
     require_once "../includes/footer.inc.php";

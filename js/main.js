@@ -91,6 +91,7 @@ $(document).ready(function() {
 
     $('.modal__close').on('click', function() {
         $(this).parent().parent().parent().fadeOut();
+        clearError($(this).parent().find('.modal__form')); // Clears the validation text within the modals
     });
 });
 

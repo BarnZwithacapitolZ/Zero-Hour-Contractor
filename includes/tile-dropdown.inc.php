@@ -40,7 +40,7 @@
                 <div class="modal__container">
                     <div class="modal__content">
                         <div class="modal__title">
-                            <span>Edit hours for <?php echo $employee->getFullName($user); ?> on:</span>
+                            <span>Edit hours for <?php echo $employee->getFullName($emp); ?> on:</span>
                             <span><?php echo $date->getDateVerbal(); ?></span>                        
                         </div>
 
@@ -76,13 +76,17 @@
                                         <div class="modal-form__field--time">
                                             <div class="modal-form__time">
                                                 <label class="modal-form__tag modal-form__tag--time">Start Time <span>*</span></label>
-                                                <input class="modal-form__input modal-form__input--time start" type="time" name="start" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $hours->getStart($hResult); ?>" />
+                                                <input class="modal-form__input modal-form__input--time start" type="time" name="start" 
+                                                    min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                    value="<?php echo $hours->getStart($hResult); ?>" />
                                                 <label class="modal-form__tag--error startError">* Enter a valid Time</label>                                        
                                             </div>
                                             
                                             <div class="modal-form__time">
                                                 <label class="modal-form__tag modal-form__tag--time">End Time <span>*</span></label>
-                                                <input class="modal-form__input modal-form__input--time end" type="time" name="end" min="<?php echo $company->CompanyStart; ?>" max="<?php echo $company->CompanyStop; ?>" value="<?php echo $hours->getEnd($hResult); ?>" />
+                                                <input class="modal-form__input modal-form__input--time end" type="time" name="end" 
+                                                    min="<?php echo $organization->getStart($company); ?>" max="<?php echo $organization->getStop($company); ?>" 
+                                                    value="<?php echo $hours->getEnd($hResult); ?>" />
                                                 <label class="modal-form__tag--error endError" >* Enter a valid Time</label>                                                                                            
                                             </div>
                                         </div>

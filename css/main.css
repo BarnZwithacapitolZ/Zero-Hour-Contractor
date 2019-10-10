@@ -1111,6 +1111,39 @@ span.dropdown__button.dropdown__button--return:hover {
   height: 15px;
 }
 
+.notification-bubble[data-tool-tip] {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.notification-bubble[data-tool-tip]::before {
+  content: attr(data-tool-tip);
+  display: block;
+  position: absolute;
+  left: 0;
+  background-color: #28303d;
+  color: white;
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  white-space: nowrap;
+  font-size: 13px;
+  padding: 6px;
+  line-height: normal;
+  -webkit-transition: left ease-out 115ms, -webkit-transform ease-out 115ms;
+  transition: left ease-out 115ms, -webkit-transform ease-out 115ms;
+  transition: transform ease-out 115ms, left ease-out 115ms;
+  transition: transform ease-out 115ms, left ease-out 115ms, -webkit-transform ease-out 115ms;
+  font-weight: normal;
+  border-radius: 6px;
+}
+
+.notification-bubble[data-tool-tip]:hover::before {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+  left: 35px;
+}
+
 .modal__full, .modal__full--edit, .modal__full--desc, .modal__full--del {
   width: 100%;
   height: 100%;

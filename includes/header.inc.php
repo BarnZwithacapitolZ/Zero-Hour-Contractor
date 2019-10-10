@@ -8,7 +8,7 @@
 		<!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->			
 		<!--<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
 		<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
-		<link rel="stylesheet" type="text/css" href="/zero-hour-contractor/css/<?php echo $stylesheet; ?>.css?version=103">
+		<link rel="stylesheet" type="text/css" href="/zero-hour-contractor/css/<?php echo $stylesheet; ?>.css?version=104">
 		<link rel="icon" href="/zero-hour-contractor/media/img/icons/icon.png">
 	</head>
 	

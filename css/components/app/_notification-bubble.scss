@@ -22,5 +22,34 @@
             height: 15px; 
         }
     }
+
+    &[data-tool-tip] {
+        align-items: center;
+        &::before {
+            content: attr(data-tool-tip);
+            display: block;
+            position: absolute;
+            left: 0;
+            background-color: getColor(side-nav-bg);
+            color: white;
+            transform: scale(0);
+            white-space: nowrap;
+            font-size: 13px;
+            padding: 6px;
+            line-height: normal;
+            transition: transform ease-out 115ms,
+                    left ease-out 115ms;
+            font-weight: normal;
+            border-radius: 6px;
+        }
+
+        &:hover::before {
+            transform: scale(1);
+            left: 35px;
+
+        }
+
+       
+    }
 }
 

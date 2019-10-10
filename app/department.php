@@ -40,6 +40,7 @@
                     ));
 
                     $_POST = array();
+                    header("Location: department?department=success");
                 } catch(Exception $e) {
                     print_r($e->getMessage());
                 } 

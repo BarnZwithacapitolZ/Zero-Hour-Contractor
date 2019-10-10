@@ -428,67 +428,80 @@ class Session {
     }
 }
 
+class Shift {
+    private $day;
+    private $startTime;
+    private $endTime;
+    private $department;
+
+    function __construct($day, $startTime, $endTime, $department) {
+        $this->day = $day;
+        $this->startTime = $startTime;
+        $this->endTime = $endTime;
+        $this->department = $department;
+    }
+
+    public function getDay() {
+        return $this->day;
+    }
+
+    public function getStartTime() {
+        return $this->startTime->format('H:i');
+    }
+
+    public function getEndTime() {
+        return $this->endTime->format('H:i');
+    }
+
+    public function getDepartment() {
+        return $this->department;
+    }
+}
 
 class Cover {
-    public $day;
-    public $department;
-    public $time = array();
-    public $id;
+    private $shifts = array(); // array of shift objects
 
-    // public function __construct($day, $dep, $time = array(), $id) {
-    //     $this->day = $day;
-    //     $this->department = $dep;
-    //     $this->time = $time;
-    //     $this->id = $id;
-    // }
+    public function addShift($day, $startTime, $endTime, $department) {
+        $start = new DateTime($startTime);
+        $end = new DateTime($endTime);
+        $this->shifts[$day][$department][] = array($start, $end);
+    }
 
-    public function getGaps($shifts, $start, $end) {
-        if (count($shifts) < 1) {
+    private static function sortArrayTimes($a,$b) {
+        if ($a == $b) return 0;
+        return ($a < $b) ? -1 : 1;
+    }
+
+    public function getShifts($cStart, $cEnd) {
+        if (count($this->shifts) < 1) {
             return;
-        }   
-        $last = $start;
-        $lastShift = array($shifts[0][0], $shifts[0][1]);
-        $cases = array();
-        
-        foreach ($shifts as $shift) {
-            if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
-                continue;
-            }
-
-            if ($shift[0] > $last) {
-                $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
-            }
-            $last = $shift[1];
-            $lastShift = array($shift[0], $shift[1]);
         }
 
-        if ($end > $last) {
-            $cases[] = array($last->format('h:i'), $end->format('h:i'));
+        $cases = array();
+        foreach($this->shifts as $day => $days) { // for each day
+            foreach($days as $dep => $deps) { // for each department
+                usort($deps, array($this, 'sortArrayTimes'));
+
+                $last = $cStart;
+                $lastShift = array($deps[0][0], $deps[0][1]);
+
+                foreach ($deps as $shift) { // for each shift on that day in that department
+                    if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {      
+                        continue;
+                    }
+
+                    if ($shift[0] > $last) { 
+                        $cases[] = new Shift($day, $last, $shift[0], $dep);
+                    }
+                    $last = $shift[1];
+                    $lastShift = array($shift[0], $shift[1]);
+                }
+
+                if ($cEnd > $last) {
+                    $cases[] = new Shift($day, $last, $cEnd, $dep);
+                }
+            }
         }
         return $cases;
     }
-    
-    public function getCover($data, $company) {
-        $cStart = new DateTime($company->CompanyStart);
-        $cEnd = new DateTime($company->CompanyStop);
-
-        foreach($data as $day => $shift) { // Dont need
-            foreach ($shift as $key => $dep) { // Dont need (loop through in overview, when displaying the data)
-                $full = array();
-                foreach ($dep as $time) {
-                    $start = new DateTime($time[0]);
-                    $end = new DateTime($time[1]);
-                    $full[] = array($start, $end);
-                }
-                usort($full, "sorted");
-                $cases = $this->getGaps($full, $cStart, $cEnd);
-                if (count($cases) > 0) {
-                    return $cases;
-                }
-            }
-        }
-        return array($cStart, $cEnd);
-    }
-
 }
-

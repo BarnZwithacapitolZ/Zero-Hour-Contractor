@@ -18,7 +18,7 @@
         exit();
     }
 
-    $cover = array();
+    $cover = new Cover();
 
     if (Session::exists('user')) {
         $employee = new Employee();
@@ -164,14 +164,7 @@
 
             <?php
                 for ($i = $company->CompanyStartDay; $i < $company->CompanyEndDay + 1; $i++) {        
-                    $date->setDate($i); 
-
-                    if ($department) {
-                        foreach ($department as $dep) {
-                            $cover[$date->getDate('D')][$dep->DepartmentID] = array();
-                        }
-                    }
-                    
+                    $date->setDate($i);       
             ?>
                 <div class="overview-manager__cell overview-manager__cell--header <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
                     <div class="cell__content">
@@ -208,7 +201,7 @@
 
                         if ($requests) {
                             foreach ($requests as $key => $value) {
-                                $cover[$date->getDate('D')][$value->DepartmentID][] = array($hours->getStart($value), $hours->getEnd($value), $value->BookID);
+                                $cover->addShift($date->getDate('D'), $hours->getStart($value), $hours->getEnd($value), $value->DepartmentID);
                             }
 
                             // hResult is to show the first shift, if there are multiple shifts by one member on the same day
@@ -508,67 +501,24 @@
         This is where the temporary cover needed details will be placed<br><br>
         <b>
         <?php
-            function my_sort($a,$b)
-            {
-                if ($a[0]==$b[0]) return 0;
-                return ($a[0] < $b[0])?-1:1;
-            }
-
             $cStart = new DateTime($company->CompanyStart);
             $cEnd = new DateTime($company->CompanyStop);
 
+            $result = $cover->getShifts($cStart, $cEnd);
 
-            function check_gaps($shifts, $start, $end) {
-                if (count($shifts) < 1) {
-                    return;
-                }
-                
-                $last = $start;
-                $lastShift = array($shifts[0][0], $shifts[0][1]);
-                $cases = array();
-                
-                foreach ($shifts as $shift) {
-                    if ($shift[0] > $lastShift[0] && $shift[1] < $lastShift[1]) {
-                        continue;
-                    }
-
-                    if ($shift[0] > $last) { 
-                        $cases[] = array($last->format('h:i'), $shift[0]->format('h:i'));
-                    }
-                    $last = $shift[1];
-                    $lastShift = array($shift[0], $shift[1]);
-                }
-
-                if ($end > $last) {
-                    $cases[] = array($last->format('h:i'), $end->format('h:i'));
-                }
-                return $cases;
-            }
-
-            // If there are no hours available on a specific day, set the hours available to (for each (total working hours / max hours ))
-            foreach ($cover as $day => $shift) {
-                foreach ($shift as $key => $dep) {
-                    $full = array();
-                    foreach($dep as $time) {
-                        $start = new DateTime($time[0]);
-                        $end = new DateTime($time[1]);
-                        $full[] = array($start, $end);
-                    }
-                    usort($full,"my_sort");
-                    $cases = check_gaps($full, $cStart, $cEnd);
-                    if ($cases && count($cases) > 0) {
-                        // The actual output of the hours available 
-                        echo "on " . $day . " in department " . $hours->getDepartment($key, $department);
-                        foreach ($cases as $case) {   
-                            echo " ";                      
-                            print_r($case[0]);
-                            echo " - ";
-                            print_r($case[1]);
-                        }
-                        echo "<br> <br>";
-                    }                  
+            if ($result && count($result) > 0) {
+                foreach ($result as $c) {   
+                    echo "on " . $c->getDay() . " in department " . $hours->getDepartment($c->getDepartment(), $department);
+                    echo " ";                      
+                    print_r($c->getStartTime());
+                    echo " - ";
+                    print_r($c->getEndTime());
+                    echo "<br> <br>";
                 }
             }
+
+            echo "<br> <br>";
+            echo "<br> <br>";
         ?>
         </b>
     </div>

@@ -120,6 +120,9 @@
     }
 ?>
 
+<?php require_once "../includes/side-nav.inc.php"; ?>
+
+
 
 <header id="header__overview-header">
     <nav class="overview-header__nav">
@@ -557,8 +560,6 @@
     }
     Session::delete('errors');
 ?>
-
-<?php require_once "../includes/side-nav.inc.php"; ?>
 
 <?php 
     require_once "../includes/footer.inc.php";

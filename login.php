@@ -39,13 +39,53 @@
     }
 ?>
 
-    <form action="" method="POST" autocomplete="off">
-        <input type="text" name="email"  placeholder="Email" value="<?php echo escape(Input::get('email')); ?>" />
-        <input type="password" name="pwd"  placeholder="Password" />
-        <input type="text" name="cuid"  placeholder="Company Unique ID" value="<?php echo escape(Input::get('cuid')); ?>" />
+<?php //include 'includes/landing/banner.php' ?>
 
-        <button name="submit">Start</button>
-    </form>
+<div class="login">
+    <div class="login__container">
+        <div class="login__logo">
+            <img src="media/img/icons/logo-color1.png" alt="Zero hour contractor" />
+        </div>
+        
+        <div class="login__content">
+            <form action="" method="POST" autocomplete="off" class="login__form">
+                <div class="login__form-input">
+                    <label>Email </label>
+                    <input type="text" name="email"  placeholder="Email" value="<?php echo escape(Input::get('email')); ?>" />
+                </div>
+                
+                <div class="login__form-input">
+                    <label>Password </label>
+                    <input type="password" name="pwd"  placeholder="Password" />
+                </div>
+
+                <div class="login__form-input">
+                    <label>Company Unique ID </label>
+                    <input type="text" name="cuid"  placeholder="Company Unique ID" value="<?php echo escape(Input::get('cuid')); ?>" />
+                </div>
+
+                <button name="submit">Login</button>
+            </form>
+
+            <div class="login__tools">
+                <ul>
+                    <li><a href="register">Register</a></li>
+                    <li><a href="forgotten-password">Forgotten Password?</a></li>
+                </ul> 
+            </div>
+              
+            
+            <span class="login__return"><a href="index">← Return to Zero Hour Contrastor</a></span>
+        </div>
+    </div>
+</div> 
+
+
+
+
+<?php
+    //include "includes/landing/bottom-nav.php";
+?>
 
 <?php 
     require_once "includes/footer.inc.php";

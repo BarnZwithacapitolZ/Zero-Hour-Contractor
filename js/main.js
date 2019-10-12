@@ -93,6 +93,17 @@ $(document).ready(function() {
         $(this).parent().parent().parent().fadeOut();
         clearError($(this).parent().find('.modal__form')); // Clears the validation text within the modals
     });
+
+
+    $('.notification-bubble').on('mouseover', function(e) {
+        var target = $(this).find('.tool-tip');
+        openToolTip(target, $(this));
+    });
+
+    $('.notification-bubble').on('mouseleave', function() {
+        var target = $(this).find('.tool-tip');
+        closeToolTip(target);
+    });
 });
 
 
@@ -136,12 +147,36 @@ function rowHover(target, bg, shadow) {
     }
 }
 
+function closeToolTip(target) {
+    target.hide('scale', 100);
+}
+
+function openToolTip(target, self) {
+    if (!target.is(":hover")) {
+        //50 for the +35 (offset when it is set) and +7 padding (+ the rest for good measure)
+        if ((target.width() + self.offset().left + 50) > $(document).width()) {
+            var difference = (target.width() + 15); // fixxx
+            target.css('left', -difference);
+
+            // once moved check the other side 
+            if ((self.offset().left - target.width() + 20) < 0) {
+                target.css('left', -self.offset().left + 5);
+            }
+        } else {
+            target.css('left', '35px');
+        }
+
+        target.show('scale', 100);
+    } else {
+        closeToolTip(target);
+    }
+}
 
 function openHourDropdown(target) {
     if (openElem.length >= 1) {
         closeHourDropdown(openElem[0], 250);   
     }
-    
+
     var tileWidth = target.parent().width(); // Set it to the width of the tile
     var location = target.parent().position().left;
 

@@ -70,7 +70,7 @@
                         'Description' => $_POST['desc']
                     ));
                     $_POST = array();
-                    header("Location: overview?record=success"); // Maybe replace this with the random number session technique?
+                    header("Location: overview?y-m-d={$currentDate}"); // Maybe replace this with the random number session technique?
                 } catch (Exception $e) {
                     die($e->getMessage());
                 }
@@ -203,11 +203,7 @@
                             foreach ($requests as $key => $value) {
                                 $cover->addShift($date->getDate('D'), $hours->getStart($value), $hours->getEnd($value), $value->DepartmentID);
                             }
-                            $cStart = new DateTime($company->CompanyStart);
-                            $cEnd = new DateTime($company->CompanyStop);
-
-                            print_r($cover->getShifts($cStart, $cEnd));
-
+                
                             // hResult is to show the first shift, if there are multiple shifts by one member on the same day
                             $hResult = $requests[0]; // Always show the first shift, if a member has multiple shifts on one day
                 ?>
@@ -231,12 +227,17 @@
                             <?php 
                                 if (count($requests) > 1) { 
                             ?>
-                                <div class="notification-bubble" data-tool-tip="+<?php echo count($requests) - 1;?> Other shifts">+<?php echo count($requests) - 1;?></div>
+                                <div class="notification-bubble">+<?php echo count($requests) - 1;?>
+                                    <span class="tool-tip">+<?php echo count($requests) - 1;?> Other shifts</span>
+                                </div>
                             <?php
                                 } 
                                 if ($date->checkToday() && $emp->EmployeeID == $user->EmployeeID) {                                  
                             ?>
-                                <div class="notification-bubble" data-tool-tip="You have shifts today!">!</div>
+                                <div class="notification-bubble">
+                                    <span class="tool-tip">You have shifts today!</span>
+                                    !
+                                </div>
                             <?php 
                                 } 
                                 $testcount = 0;
@@ -249,7 +250,8 @@
 
                                 if ($testcount > 0) {
                             ?>
-                                <div class="notification-bubble notification-bubble--desc" data-tool-tip="Shifts have reminders">
+                                <div class="notification-bubble notification-bubble--desc">
+                                    <span class="tool-tip">Shifts have reminders</span>
                                     <img src="../media/img/icons/description.png" alt="Description icon" />
                                 </div>
                             <?php            
@@ -470,7 +472,8 @@
                             if ($date->checkToday() && $emp->EmployeeID == $user->EmployeeID) { 
                         ?> 
                             <div class="notifications">
-                                <div class="notification-bubble notification-bubble--today" data-tool-tip="No shifts for you today">
+                                <div class="notification-bubble notification-bubble--today">
+                                    <span class="tool-tip">No shifts for you today</span>
                                     <img src="../media/img/icons/today.png" alt="Description icon" />
                                 </div>
                             </div>                         

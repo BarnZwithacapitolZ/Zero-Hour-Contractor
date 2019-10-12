@@ -5,9 +5,8 @@
     left: 0;
     position: fixed;
     z-index: 12;
-    background-color: rgba(0, 0, 0, .67);    
+    // background-color: rgba(0, 0, 0, .43);    
     overflow: auto;
-    position: fixed;
     display: none;
     z-index: 100; /* Just go above everything else */
     text-align: center;
@@ -16,18 +15,25 @@
     .modal__container {
         max-width: 700px;
         margin: 100px auto;
+
+        @include step3{
+            margin: 60px auto;
+        }
     }
 
     .modal__content {
         position: relative;
         background-color: white;
-        border-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, .2);
-        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+        border-radius: 12px;
+        box-shadow: 0 3px 30px rgba(0, 0, 0, .3);
         display: block;
         font-size: 18px;
         line-height: 1.2;
-        margin: 0 30px;            
+        margin: 0 30px;    
+        
+        @include step3 {
+            margin: 0 8px;
+        }
 
         .modal__desc {
             padding: 20px 40px 0 40px;
@@ -158,3 +164,32 @@
         }
     }   
 }
+
+
+.modal__full--error {
+    display: block;
+
+    .modal__title { color: getColor(noti-red); }
+    p { padding: 7px 0; }
+}
+
+
+// .alert-box {
+//     position: absolute;
+//     top: 0;
+//     width: 100%;
+//     display: flex;
+//     justify-content: center;
+//     color: white;
+//     z-index: 10;
+
+//     &__content {
+//         background: getColor(noti-red);
+//         width: 300px;
+//         text-align: center;
+//         margin-top: 10px;
+//         padding: 10px 0;
+//         border-radius: 12px;
+//     }
+
+// }

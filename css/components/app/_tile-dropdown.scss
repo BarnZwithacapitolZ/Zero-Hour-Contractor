@@ -1,7 +1,7 @@
 .cell__dropdown{
     background-color: getColor(dropdown-bg);
     position: absolute;
-    z-index: 9;
+    z-index: 4;
     min-width: getElemSize(dropdown-min);
     top: 0;
     left: 0;
@@ -10,7 +10,7 @@
     cursor: default;
     display: none;
     height: 0;
-
+    border-radius: 10px;
 
     .cell__text-content{
         padding-top: 5px;
@@ -48,10 +48,10 @@ span{
             }
 
             &.text-content__tools--blue {
-                background-color: getColor(row-names-fg);
+                background-color: lighten(getColor(noti-blue), 13%);
 
                 &:hover {
-                    background-color: getColor(noti-blue);
+                    background-color: getColor(row-names-fg);
                 }
             }
 

@@ -16,7 +16,7 @@
         <!-- If there is a message, show the message icon to load message box -->
         <?php if ($hResult->Description !== "") { ?>
             <img src="../media/img/icons/description.png" class="text-content__tools--blue modal__open--desc" alt="Edit icon" />
-            <div class="modal__full--desc">
+            <div class="modal__full modal__full--desc">
                 <div class="modal__container">
                     <div class="modal__content">
                         <div class="modal__title">
@@ -36,7 +36,7 @@
             if ($date->getDate() >= $date->getToday()) { // we dont want to show the edit button, if the shift has already passed 
         ?>
             <img src="../media/img/icons/edit.png" class="text-content__tools--green modal__open--edit" alt="Edit icon" />
-            <div class="modal__full--edit">
+            <div class="modal__full modal__full--edit">
                 <div class="modal__container">
                     <div class="modal__content">
                         <div class="modal__title">
@@ -114,7 +114,7 @@
 
         <!-- Delete the requested hour -->
         <img src="../media/img/icons/delete.png" alt="Delete icon" class="modal__open--del"/>   
-        <div class="modal__full--del">
+        <div class="modal__full modal__full--del">
             <div class="modal__container">
                 <div class="modal__content">   
                     <div class="modal__title">

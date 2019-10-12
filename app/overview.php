@@ -10,7 +10,8 @@
 
     $dbh = new Dbh();
     $date = new Calender();
-    $currentDate = escape(escape(Input::get('y-m-d', date('Y-m-d'))));
+    $currentDate = escape(Input::get('y-m-d', date('Y-m-d')));
+
     if ($date->validateDate($currentDate)) {
         $date->setDates($currentDate);
     } else {
@@ -56,7 +57,7 @@
                     'required' => true,
                     'date' => true
                 ),
-                'desc' => array('max' => 100)
+                'desc' => array('max' => 50)
             ));
 
             if ($validation->passed()) {
@@ -76,7 +77,8 @@
                 }
             } else {
                 foreach($validation->getErrors() as $error) { // Put this code whereever I want to display errors
-                    echo $error, '<br>';
+                    $_SESSION['errors'][] = $error;
+                    header("Location: overview?y-m-d={$currentDate}"); // find out way to display error in url
                 }
             }
         } else if (Input::exists('update')) { // Update a request
@@ -92,7 +94,7 @@
                     'required' => true,
                     'time' => true
                 ),
-                'desc' => array('max' => 100)
+                'desc' => array('max' => 50)
             ));
 
             if ($validation->passed()) {
@@ -108,7 +110,7 @@
                 }
             } else {
                 foreach($validation->getErrors() as $error) {
-                    echo $error, '<br>';
+                    $_SESSION['errors'][] = $error;
                 }
             }
         }
@@ -117,6 +119,7 @@
         exit();
     }
 ?>
+
 
 <header id="header__overview-header">
     <nav class="overview-header__nav">
@@ -209,15 +212,17 @@
                 ?>
                     <div class="overview-manager__cell overview-manager__cell--button <?php echo $date->checkToday("overview-manager__cell--today ", "") . "day" . $numDays; ?>">
                         <div class="cell__content cell__content--dropdown">
-                            <div class="cell__text-content cell__text-content--responsive"> 
-                                <span>
-                                    <img src="../media/img/icons/clock.png" alt="Clock time icon" class="img-small" />
-                                    <?php echo $hours->getStart($hResult); ?> - <?php echo $hours->getEnd($hResult); ?>
-                                </span>
-                                <span>
-                                    <img src="../media/img/icons/department.png" alt="Department icon" class="img-small" />
-                                    <?php echo $hours->getDepartment($hResult->DepartmentID, $department); ?>
-                                </span>
+                            <div class="dropdown__container">
+                                <div class="cell__text-content cell__text-content--responsive"> 
+                                    <span>
+                                        <img src="../media/img/icons/clock-white.png" alt="Clock time icon" class="img-small" />
+                                        <?php echo $hours->getStart($hResult); ?> - <?php echo $hours->getEnd($hResult); ?>
+                                    </span>
+                                    <span>
+                                        <img src="../media/img/icons/department-white.png" alt="Department icon" class="img-small" />
+                                        <?php echo $hours->getDepartment($hResult->DepartmentID, $department); ?>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         
@@ -296,7 +301,7 @@
                                     <img src="../media/img/icons/plus.png" alt="Add new hours icon" />
                                 </span>
 
-                                <div class="modal__full">
+                                <div class="modal__full"> <!-- Fixx!!!! -->
                                     <div class="modal__container">
                                         <div class="modal__content">
                                             <div class="modal__title">
@@ -529,6 +534,29 @@
         </b>
     </div>
 </div>
+
+<?php 
+    if (Session::exists('errors')) {
+        $message = Session::get('errors')[0];
+?>
+        <div class="modal__full modal__full--error">
+            <div class="modal__container">
+                <div class="modal__content">
+                    <div class="modal__title">
+                        <span>Warning Message</span>                     
+                    </div>
+                    <div class="modal__desc">
+                        <p>Input failed:</p>
+                        <?php echo $message; ?>
+                    </div>
+                    <span class="modal__close">×</span>
+                </div>
+            </div>
+        </div>
+<?php
+    }
+    Session::delete('errors');
+?>
 
 <?php require_once "../includes/side-nav.inc.php"; ?>
 

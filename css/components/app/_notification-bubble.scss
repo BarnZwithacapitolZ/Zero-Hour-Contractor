@@ -15,15 +15,12 @@
     
     &--today, &--desc {
         line-height: 35px;
-        background-color: getColor(row-names-fg);
+        background-color: lighten(getColor(noti-blue), 13%);
 
         img {
             width: 15px;
             height: 15px; 
         }
-    }
-
-    &:hover .tool-tip {
     }
 
     .tool-tip {

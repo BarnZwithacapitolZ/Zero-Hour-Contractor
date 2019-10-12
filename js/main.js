@@ -1,5 +1,6 @@
 var openElem = [];
 var docLoaded = false;
+var fadeSpeed = 300;
 
 $(document).ready(function() {  
     docLoaded = true;
@@ -74,23 +75,23 @@ $(document).ready(function() {
 
     // Seperate events so that different modals can be differentiated from one another
     $('.modal__open--del').on('click', function() {
-        $(this).parent().find('.modal__full--del').fadeIn();     
+        $(this).parent().find('.modal__full--del').fadeIn(fadeSpeed);     
     });
 
     $('.modal__open--desc').on('click', function() {
-        $(this).parent().find('.modal__full--desc').fadeIn();     
+        $(this).parent().find('.modal__full--desc').fadeIn(fadeSpeed);     
     });
 
     $('.modal__open--edit').on('click', function() {
-        $(this).parent().find('.modal__full--edit').fadeIn();     
+        $(this).parent().find('.modal__full--edit').fadeIn(fadeSpeed);     
     });
 
     $('.modal__open').on('click', function() {
-        $(this).parent().find('.modal__full').fadeIn();     
+        $(this).parent().find('.modal__full').fadeIn(fadeSpeed);     
     });
 
     $('.modal__close').on('click', function() {
-        $(this).parent().parent().parent().fadeOut();
+        $(this).parent().parent().parent().fadeOut(fadeSpeed);
         clearError($(this).parent().find('.modal__form')); // Clears the validation text within the modals
     });
 
@@ -103,6 +104,15 @@ $(document).ready(function() {
     $('.notification-bubble').on('mouseleave', function() {
         var target = $(this).find('.tool-tip');
         closeToolTip(target);
+    });
+
+    $('.modal__full').on('click', function(e) {
+        target = $('.modal__full');
+
+        if (e.target.className.split(" ")[0] == 'modal__full') {
+            clearError($(this).find('.modal__form'));
+            target.fadeOut(fadeSpeed);
+        }
     });
 });
 

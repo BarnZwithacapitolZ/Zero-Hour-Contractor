@@ -10,10 +10,28 @@
     background-size: cover;
     background-repeat: no-repeat;
 
+    @include height(700px) {
+        height: auto;
+        padding: 40px 0;
+    }
+
     &__logo {
+        @include step(310px) {
+            width: 90%;
+            margin: auto;
+        }
+
         img {
             height: 50px;
             width: auto;
+
+            @include step3 {
+                height: 40px;
+            }
+
+            @include step(310px) {
+                height: 12vw;
+            }
         }
         
     }
@@ -26,74 +44,94 @@
         box-shadow: 0 3px 30px rgba(0, 0, 0, 0.3);
         margin: auto;
         margin-bottom: 100px;
+
+        @include step2 {
+            width: 370px;
+        }
+
+        @include step3 {
+            width: 270px;
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        @include step(360px) {
+            width: 80%;
+            padding: 40px 25px;
+        }
+
+        @include step(310px) {
+            padding: 30px 5vw;
+        }
     }
 
     &__form {
         display: block;
-        
-        button {
-            border: 2px solid getColor(row-names-fg);
-            background: getColor(row-names-fg);       
-            color: white;
-            border-radius: 6px;
-            padding: 12px 30px;   
-            cursor: pointer;
-            transition: all .4s ease 0s;    
-            margin: 10px;
-            
-            &:hover {
-                background-color: lighten(getColor(noti-blue), 13%);
-                border-color: lighten(getColor(noti-blue), 13%);
-            }
-        }
 
         &-input {
             padding: 10px 10px;
 
-            label {
+            label.input__tag {
                 display: block;
                 font-size: 16px;
                 text-align: left;
                 padding: 2.5px;
+
+                &--error {
+                    color: getColor(noti-red);
+                    display: none;
+                    font-size: 15px;
+                }
             }
 
             input {
                 border: 2px solid getColor(row-names-fg);
                 border-radius: 6px;
                 padding: 12px 20px;
-                width: 90%;
+                width: 100%;
                 font-size: 14px;
                 margin: 5px 0 7.5px 0;
+                box-sizing: border-box;
+            }
+
+            button {
+                border: 2px solid getColor(row-names-fg);
+                background: getColor(row-names-fg);       
+                color: white;
+                border-radius: 6px;
+                padding: 12px 30px;   
+                cursor: pointer;
+                transition: all .4s ease 0s;    
+                width: 100%;
+                box-sizing: border-box;
+                margin-top: 10px;
+
+
+                &:hover {
+                    background-color: lighten(getColor(noti-blue), 13%);
+                    border-color: lighten(getColor(noti-blue), 13%);
+                }
             }
         }
     }   
-
-    &__return {
-        padding: 10px;
-        display: block;
-        
-        a {
-            color: black;
-            border-bottom: 1px solid rgba(0, 0, 0, 0);
-            transition: border 300ms ease 0s;
-
-            &:hover {
-                border-bottom: 1px solid rgba(0, 0, 0, 1);
-            }
-        }
-        
-    }
 }
 
 .login__tools {
     ul {
         list-style-type: none;
         padding: 10px;
+        display: block;
+        overflow: auto;
     
         li {
             display: inline-block;
+
+            @include step(360px) {
+                width: 100%;
+                padding: 5px 0;
+            }
     
-            &:last-child {
+            &.last{
                 float: right;
             }
     

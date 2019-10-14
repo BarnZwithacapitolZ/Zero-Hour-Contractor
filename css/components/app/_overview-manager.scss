@@ -194,6 +194,11 @@
                 display: flex;
                 align-items: center;
                 border-radius: 12px;
+
+                @include step1(max) {
+                    justify-content: center;
+                    text-align: center;
+                }
                 
             }
             //border-radius: 12px;

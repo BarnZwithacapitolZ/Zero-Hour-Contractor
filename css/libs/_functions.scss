@@ -14,6 +14,7 @@ $step-1: 1040px;
 $step-2: 650px;
 $step-3: 480px;
 $step-4: 280px;
+$step-5: 380px;
 
 @mixin step1($operator) {
     @if $operator == max {
@@ -41,6 +42,18 @@ $step-4: 280px;
 
 @mixin step4 {
     @media (max-width: #{$step-4}){
+        @content;
+    }
+}
+
+@mixin step($width) {
+    @media (max-width: #{$width}){
+        @content;
+    }
+}
+
+@mixin height($height) {
+    @media (max-height: #{$height}){
         @content;
     }
 }

@@ -50,32 +50,43 @@
         <div class="login__content">
             <form action="" method="POST" autocomplete="off" class="login__form">
                 <div class="login__form-input">
-                    <label>Email </label>
+                    <label class="input__tag">Email </label>
                     <input type="text" name="email"  placeholder="Email" value="<?php echo escape(Input::get('email')); ?>" />
+                    <label class="input__tag--error">* Email must be valid</label>
                 </div>
                 
                 <div class="login__form-input">
-                    <label>Password </label>
+                    <label class="input__tag">Password </label>
                     <input type="password" name="pwd"  placeholder="Password" />
                 </div>
 
                 <div class="login__form-input">
-                    <label>Company Unique ID </label>
+                    <label class="input__tag">Company Unique ID </label>
                     <input type="text" name="cuid"  placeholder="Company Unique ID" value="<?php echo escape(Input::get('cuid')); ?>" />
                 </div>
 
-                <button name="submit">Login</button>
+                <div class="login__form-input">
+                    <button name="submit">Login</button>
+                </div>
             </form>
 
             <div class="login__tools">
-                <ul>
-                    <li><a href="register">Register</a></li>
-                    <li><a href="forgotten-password">Forgotten Password?</a></li>
-                </ul> 
+                <nav>
+                    <ul>
+                        <li><a href="register">Register</a></li>
+                        <li class="last"><a href="forgotten-password">Forgotten Password?</a></li>
+                    </ul> 
+                </nav>
+
+                <nav>
+                    <ul>
+                        <li><a href="index">← Return to Zero Hour Contrastor</a></li>
+                    </ul>
+                </nav>
             </div>
               
             
-            <span class="login__return"><a href="index">← Return to Zero Hour Contrastor</a></span>
+            <!-- <span class="login__return"><a href="index">← Return to Zero Hour Contrastor</a></span> -->
         </div>
     </div>
 </div> 

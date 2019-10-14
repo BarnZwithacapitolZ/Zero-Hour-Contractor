@@ -778,6 +778,15 @@ header#header__overview-header .overview-header__carousel {
   border-radius: 12px;
 }
 
+@media (max-width: 1040px) {
+  .overview-manager__cell .cell__content--dropdown .dropdown__container {
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    text-align: center;
+  }
+}
+
 .overview-manager__cell.holiday {
   color: #ff6666;
   font-weight: bold;
